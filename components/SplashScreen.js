@@ -15,8 +15,11 @@ const SplashScreen = () => {
 			useNativeDriver: true,
 		}).start(() => {
 			setTimeout(() => {
-        navigation.navigate("HomeScreen");
-      }, 1000);
+				navigation.reset({
+					index: 0,
+					routes: [{ name: "HomeScreen" }],
+				});
+			}, 1000);
 		});
 	}, [animation, navigation]);
 
