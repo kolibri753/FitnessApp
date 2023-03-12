@@ -7,6 +7,7 @@ const PaginationComponent = ({
 	totalPages,
 	handlePrevPage,
 	handleNextPage,
+	scrollToTop,
 	setPage,
 }) => {
 	const getPageNumbers = () => {
@@ -45,7 +46,10 @@ const PaginationComponent = ({
 				styles.paginationButton,
 				page === pageNumber && styles.activePaginationButton,
 			]}
-			onPress={() => setPage(pageNumber)}
+			onPress={() => {
+        setPage(pageNumber);
+        scrollToTop();
+      }}
 		>
 			<Text
 				style={[
@@ -63,7 +67,10 @@ const PaginationComponent = ({
 			<View style={styles.paginationButtons}>
 				<TouchableOpacity
 					style={[styles.paginationButton, page === 1 && styles.disabledButton]}
-					onPress={handlePrevPage}
+					onPress={() => {
+						handlePrevPage();
+						scrollToTop();
+					}}
 					disabled={page === 1}
 				>
 					<Text style={styles.paginationButtonText}>{"<"}</Text>
@@ -74,7 +81,10 @@ const PaginationComponent = ({
 						styles.paginationButton,
 						page === totalPages && styles.disabledButton,
 					]}
-					onPress={handleNextPage}
+					onPress={() => {
+						handleNextPage();
+						scrollToTop();
+					}}
 					disabled={page === totalPages}
 				>
 					<Text style={styles.paginationButtonText}>{">"}</Text>

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
 	View,
 	Text,
@@ -17,6 +17,7 @@ const ExercisesScreen = ({ route, navigation }) => {
 	const { category } = route.params;
 	const [exercises, setExercises] = useState([]);
 	const [page, setPage] = useState(1);
+	const scrollViewRef = useRef(null);
 
 	useEffect(() => {
 		const fetchExercisesData = async () => {
@@ -39,6 +40,10 @@ const ExercisesScreen = ({ route, navigation }) => {
 
 		fetchExercisesData();
 	}, [category]);
+
+	const scrollToTop = () => {
+		scrollViewRef.current?.scrollTo({ x: 0, y: 0, animated: true });
+  };
 
 	const handleNextPage = () => {
 		setPage((prevPage) => prevPage + 1);
@@ -66,14 +71,23 @@ const ExercisesScreen = ({ route, navigation }) => {
 					<View style={[styles.dot, styles.activeDot]}></View>
 				</View>
 			</View>
-			<ScrollView style={styles.exercisesContainer}>
+			<ScrollView style={styles.exercisesContainer} ref={scrollViewRef}>
 				{getPaginatedExercises().map((exercise) => (
 					<ExerciseComponent key={exercise.id} exercise={exercise} />
 				))}
+				{getPaginatedExercises().length === 0 ? (
+					<Text style={styles.headerText}>
+						This is a limited version with only a few exercises. Upgrade to premium to
+						get access to the full list of exercises.
+					</Text>
+				) : (
+					<></>
+				)}
 				<PaginationComponent
 					page={page}
 					handlePrevPage={handlePrevPage}
 					handleNextPage={handleNextPage}
+					scrollToTop={scrollToTop}
 					setPage={setPage}
 				/>
 			</ScrollView>

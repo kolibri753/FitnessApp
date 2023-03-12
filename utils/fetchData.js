@@ -47,31 +47,64 @@ export const exerciseOptions = {
 	},
 };
 
-export const fetchData = async (url, options) => {
-	let res;
-	let data;
-	let i = 0;
+// export const fetchData = async (url, options) => {
+// 	let res;
+// 	let data;
+// 	let i = 0;
 
-	try {
-		do {
-			options.headers["X-RapidAPI-Key"] = rapidApiKeys[i];
-			res = await fetch(url, options);
-			data = await res.json();
-			i++;
-			if (res.status === 429) {
-				console.log(`API limit exceeded with key: ${rapidApiKeys[i - 1]}`);
-			}
-		} while (res.status === 429 && i < rapidApiKeys.length);
+// 	try {
+// 		do {
+// 			options.headers["X-RapidAPI-Key"] = rapidApiKeys[i];
+// 			res = await fetch(url, options);
+// 			data = await res.json();
+// 			i++;
+// 			if (res.status === 429) {
+// 				console.log(`API limit exceeded with key: ${rapidApiKeys[i - 1]}`);
+// 			}
+// 		} while (res.status === 429 && i < rapidApiKeys.length);
 
-		if (res.status === 429) {
-			const error = new Error("Exceeded maximum number of API requests");
-			error.key = rapidApiKeys[i - 1];
-			throw error;
-		}
+// 		if (res.status === 429) {
+// 			const error = new Error("Exceeded maximum number of API requests");
+// 			error.key = rapidApiKeys[i - 1];
+// 			throw error;
+// 		}
 
-		return data;
-	} catch (error) {
-		console.log("error");
-	}
+// 		return data;
+// 	} catch (error) {
+// 		console.log("error");
+// 	}
+// };
+
+
+//limit fetched Data
+export const fetchData = async (url, options, limit=10) => {
+  let allData = [];
+  let res;
+  let data;
+  let i = 0;
+
+  try {
+    do {
+      options.headers["X-RapidAPI-Key"] = rapidApiKeys[i];
+      res = await fetch(url, options);
+      data = await res.json();
+      i++;
+      if (res.status === 429) {
+        console.log(`API limit exceeded with key: ${rapidApiKeys[i - 1]}`);
+      }
+      if (data) {
+        allData = [...allData, ...data];
+      }
+    } while (data && allData.length < limit && i < rapidApiKeys.length);
+
+    if (res.status === 429) {
+      const error = new Error("Exceeded maximum number of API requests");
+      error.key = rapidApiKeys[i - 1];
+      throw error;
+    }
+
+    return allData.slice(0, limit);
+  } catch (error) {
+    console.log("error");
+  }
 };
-
