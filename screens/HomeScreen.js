@@ -4,7 +4,6 @@ import {
 	Text,
 	StyleSheet,
 	ScrollView,
-	TouchableOpacity,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { colors } from "../styles/colors";
@@ -25,7 +24,7 @@ import waist from "../assets/categories/waist.png";
 
 const HomeScreen = ({ navigation }) => {
 	const [categories, setCategories] = useState([]);
-	categories.unshift("all")
+	categories.unshift("all");
 
 	useEffect(() => {
 		const fetchCategoriesData = async () => {
@@ -75,14 +74,6 @@ const HomeScreen = ({ navigation }) => {
 					/>
 				))}
 			</ScrollView>
-			<View style={styles.bottomNav}>
-				<TouchableOpacity
-					style={styles.bottomNavItem}
-					onPress={() => navigation.navigate("ProfileScreen")}
-				>
-					<Text style={styles.bottomNavText}>Profile</Text>
-				</TouchableOpacity>
-			</View>
 		</SafeAreaView>
 	);
 };
@@ -123,29 +114,6 @@ const styles = StyleSheet.create({
 	categoriesContainer: {
 		paddingHorizontal: 20,
 		paddingVertical: 10,
-	},
-	bottomNav: {
-		height: 60,
-		backgroundColor: colors.black,
-		flexDirection: "row",
-		justifyContent: "flex-end",
-		alignItems: "center",
-		paddingRight: 20,
-		borderTopWidth: 1,
-		borderTopColor: "white",
-		borderTopStyle: "solid",
-	},
-	bottomNavItem: {
-		paddingVertical: 10,
-		paddingHorizontal: 20,
-		borderRadius: 10,
-		backgroundColor: colors.white,
-	},
-	bottomNavText: {
-		fontSize: 18,
-		color: colors.black,
-		fontSize: 18,
-		fontWeight: "bold",
 	},
 });
 

@@ -14,7 +14,7 @@ import ExerciseComponent from "../components/ExerciseComponent";
 import PaginationComponent from "../components/PaginationComponent";
 
 const ExercisesScreen = ({ route, navigation }) => {
-	const { category } = route.params;
+	const { category } = route.params || {"category" : "all"};
 	const [exercises, setExercises] = useState([]);
 	const [page, setPage] = useState(1);
 	const scrollViewRef = useRef(null);
@@ -91,14 +91,6 @@ const ExercisesScreen = ({ route, navigation }) => {
 					setPage={setPage}
 				/>
 			</ScrollView>
-			<View style={styles.bottomNav}>
-				<TouchableOpacity
-					style={styles.bottomNavItem}
-					onPress={() => navigation.navigate("ProfileScreen")}
-				>
-					<Text style={styles.bottomNavText}>Profile</Text>
-				</TouchableOpacity>
-			</View>
 		</SafeAreaView>
 	);
 };

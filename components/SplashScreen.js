@@ -1,27 +1,19 @@
 import React, { useEffect, useState } from "react";
-import { StyleSheet, View, Text, Animated } from "react-native";
-import { useNavigation } from "@react-navigation/native";
+import { StyleSheet, View, Animated } from "react-native";
 import { colors } from "../styles/colors";
 import Logo from "../assets/logo.svg";
 
 const SplashScreen = () => {
 	const [animation] = useState(new Animated.Value(0));
-	const navigation = useNavigation();
 
 	useEffect(() => {
 		Animated.timing(animation, {
 			toValue: 1,
 			duration: 3000,
 			useNativeDriver: true,
-		}).start(() => {
-			setTimeout(() => {
-				navigation.reset({
-					index: 0,
-					routes: [{ name: "HomeScreen" }],
-				});
-			}, 1000);
-		});
-	}, [animation, navigation]);
+		}).start();
+	}, [animation]);
+	
 
 	const logoContainerStyles = [
 		styles.logoContainer,

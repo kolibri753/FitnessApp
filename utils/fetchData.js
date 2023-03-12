@@ -6,31 +6,6 @@ export const youtubeOptions = {
 	},
 };
 
-//------------------with one stable KEY------------------
-
-// export const exerciseOptions = {
-// 	method: "GET",
-// 	headers: {
-// 		"X-RapidAPI-Host": "exercisedb.p.rapidapi.com",
-// 		"X-RapidAPI-Key": "77c3baa5a3mshd0799b8845cc7d4p1a1a8djsn4f2b8320c132",
-// 	},
-// };
-
-// 0be085387amsh87b872a285391a5p17e622jsnccf1f049c483 -- Clexa
-// 9f680cfbecmsh7658a3175193317p19059cjsncf1436544988 -- Kolibri
-// 77c3baa5a3mshd0799b8845cc7d4p1a1a8djsn4f2b8320c132 -- Vira
-
-// export const fetchData = async (url, options) => {
-// 	const res = await fetch(url, options);
-// 	const data = await res.json();
-// 	// console.log(res);
-// 	// console.log(data);
-// 	// const data = "helpMeINeedMoney";
-
-// 	return data;
-// };
-
-// Try this
 const rapidApiKeys = [
 	"77c3baa5a3mshd0799b8845cc7d4p1a1a8djsn4f2b8320c132",
 	"0be085387amsh87b872a285391a5p17e622jsnccf1f049c483",
@@ -39,72 +14,47 @@ const rapidApiKeys = [
 
 let currentKeyIndex = 0; // starting index
 
-export const exerciseOptions = {
-	method: "GET",
-	headers: {
-		"X-RapidAPI-Host": "exercisedb.p.rapidapi.com",
-		"X-RapidAPI-Key": rapidApiKeys[currentKeyIndex],
-	},
-};
-
-// export const fetchData = async (url, options) => {
-// 	let res;
-// 	let data;
-// 	let i = 0;
-
-// 	try {
-// 		do {
-// 			options.headers["X-RapidAPI-Key"] = rapidApiKeys[i];
-// 			res = await fetch(url, options);
-// 			data = await res.json();
-// 			i++;
-// 			if (res.status === 429) {
-// 				console.log(`API limit exceeded with key: ${rapidApiKeys[i - 1]}`);
-// 			}
-// 		} while (res.status === 429 && i < rapidApiKeys.length);
-
-// 		if (res.status === 429) {
-// 			const error = new Error("Exceeded maximum number of API requests");
-// 			error.key = rapidApiKeys[i - 1];
-// 			throw error;
-// 		}
-
-// 		return data;
-// 	} catch (error) {
-// 		console.log("error");
-// 	}
-// };
-
-
-//limit fetched Data
-export const fetchData = async (url, options, limit=10) => {
+export const fetchData = async (url, options, limit = 10) => {
   let allData = [];
   let res;
   let data;
-  let i = 0;
+  // let currentKeyIndex = 0;
 
   try {
     do {
-      options.headers["X-RapidAPI-Key"] = rapidApiKeys[i];
+      options.headers["X-RapidAPI-Key"] = getCurrentApiKey();
       res = await fetch(url, options);
       data = await res.json();
-      i++;
+      currentKeyIndex++;
+
       if (res.status === 429) {
-        console.log(`API limit exceeded with key: ${rapidApiKeys[i - 1]}`);
+        console.log(`API limit exceeded with key: ${rapidApiKeys[currentKeyIndex - 1]}`);
       }
-      if (data) {
-        allData = [...allData, ...data];
+      if (data && Symbol.iterator in Object(data)) { // check if data is iterable
+        allData.push(...data);
       }
-    } while (data && allData.length < limit && i < rapidApiKeys.length);
+    } while (data && allData.length < limit && currentKeyIndex < rapidApiKeys.length);
 
     if (res.status === 429) {
       const error = new Error("Exceeded maximum number of API requests");
-      error.key = rapidApiKeys[i - 1];
+      error.key = rapidApiKeys[currentKeyIndex - 1];
       throw error;
     }
 
     return allData.slice(0, limit);
   } catch (error) {
-    console.log("error");
+    console.log(error);
   }
 };
+
+export const exerciseOptions = {
+  method: "GET",
+  headers: {
+    "X-RapidAPI-Host": "exercisedb.p.rapidapi.com",
+    "X-RapidAPI-Key": getCurrentApiKey(),
+  },
+};
+
+function getCurrentApiKey() {
+  return rapidApiKeys[currentKeyIndex];
+}
