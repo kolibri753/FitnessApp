@@ -8,7 +8,7 @@ const ExerciseComponent = ({ exercise }) => {
 		<View style={styles.container}>
 			<View style={styles.header}>
 				<TouchableOpacity style={styles.button}>
-					<MaterialIcons name="star-border" size={24} color="#333" />
+					<MaterialIcons name="star-border" size={24} color={styles.lightGrey} />
 				</TouchableOpacity>
 			</View>
 			<View style={styles.imageContainer}>

@@ -1,0 +1,217 @@
+{
+  "workouts": [
+    {
+      "id": 1,
+      "name": "All-Around Muscle Burn",
+      "description": "This is a description of workout 1",
+      "image": "https://images.squarespace-cdn.com/content/v1/594c5ab34f14bcca1a010c20/1603120749382-3HTHO6MAAPR9YB1NHHWO/ke17ZwdGBToddI8pDm48kIdwuL-YH8qdQNkAqEk86rtZw-zPPgdn4jUwVcJE1ZvWQUxwkmyExglNqGp0IvTJZUJFbgE-7XRK3dMEBRBhUpyrlDB6o-m1QpI9POf53GOOdPhFP3XS315CDLRkhmFZV6m7nputAs4I1PhPGOKRgIc/A+Brief+Overview+of+How+to+Gain+Muscle.jpg",
+      "exercises": [
+        {
+          "bodyPart": "waist",
+          "equipment": "body weight",
+          "gifUrl": "http://d205bpvrqc9yn1.cloudfront.net/0001.gif",
+          "id": "0001",
+          "name": "3/4 sit-up",
+          "target": "abs",
+          "description": "Lie on your back with your knees bent and feet flat on the floor. Place your hands behind your head and lift your head and shoulders off the ground, bringing your elbows to touch your knees. Lower back down to the starting position and repeat."
+        },
+        {
+          "bodyPart": "waist",
+          "equipment": "body weight",
+          "gifUrl": "http://d205bpvrqc9yn1.cloudfront.net/0002.gif",
+          "id": "0002",
+          "name": "45° side bend",
+          "target": "abs",
+          "description": "Stand with your feet shoulder-width apart and your hands on your hips. Keeping your back straight, bend to one side as far as you can, then return to the starting position and bend to the other side."
+        },
+        {
+          "bodyPart": "waist",
+          "equipment": "body weight",
+          "gifUrl": "http://d205bpvrqc9yn1.cloudfront.net/0003.gif",
+          "id": "0003",
+          "name": "air bike",
+          "target": "abs",
+          "description": "Lie on your back with your hands behind your head and your legs raised off the ground. Bring your right elbow towards your left knee while straightening your right leg, then switch sides and bring your left elbow towards your right knee while straightening your left leg. Continue alternating sides."
+        },
+        {
+          "bodyPart": "upper legs",
+          "equipment": "body weight",
+          "gifUrl": "http://d205bpvrqc9yn1.cloudfront.net/1512.gif",
+          "id": "1512",
+          "name": "all fours squad stretch",
+          "target": "quads",
+          "description": "Get down on your hands and knees with your hands directly under your shoulders and your knees directly under your hips. Keeping your back flat, push your hips back towards your heels until you feel a stretch in your quads."
+        },
+        {
+          "bodyPart": "waist",
+          "equipment": "body weight",
+          "gifUrl": "http://d205bpvrqc9yn1.cloudfront.net/0006.gif",
+          "id": "0006",
+          "name": "alternate heel touchers",
+          "target": "abs",
+          "description": "Lie on your back with your knees bent and feet flat on the floor. Lift your head and shoulders off the ground and reach your right hand towards your right heel, then lower back down and repeat on the other side."
+        },
+        {
+          "bodyPart": "back",
+          "equipment": "cable",
+          "gifUrl": "http://d205bpvrqc9yn1.cloudfront.net/0007.gif",
+          "id": "0007",
+          "name": "alternate lateral pulldown",
+          "target": "lats",
+          "description": "Attach a cable or resistance band to a high anchor point and grasp the handle with one hand. Keeping your arm straight, pull the handle down and towards your opposite hip, then return to the starting position and repeat on the other side."
+        },
+        {
+          "bodyPart": "lower legs",
+          "equipment": "body weight",
+          "gifUrl": "http://d205bpvrqc9yn1.cloudfront.net/1368.gif",
+          "id": "1368",
+          "name": "ankle circles",
+          "target": "calves",
+          "description": "Stand with your feet shoulder-width apart and lift one foot off the ground. Rotate your ankle in a circular motion, then switch sides and repeat."
+        },
+        {
+          "bodyPart": "back",
+          "equipment": "body weight",
+          "gifUrl": "http://d205bpvrqc9yn1.cloudfront.net/3293.gif",
+          "id": "3293",
+          "name": "archer pull up",
+          "target": "lats",
+          "description": "Grasp a pull-up bar with one hand and extend your other arm out to the side. Pull yourself up towards the bar, bringing your extended arm towards your chest, then lower back down and repeat on the other side."
+        },
+        {
+          "bodyPart": "chest",
+          "equipment": "body weight",
+          "gifUrl": "http://d205bpvrqc9yn1.cloudfront.net/3294.gif",
+          "id": "3294",
+          "name": "archer push up",
+          "target": "pectorals",
+          "description": "Get into a push-up position with one hand slightly further forward than the other. Lower your body towards the ground, keeping your elbow close to your side, then push back up and repeat on the other side."
+        },
+        {
+          "bodyPart": "waist",
+          "equipment": "body weight",
+          "gifUrl": "http://d205bpvrqc9yn1.cloudfront.net/2355.gif",
+          "id": "2355",
+          "name": "arm slingers hanging bent knee legs",
+          "target": "abs",
+          "description": "Hang from a pull-up bar with your knees bent and your feet together. Keeping your arms straight, swing your legs forward and back while engaging your core."
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "name": "Cardio Blast",
+      "description": "This is a description of workout 1",
+      "image": "https://images.squarespace-cdn.com/content/v1/594c5ab34f14bcca1a010c20/1603120749382-3HTHO6MAAPR9YB1NHHWO/ke17ZwdGBToddI8pDm48kIdwuL-YH8qdQNkAqEk86rtZw-zPPgdn4jUwVcJE1ZvWQUxwkmyExglNqGp0IvTJZUJFbgE-7XRK3dMEBRBhUpyrlDB6o-m1QpI9POf53GOOdPhFP3XS315CDLRkhmFZV6m7nputAs4I1PhPGOKRgIc/A+Brief+Overview+of+How+to+Gain+Muscle.jpg",
+      "exercises": [
+        {
+          "bodyPart": "waist",
+          "equipment": "body weight",
+          "gifUrl": "http://d205bpvrqc9yn1.cloudfront.net/0001.gif",
+          "id": "0001",
+          "name": "3/4 sit-up",
+          "target": "abs",
+          "description": "Lie on your back with your knees bent and feet flat on the floor. Place your hands behind your head and lift your head and shoulders off the ground, bringing your elbows to touch your knees. Lower back down to the starting position and repeat."
+        },
+        {
+          "bodyPart": "waist",
+          "equipment": "body weight",
+          "gifUrl": "http://d205bpvrqc9yn1.cloudfront.net/0002.gif",
+          "id": "0002",
+          "name": "45° side bend",
+          "target": "abs",
+          "description": "Stand with your feet shoulder-width apart and your hands on your hips. Keeping your back straight, bend to one side as far as you can, then return to the starting position and bend to the other side."
+        },
+        {
+          "bodyPart": "waist",
+          "equipment": "body weight",
+          "gifUrl": "http://d205bpvrqc9yn1.cloudfront.net/0003.gif",
+          "id": "0003",
+          "name": "air bike",
+          "target": "abs",
+          "description": "Lie on your back with your hands behind your head and your legs raised off the ground. Bring your right elbow towards your left knee while straightening your right leg, then switch sides and bring your left elbow towards your right knee while straightening your left leg. Continue alternating sides."
+        },
+        {
+          "bodyPart": "upper legs",
+          "equipment": "body weight",
+          "gifUrl": "http://d205bpvrqc9yn1.cloudfront.net/1512.gif",
+          "id": "1512",
+          "name": "all fours squad stretch",
+          "target": "quads",
+          "description": "Get down on your hands and knees with your hands directly under your shoulders and your knees directly under your hips. Keeping your back flat, push your hips back towards your heels until you feel a stretch in your quads."
+        },
+        {
+          "bodyPart": "waist",
+          "equipment": "body weight",
+          "gifUrl": "http://d205bpvrqc9yn1.cloudfront.net/0006.gif",
+          "id": "0006",
+          "name": "alternate heel touchers",
+          "target": "abs",
+          "description": "Lie on your back with your knees bent and feet flat on the floor. Lift your head and shoulders off the ground and reach your right hand towards your right heel, then lower back down and repeat on the other side."
+        },
+        {
+          "bodyPart": "back",
+          "equipment": "cable",
+          "gifUrl": "http://d205bpvrqc9yn1.cloudfront.net/0007.gif",
+          "id": "0007",
+          "name": "alternate lateral pulldown",
+          "target": "lats",
+          "description": "Attach a cable or resistance band to a high anchor point and grasp the handle with one hand. Keeping your arm straight, pull the handle down and towards your opposite hip, then return to the starting position and repeat on the other side."
+        },
+        {
+          "bodyPart": "lower legs",
+          "equipment": "body weight",
+          "gifUrl": "http://d205bpvrqc9yn1.cloudfront.net/1368.gif",
+          "id": "1368",
+          "name": "ankle circles",
+          "target": "calves",
+          "description": "Stand with your feet shoulder-width apart and lift one foot off the ground. Rotate your ankle in a circular motion, then switch sides and repeat."
+        },
+        {
+          "bodyPart": "back",
+          "equipment": "body weight",
+          "gifUrl": "http://d205bpvrqc9yn1.cloudfront.net/3293.gif",
+          "id": "3293",
+          "name": "archer pull up",
+          "target": "lats",
+          "description": "Grasp a pull-up bar with one hand and extend your other arm out to the side. Pull yourself up towards the bar, bringing your extended arm towards your chest, then lower back down and repeat on the other side."
+        },
+        {
+          "bodyPart": "chest",
+          "equipment": "body weight",
+          "gifUrl": "http://d205bpvrqc9yn1.cloudfront.net/3294.gif",
+          "id": "3294",
+          "name": "archer push up",
+          "target": "pectorals",
+          "description": "Get into a push-up position with one hand slightly further forward than the other. Lower your body towards the ground, keeping your elbow close to your side, then push back up and repeat on the other side."
+        },
+        {
+          "bodyPart": "waist",
+          "equipment": "body weight",
+          "gifUrl": "http://d205bpvrqc9yn1.cloudfront.net/2355.gif",
+          "id": "2355",
+          "name": "arm slingers hanging bent knee legs",
+          "target": "abs",
+          "description": "Hang from a pull-up bar with your knees bent and your feet together. Keeping your arms straight, swing your legs forward and back while engaging your core."
+        }
+      ]
+    },
+    {
+      "id": 1,
+      "name": "All-Around Muscle Burn",
+      "description": "This is a description of workout 1",
+      "image": "https://images.squarespace-cdn.com/content/v1/594c5ab34f14bcca1a010c20/1603120749382-3HTHO6MAAPR9YB1NHHWO/ke17ZwdGBToddI8pDm48kIdwuL-YH8qdQNkAqEk86rtZw-zPPgdn4jUwVcJE1ZvWQUxwkmyExglNqGp0IvTJZUJFbgE-7XRK3dMEBRBhUpyrlDB6o-m1QpI9POf53GOOdPhFP3XS315CDLRkhmFZV6m7nputAs4I1PhPGOKRgIc/A+Brief+Overview+of+How+to+Gain+Muscle.jpg",
+      "exercises": [
+        {
+          "bodyPart": "waist",
+          "equipment": "body weight",
+          "gifUrl": "http://d205bpvrqc9yn1.cloudfront.net/0001.gif",
+          "id": "0001",
+          "name": "3/4 sit-up",
+          "target": "abs",
+          "description": "Lie on your back with your knees bent and feet flat on the floor. Place your hands behind your head and lift your head and shoulders off the ground, bringing your elbows to touch your knees. Lower back down to the starting position and repeat."
+        }
+      ]
+    }
+  ]
+}
