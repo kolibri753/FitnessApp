@@ -8,11 +8,12 @@ const WorkoutExercisesScreen = ({ route, navigation }) => {
   const { workout } = route.params;
 
   const handlePlayButtonPress = () => {
-    console.log("WorkoutExercisesScreen", JSON.stringify(workout.exercises[0]));
+    console.log("WorkoutExercisesScreen", JSON.stringify(workout.exercises));
     navigation.navigate("WorkoutExerciseScreen", {
-      exercise: workout.exercises[0],
+      exercises: workout.exercises,
     });
   };
+  
 
   return (
     <SafeAreaView style={styles.container}>

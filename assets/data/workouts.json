@@ -13,6 +13,7 @@
           "id": "0001",
           "name": "3/4 sit-up",
           "target": "abs",
+          "time": 30,
           "description": "Lie on your back with your knees bent and feet flat on the floor. Place your hands behind your head and lift your head and shoulders off the ground, bringing your elbows to touch your knees. Lower back down to the starting position and repeat."
         },
         {
@@ -22,6 +23,7 @@
           "id": "0002",
           "name": "45° side bend",
           "target": "abs",
+          "time": 45,
           "description": "Stand with your feet shoulder-width apart and your hands on your hips. Keeping your back straight, bend to one side as far as you can, then return to the starting position and bend to the other side."
         },
         {
@@ -31,6 +33,7 @@
           "id": "0003",
           "name": "air bike",
           "target": "abs",
+          "time": 30,
           "description": "Lie on your back with your hands behind your head and your legs raised off the ground. Bring your right elbow towards your left knee while straightening your right leg, then switch sides and bring your left elbow towards your right knee while straightening your left leg. Continue alternating sides."
         },
         {
@@ -40,6 +43,7 @@
           "id": "1512",
           "name": "all fours squad stretch",
           "target": "quads",
+          "time": 60,
           "description": "Get down on your hands and knees with your hands directly under your shoulders and your knees directly under your hips. Keeping your back flat, push your hips back towards your heels until you feel a stretch in your quads."
         },
         {
@@ -49,6 +53,7 @@
           "id": "0006",
           "name": "alternate heel touchers",
           "target": "abs",
+          "time": 60,
           "description": "Lie on your back with your knees bent and feet flat on the floor. Lift your head and shoulders off the ground and reach your right hand towards your right heel, then lower back down and repeat on the other side."
         },
         {
@@ -58,6 +63,7 @@
           "id": "0007",
           "name": "alternate lateral pulldown",
           "target": "lats",
+          "time": 30,
           "description": "Attach a cable or resistance band to a high anchor point and grasp the handle with one hand. Keeping your arm straight, pull the handle down and towards your opposite hip, then return to the starting position and repeat on the other side."
         },
         {
@@ -67,6 +73,7 @@
           "id": "1368",
           "name": "ankle circles",
           "target": "calves",
+          "time": 45,
           "description": "Stand with your feet shoulder-width apart and lift one foot off the ground. Rotate your ankle in a circular motion, then switch sides and repeat."
         },
         {
@@ -76,6 +83,7 @@
           "id": "3293",
           "name": "archer pull up",
           "target": "lats",
+          "time": 30,
           "description": "Grasp a pull-up bar with one hand and extend your other arm out to the side. Pull yourself up towards the bar, bringing your extended arm towards your chest, then lower back down and repeat on the other side."
         },
         {
@@ -85,6 +93,7 @@
           "id": "3294",
           "name": "archer push up",
           "target": "pectorals",
+          "time": 30,
           "description": "Get into a push-up position with one hand slightly further forward than the other. Lower your body towards the ground, keeping your elbow close to your side, then push back up and repeat on the other side."
         },
         {
@@ -94,6 +103,7 @@
           "id": "2355",
           "name": "arm slingers hanging bent knee legs",
           "target": "abs",
+          "time": 50,
           "description": "Hang from a pull-up bar with your knees bent and your feet together. Keeping your arms straight, swing your legs forward and back while engaging your core."
         }
       ]
