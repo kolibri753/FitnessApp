@@ -2,6 +2,7 @@ import React from "react";
 import { View, Text, StyleSheet, FlatList, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { colors } from "../styles/colors";
+import { AntDesign } from '@expo/vector-icons'; 
 // import WorkoutExerciseScreen from "../screens/WorkoutExerciseScreen";
 
 const WorkoutExercisesScreen = ({ route, navigation }) => {
@@ -23,8 +24,10 @@ const WorkoutExercisesScreen = ({ route, navigation }) => {
         <TouchableOpacity
           onPress={handlePlayButtonPress}
           style={styles.playButton}
+          activeOpacity={0.5}
         >
           <Text style={styles.playButtonText}>Play Workout</Text>
+          <AntDesign name="play" size={24} color="black" />
         </TouchableOpacity>
       </View>
       <FlatList
@@ -77,6 +80,10 @@ const styles = StyleSheet.create({
     textAlign: "left",
   },
   playButton: {
+    display: "flex",
+    flexDirection: "row",
+    gap: 14,
+    alignItems: "center",
     backgroundColor: colors.yellow,
     borderRadius: 10,
     padding: 10,

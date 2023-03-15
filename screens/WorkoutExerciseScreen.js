@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { colors } from "../styles/colors";
+import { AntDesign } from '@expo/vector-icons'; 
 import ExerciseTimerComponent from "../components/ExerciseTimerComponent";
 
 const WorkoutExerciseScreen = ({ route, navigation }) => {
@@ -45,6 +46,7 @@ const WorkoutExerciseScreen = ({ route, navigation }) => {
 				</View>
 				<View style={styles.bottomContainer}>
 					<TouchableOpacity onPress={handlePrevPress} style={styles.button}>
+						<AntDesign name="arrowleft" size={24} color="black" />
 						<Text style={styles.buttonText}>Prev</Text>
 					</TouchableOpacity>
 					<ExerciseTimerComponent
@@ -54,6 +56,7 @@ const WorkoutExerciseScreen = ({ route, navigation }) => {
 					/>
 					<TouchableOpacity onPress={handleNextPress} style={styles.button}>
 						<Text style={styles.buttonText}>Next</Text>
+						<AntDesign name="arrowright" size={24} color="black" />
 					</TouchableOpacity>
 				</View>
 			</View>
