@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { colors } from "../styles/colors";
 import { AntDesign } from '@expo/vector-icons'; 
 import ExerciseTimerComponent from "../components/ExerciseTimerComponent";
+import WorkoutCompleteScreen from "../screens/WorkoutCompleteScreen";
 
 const WorkoutExerciseScreen = ({ route, navigation }) => {
 	const exercises = Array.isArray(route.params.exercises)
@@ -28,6 +29,12 @@ const WorkoutExerciseScreen = ({ route, navigation }) => {
 			);
 		}
 	};
+
+	useEffect(() => {
+		if (currentIndex === exercises.length - 1) {
+			navigation.navigate("WorkoutCompleteScreen");
+		}
+	}, [currentIndex]);
 
 	return (
 		<SafeAreaView style={styles.container}>
