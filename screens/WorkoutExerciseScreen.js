@@ -1,10 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
+import {
+	View,
+	Text,
+	StyleSheet,
+	Image,
+	TouchableOpacity,
+	useWindowDimensions,
+} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { colors } from "../styles/colors";
-import { AntDesign } from '@expo/vector-icons'; 
+import { AntDesign } from "@expo/vector-icons";
 import ExerciseTimerComponent from "../components/ExerciseTimerComponent";
-import WorkoutCompleteScreen from "../screens/WorkoutCompleteScreen";
+import ScreenUnlock from "../utils/ScreenUnlock";
 
 const WorkoutExerciseScreen = ({ route, navigation }) => {
 	const exercises = Array.isArray(route.params.exercises)
@@ -36,12 +43,16 @@ const WorkoutExerciseScreen = ({ route, navigation }) => {
 		}
 	}, [currentIndex]);
 
+	const { width, height } = useWindowDimensions();
+	const isLandscape = width > height;
+
 	return (
-		<SafeAreaView style={styles.container}>
+		<SafeAreaView style={[styles.container, isLandscape && styles.landscapeContainer]}>
+			<ScreenUnlock />
 			<View style={styles.imageContainer}>
-				<Image source={{ uri: exercise.gifUrl }} style={styles.image} />
+				<Image source={{ uri: exercise.gifUrl }} style={[styles.image, isLandscape && styles.landscapeImage]} />
 			</View>
-			<View style={styles.detailsContainer}>
+			<View style={[styles.detailsContainer, isLandscape && styles.landscapeDetailsContainer]}>
 				<View>
 					<Text style={styles.title}>{exercise.name}</Text>
 					<Text style={styles.description}>{exercise.description}</Text>
@@ -78,6 +89,9 @@ const styles = StyleSheet.create({
 		padding: 20,
 		justifyContent: "space-between",
 	},
+	landscapeContainer: {
+		flexDirection: "row", 
+	},
 	imageContainer: {
 		flex: 1,
 		justifyContent: "center",
@@ -88,11 +102,17 @@ const styles = StyleSheet.create({
 		height: 400,
 		resizeMode: "contain",
 	},
+	landscapeImage: {
+		height: 350,
+	},
 	detailsContainer: {
 		// flex: 1,
 		flex: 0,
 		justifyContent: "space-between",
 		alignItems: "center",
+	},
+	landscapeDetailsContainer: {
+		flex: 1,
 	},
 	bottomContainer: {
 		flexDirection: "row",

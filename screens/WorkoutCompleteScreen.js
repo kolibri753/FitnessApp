@@ -1,27 +1,32 @@
-import React from "react";
-import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
+import {React, useEffect} from "react";
+import { View, Text, StyleSheet, TouchableOpacity, useWindowDimensions} from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { colors } from "../styles/colors";
 import LottieView from "lottie-react-native";
 
 const WorkoutCompleteScreen = ({ navigation }) => {
+	
 	const handleReturnPress = () => {
-		navigation.popToTop();
+		navigation.navigate("WorkoutsScreen");
 	};
 
+	const { width, height } = useWindowDimensions();
+	const isLandscape = width > height;
+
 	return (
-		<SafeAreaView style={styles.container}>
-			<View style={styles.messageContainer}>
+		<SafeAreaView style={[styles.container, isLandscape && styles.landscapeContainer]}>
+			{/* <ScreenLock /> */}
+			<View style={styles.animationContainer}>
 				<LottieView
 					source={require("../assets/data/fireworks.json")}
 					autoPlay
 					loop
 					style={styles.animation}
 				/>
+			</View>
+			<View style={styles.infoContainer}>
 				<Text style={styles.title}>Congratulations!</Text>
 				<Text style={styles.message}>You have completed your workout.</Text>
-			</View>
-			<View style={styles.buttonContainer}>
 				<TouchableOpacity
 					onPress={handleReturnPress}
 					style={styles.returnButton}
@@ -40,7 +45,10 @@ const styles = StyleSheet.create({
 		backgroundColor: colors.black,
 		padding: 20,
 	},
-	messageContainer: {
+	landscapeContainer: {
+		flexDirection: "row",
+	},
+	animationContainer: {
 		flex: 1,
 		justifyContent: "center",
 		alignItems: "center",
@@ -57,8 +65,7 @@ const styles = StyleSheet.create({
 		fontSize: 24,
 		textAlign: "center",
 	},
-	buttonContainer: {
-		flexDirection: "row",
+	infoContainer: {
 		justifyContent: "center",
 		alignItems: "center",
 	},
@@ -74,10 +81,10 @@ const styles = StyleSheet.create({
 		fontWeight: "bold",
 		textAlign: "center",
 	},
-  animation: {
-    width: 300,
-    height: 300,
-  },
+	animation: {
+		width: 300,
+		height: 300,
+	},
 });
 
 export default WorkoutCompleteScreen;
