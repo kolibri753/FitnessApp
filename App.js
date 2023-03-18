@@ -38,13 +38,6 @@ const App = () => {
 					}}
 				/>
 				<Stack.Screen
-					name="WorkoutExercisesScreen"
-					component={WorkoutExercisesScreen}
-					options={{
-						headerShown: false,
-					}}
-				/>
-				<Stack.Screen
 					name="WorkoutExerciseScreen"
 					component={WorkoutExerciseScreen}
 					options={{
@@ -90,8 +83,8 @@ const MainTabNavigator = () => {
 				})}
 			/>
 			<Tab.Screen
-				name="WorkoutsScreen"
-				component={WorkoutsScreen}
+				name="WorkoutStack"
+				component={WorkoutStackNavigator}
 				options={{
 					headerShown: false,
 					title: "Workouts",
@@ -100,6 +93,28 @@ const MainTabNavigator = () => {
 			/>
 		</Tab.Navigator>
 	);
+};
+
+const WorkoutStackNavigator = () => {
+  const Stack = createStackNavigator();
+  return (
+    <Stack.Navigator>
+			<Stack.Screen
+        name="WorkoutsScreen"
+        component={WorkoutsScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen
+        name="WorkoutExercisesScreen"
+        component={WorkoutExercisesScreen}
+        options={{
+          headerShown: false,
+        }}
+      />
+    </Stack.Navigator>
+  );
 };
 
 export default App;

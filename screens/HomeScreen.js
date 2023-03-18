@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from "react";
 import {
-	View,
-	Text,
 	StyleSheet,
 	ScrollView,
 } from "react-native";
@@ -9,6 +7,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { colors } from "../styles/colors";
 import { exerciseOptions, fetchData } from "../utils/fetchData";
 import CategoryComponent from "../components/CategoryComponent";
+import TopNavigationComponent from "../components/TopNavigationComponent";
 
 import all from "../assets/categories/all.png";
 import back from "../assets/categories/back.png";
@@ -45,13 +44,7 @@ const HomeScreen = ({ navigation }) => {
 
 	return (
 		<SafeAreaView style={styles.container}>
-			<View style={styles.header}>
-				<Text style={styles.headerText}>Choose Category</Text>
-				<View style={styles.steps}>
-					<View style={[styles.dot, styles.activeDot]}></View>
-					<View style={styles.dot}></View>
-				</View>
-			</View>
+			<TopNavigationComponent title="Choose Category" activeDot={1} />
 			<ScrollView style={styles.categoriesContainer}>
 				{categories.map((category) => (
 					<CategoryComponent
@@ -82,34 +75,6 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: colors.grey,
-	},
-	header: {
-		height: 50,
-		backgroundColor: colors.black,
-		alignItems: "center",
-		justifyContent: "space-between",
-		paddingHorizontal: 20,
-		flexDirection: "row",
-		borderBottomWidth: 1,
-		borderBottomColor: "white",
-		borderBottomStyle: "solid",
-	},
-	headerText: {
-		fontSize: 24,
-		color: "#fff",
-	},
-	steps: {
-		flexDirection: "row",
-	},
-	dot: {
-		width: 10,
-		height: 10,
-		borderRadius: 5,
-		marginHorizontal: 5,
-		backgroundColor: "#fff",
-	},
-	activeDot: {
-		backgroundColor: "#ffd700",
 	},
 	categoriesContainer: {
 		paddingHorizontal: 20,

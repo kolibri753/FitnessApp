@@ -1,20 +1,18 @@
 import React, { useState, useEffect, useRef } from "react";
 import {
-	View,
 	Text,
 	StyleSheet,
 	ScrollView,
-	TouchableOpacity,
 } from "react-native";
-import { AntDesign } from "@expo/vector-icons";
 import { colors } from "../styles/colors";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { exerciseOptions, fetchData } from "../utils/fetchData";
 import ExerciseComponent from "../components/ExerciseComponent";
 import PaginationComponent from "../components/PaginationComponent";
+import TopNavigationComponent from "../components/TopNavigationComponent";
 
 const ExercisesScreen = ({ route, navigation }) => {
-	const { category } = route.params || {"category" : "all"};
+	const { category } = route.params || { category: "all" };
 	const [exercises, setExercises] = useState([]);
 	const [page, setPage] = useState(1);
 	const scrollViewRef = useRef(null);
@@ -43,7 +41,7 @@ const ExercisesScreen = ({ route, navigation }) => {
 
 	const scrollToTop = () => {
 		scrollViewRef.current?.scrollTo({ x: 0, y: 0, animated: true });
-  };
+	};
 
 	const handleNextPage = () => {
 		setPage((prevPage) => prevPage + 1);
@@ -61,16 +59,7 @@ const ExercisesScreen = ({ route, navigation }) => {
 
 	return (
 		<SafeAreaView style={styles.container}>
-			<View style={styles.header}>
-				<TouchableOpacity onPress={() => navigation.goBack()}>
-					<AntDesign name="arrowleft" size={24} color="white" />
-				</TouchableOpacity>
-				<Text style={styles.headerText}>Exercises: {category}</Text>
-				<View style={styles.steps}>
-					<View style={styles.dot}></View>
-					<View style={[styles.dot, styles.activeDot]}></View>
-				</View>
-			</View>
+			<TopNavigationComponent title={`Exercises: ${category}`} activeDot={2} navigation={navigation} />
 			<ScrollView style={styles.exercisesContainer} ref={scrollViewRef}>
 				{getPaginatedExercises().map((exercise) => (
 					<ExerciseComponent key={exercise.id} exercise={exercise} />
@@ -99,37 +88,6 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: colors.grey,
-	},
-	header: {
-		height: 50,
-		backgroundColor: colors.black,
-		alignItems: "center",
-		justifyContent: "space-between",
-		paddingHorizontal: 20,
-		flexDirection: "row",
-		borderBottomWidth: 1,
-		borderBottomColor: "white",
-		borderBottomStyle: "solid",
-	},
-	headerText: {
-		color: colors.white,
-		fontSize: 22,
-		fontWeight: "bold",
-		marginBottom: 10,
-	},
-	steps: {
-		flexDirection: "row",
-		alignItems: "center",
-	},
-	dot: {
-		width: 10,
-		height: 10,
-		backgroundColor: colors.white,
-		borderRadius: 10,
-		marginHorizontal: 5,
-	},
-	activeDot: {
-		backgroundColor: colors.yellow,
 	},
 	exercisesContainer: {
 		flex: 1,

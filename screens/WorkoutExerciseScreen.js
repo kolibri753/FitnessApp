@@ -30,10 +30,12 @@ const WorkoutExerciseScreen = ({ route, navigation }) => {
 
 	const handlePrevPress = () => {
 		if (Array.isArray(exercises)) {
-			setCurrentIndex((currentIndex - 1 + exercises.length) % exercises.length);
-			setTimeLeft(
-				exercises[(currentIndex - 1 + exercises.length) % exercises.length].time
-			);
+			if (currentIndex === 0) {
+				navigation.goBack();
+			} else {
+				setCurrentIndex((currentIndex - 1 + exercises.length) % exercises.length);
+				setTimeLeft(exercises[(currentIndex - 1 + exercises.length) % exercises.length].time);
+			}
 		}
 	};
 
