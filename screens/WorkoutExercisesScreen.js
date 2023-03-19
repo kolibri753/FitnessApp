@@ -100,6 +100,7 @@ const styles = StyleSheet.create({
 		fontSize: 18,
 		fontWeight: "bold",
 		textAlign: "left",
+		textTransform: "capitalize",
 	},
 	playButton: {
 		display: "flex",

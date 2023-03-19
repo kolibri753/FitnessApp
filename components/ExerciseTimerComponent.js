@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { colors } from "../styles/colors";
 
-const ExerciseTimerComponent = ({ timeLeft, setTimeLeft, exercise, handleNextPress }) => {
+const ExerciseTimerComponent = ({ timeLeft, setTimeLeft, handleNextPress }) => {
   useEffect(() => {
     const timer = setInterval(() => {
       setTimeLeft((prevTimeLeft) => prevTimeLeft - 1);
@@ -23,7 +23,6 @@ const ExerciseTimerComponent = ({ timeLeft, setTimeLeft, exercise, handleNextPre
 
   return (
     <View style={styles.timerContainer}>
-      {/* <TimerCircle progress={timeLeft / exercise.time} /> */}
       <Text style={styles.timerText}>{formattedTimeLeft}</Text>
     </View>
   );

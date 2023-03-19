@@ -12,6 +12,7 @@ import { colors } from "../styles/colors";
 import { AntDesign } from "@expo/vector-icons";
 import ExerciseTimerComponent from "../components/ExerciseTimerComponent";
 import ScreenUnlock from "../utils/ScreenUnlock";
+import WorkoutRestComponent from "../components/WorkoutRestComponent";
 
 const WorkoutExerciseScreen = ({ route, navigation }) => {
 	const exercises = Array.isArray(route.params.exercises)
@@ -20,11 +21,16 @@ const WorkoutExerciseScreen = ({ route, navigation }) => {
 	const [currentIndex, setCurrentIndex] = useState(0);
 	const exercise = exercises[currentIndex];
 	const [timeLeft, setTimeLeft] = useState(exercise.time);
+	const [isResting, setIsResting] = useState(false);
 
 	const handleNextPress = () => {
-		if (Array.isArray(exercises)) {
+		if (isResting) {
+			setIsResting(false);
 			setCurrentIndex((currentIndex + 1) % exercises.length);
 			setTimeLeft(exercises[(currentIndex + 1) % exercises.length].time);
+		} else {
+			setIsResting(true);
+			setTimeLeft(0);
 		}
 	};
 
@@ -34,52 +40,79 @@ const WorkoutExerciseScreen = ({ route, navigation }) => {
 				navigation.goBack();
 			} else {
 				setCurrentIndex((currentIndex - 1 + exercises.length) % exercises.length);
-				setTimeLeft(exercises[(currentIndex - 1 + exercises.length) % exercises.length].time);
+				setTimeLeft(
+					exercises[(currentIndex - 1 + exercises.length) % exercises.length].time
+				);
 			}
 		}
 	};
 
 	useEffect(() => {
-		if (currentIndex === exercises.length - 1) {
+		if (currentIndex === exercises.length - 1 && !isResting) {
 			navigation.navigate("WorkoutCompleteScreen");
 		}
-	}, [currentIndex]);
+	}, [currentIndex, isResting]);
 
 	const { width, height } = useWindowDimensions();
 	const isLandscape = width > height;
 
 	return (
-		<SafeAreaView style={[styles.container, isLandscape && styles.landscapeContainer]}>
+		<SafeAreaView
+			style={[styles.container, isLandscape && styles.landscapeContainer]}
+		>
 			<ScreenUnlock />
-			<View style={styles.imageContainer}>
-				<Image source={{ uri: exercise.gifUrl }} style={[styles.image, isLandscape && styles.landscapeImage]} />
-			</View>
-			<View style={[styles.detailsContainer, isLandscape && styles.landscapeDetailsContainer]}>
-				<View>
-					<Text style={styles.title}>{exercise.name}</Text>
-					<Text style={styles.description}>{exercise.description}</Text>
-					<View style={styles.indexContainer}>
-						<Text style={styles.indexText}>{`Exercise ${currentIndex + 1} of ${
-							exercises.length
-						}`}</Text>
+			{isResting ? (
+				<WorkoutRestComponent
+					restTime={exercise.rest}
+					handleNextPress={handleNextPress}
+				/>
+			) : (
+				<>
+					<View style={styles.imageContainer}>
+						<Image
+							source={{ uri: exercise.gifUrl }}
+							style={[styles.image, isLandscape && styles.landscapeImage]}
+						/>
 					</View>
-				</View>
-				<View style={styles.bottomContainer}>
-					<TouchableOpacity onPress={handlePrevPress} style={styles.button}>
-						<AntDesign name="arrowleft" size={24} color="black" />
-						<Text style={styles.buttonText}>Prev</Text>
-					</TouchableOpacity>
-					<ExerciseTimerComponent
-						timeLeft={timeLeft}
-						setTimeLeft={setTimeLeft}
-						handleNextPress={handleNextPress}
-					/>
-					<TouchableOpacity onPress={handleNextPress} style={styles.button}>
-						<Text style={styles.buttonText}>Next</Text>
-						<AntDesign name="arrowright" size={24} color="black" />
-					</TouchableOpacity>
-				</View>
-			</View>
+					<View
+						style={[
+							styles.detailsContainer,
+							isLandscape && styles.landscapeDetailsContainer,
+						]}
+					>
+						<View>
+							<Text style={styles.title}>{exercise.name}</Text>
+							<Text style={styles.description}>{exercise.description}</Text>
+							<View style={styles.indexContainer}>
+								<Text style={styles.indexText}>{`Exercise ${currentIndex + 1} of ${
+									exercises.length
+								}`}</Text>
+							</View>
+						</View>
+						<View style={styles.bottomContainer}>
+							<TouchableOpacity onPress={handlePrevPress} style={styles.button}>
+								<AntDesign name="arrowleft" size={24} color="black" />
+								<Text style={styles.buttonText}>Prev</Text>
+							</TouchableOpacity>
+							<ExerciseTimerComponent
+								timeLeft={timeLeft}
+								setTimeLeft={setTimeLeft}
+								handleNextPress={handleNextPress}
+							/>
+							<TouchableOpacity onPress={handleNextPress} style={styles.button}>
+								<Text style={styles.buttonText}>
+									{currentIndex === exercises.length - 1 ? "Finish" : "Next"}
+								</Text>
+								<AntDesign
+									name={currentIndex === exercises.length - 1 ? "check" : "arrowright"}
+									size={24}
+									color="black"
+								/>
+							</TouchableOpacity>
+						</View>
+					</View>
+				</>
+			)}
 		</SafeAreaView>
 	);
 };
@@ -92,7 +125,7 @@ const styles = StyleSheet.create({
 		justifyContent: "space-between",
 	},
 	landscapeContainer: {
-		flexDirection: "row", 
+		flexDirection: "row",
 	},
 	imageContainer: {
 		flex: 1,
@@ -128,6 +161,7 @@ const styles = StyleSheet.create({
 		color: colors.white,
 		marginBottom: 10,
 		textAlign: "center",
+		textTransform: "capitalize",
 	},
 	description: {
 		fontSize: 16,
