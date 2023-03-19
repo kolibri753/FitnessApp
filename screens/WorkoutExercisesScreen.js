@@ -5,6 +5,7 @@ import {
 	StyleSheet,
 	FlatList,
 	TouchableOpacity,
+	Image,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { colors } from "../styles/colors";
@@ -24,11 +25,13 @@ const WorkoutExercisesScreen = ({ route, navigation }) => {
 	return (
 		<SafeAreaView style={styles.container}>
 			<TopNavigationComponent
-				title={`${workout.name}`}
+				title={`Workout: #${workout.id}`}
 				activeDot={2}
 				navigation={navigation}
 			/>
 			<View style={styles.detailsContainer}>
+				<Image source={{ uri: workout.image }} style={styles.workoutImage} />
+				<Text style={styles.title}>{workout.name}</Text>
 				<Text style={styles.description}>{workout.description}</Text>
 				<TouchableOpacity
 					onPress={handlePlayButtonPress}
@@ -62,7 +65,17 @@ const styles = StyleSheet.create({
 	},
 	detailsContainer: {
 		alignItems: "center",
+		borderBottomWidth: 1,
+		borderBottomColor: colors.lightGrey,
 	},
+	workoutImage: {
+    position: "absolute",
+    top: 0,
+    left: 0,
+    width: "100%",
+    height: "100%",
+		resizeMode: "cover",
+  },
 	title: {
 		color: colors.white,
 		fontSize: 24,
