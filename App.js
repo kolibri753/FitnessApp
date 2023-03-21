@@ -2,12 +2,15 @@ import React, { useState, useEffect } from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
+import AuthorizationScreen from "./screens/AuthorizationScreen";
+import RegistrationScreen from "./screens/RegistrationScreen";
 import HomeScreen from "./screens/HomeScreen";
 import ExercisesScreen from "./screens/ExercisesScreen";
 import WorkoutsScreen from "./screens/WorkoutsScreen";
 import WorkoutExercisesScreen from "./screens/WorkoutExercisesScreen";
 import WorkoutExerciseScreen from "./screens/WorkoutExerciseScreen";
 import WorkoutCompleteScreen from "./screens/WorkoutCompleteScreen";
+import ProfileScreen from "./screens/ProfileScreen";
 import BottomNavigationComponent from "./components/BottomNavigationComponent";
 import SplashScreen from "./components/SplashScreen";
 
@@ -30,6 +33,20 @@ const App = () => {
 	return (
 		<NavigationContainer>
 			<Stack.Navigator>
+				<Stack.Screen
+					name="AuthorizationScreen"
+					component={AuthorizationScreen}
+					options={{
+						headerShown: false,
+					}}
+				/>
+				<Stack.Screen
+					name="RegistrationScreen"
+					component={RegistrationScreen}
+					options={{
+						headerShown: false,
+					}}
+				/>
 				<Stack.Screen
 					name="Main"
 					component={MainTabNavigator}
@@ -91,30 +108,39 @@ const MainTabNavigator = () => {
 					iconName: "ios-bicycle",
 				}}
 			/>
+			<Tab.Screen
+				name="ProfileScreen"
+				component={ProfileScreen}
+				options={{
+					headerShown: false,
+					title: "User",
+					iconName: "at-circle",
+				}}
+			/>
 		</Tab.Navigator>
 	);
 };
 
 const WorkoutStackNavigator = () => {
-  const Stack = createStackNavigator();
-  return (
-    <Stack.Navigator>
+	const Stack = createStackNavigator();
+	return (
+		<Stack.Navigator>
 			<Stack.Screen
-        name="WorkoutsScreen"
-        component={WorkoutsScreen}
-        options={{
-          headerShown: false,
-        }}
-      />
-      <Stack.Screen
-        name="WorkoutExercisesScreen"
-        component={WorkoutExercisesScreen}
-        options={{
-          headerShown: false,
-        }}
-      />
-    </Stack.Navigator>
-  );
+				name="WorkoutsScreen"
+				component={WorkoutsScreen}
+				options={{
+					headerShown: false,
+				}}
+			/>
+			<Stack.Screen
+				name="WorkoutExercisesScreen"
+				component={WorkoutExercisesScreen}
+				options={{
+					headerShown: false,
+				}}
+			/>
+		</Stack.Navigator>
+	);
 };
 
 export default App;

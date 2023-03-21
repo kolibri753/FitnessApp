@@ -156,7 +156,8 @@
           "name": "archer push up",
           "target": "pectorals",
           "description": "Start in a plank position with your hands wider than shoulder-width apart, shift your weight onto your left hand and bend your right arm, lowering your body towards the ground. As you push back up, rotate your body and raise your right arm straight up towards the ceiling, ending in a side plank position. Lower back down and repeat on the other side.",
-          "time": 45
+          "time": 45,
+          "rest": 15
         },
         {
           "bodyPart": "waist",
@@ -166,7 +167,8 @@
           "name": "cross body crunch",
           "target": "abs",
           "description": "Lie on your back with your knees bent and feet flat on the ground. Place your hands behind your head and lift your head and shoulders off the ground, bringing your right elbow towards your left knee. Lower back down and repeat on the other side.",
-          "time": 45
+          "time": 45,
+          "rest": 15
         },
         {
           "bodyPart": "waist",
@@ -176,7 +178,8 @@
           "name": "air bike",
           "target": "abs",
           "description": "Lie on your back with your hands behind your head and lift your head, shoulders, and feet off the ground. Alternate bringing your right elbow to your left knee and your left elbow to your right knee, while keeping your legs in a cycling motion.",
-          "time": 45
+          "time": 45,
+          "rest": 15
         },
         {
           "bodyPart": "waist",
@@ -186,7 +189,8 @@
           "name": "dead bug",
           "target": "abs",
           "description": "Lie on your back with your arms and legs up towards the ceiling. Lower your right arm and left leg towards the ground, while keeping your back flat on the ground. Return to starting position and repeat on the other side.",
-          "time": 45
+          "time": 45,
+          "rest": 15
         },
         {
           "bodyPart": "waist",
@@ -196,7 +200,8 @@
           "name": "bottoms-up",
           "target": "abs",
           "description": "Lie on your back with your legs straight up towards the ceiling and arms straight up towards the ceiling. Lower both your arms and legs towards the ground, keeping them straight, and then lift back up to starting position.",
-          "time": 45
+          "time": 45,
+          "rest": 15
         },
         {
           "bodyPart": "waist",
@@ -206,7 +211,8 @@
           "name": "cocoons",
           "target": "abs",
           "description": "Lie on your back with your hands behind your head and your legs lifted, then crunch, bringing your knees towards your chest and your elbows towards your knees. Extend your legs and arms and repeat.",
-          "time": 45
+          "time": 45,
+          "rest": 15
         },
         {
           "bodyPart": "waist",
@@ -216,7 +222,8 @@
           "name": "crunch (hands overhead)",
           "target": "abs",
           "description": "Lie on your back with your arms extended towards the ceiling, then crunch, bringing your shoulders off the ground and reaching your hands towards your feet.",
-          "time": 45
+          "time": 45,
+          "rest": 15
         },
         {
           "bodyPart": "waist",
@@ -226,7 +233,8 @@
           "name": "crab twist toe touch",
           "target": "abs",
           "description": "Sit on the ground with your knees bent and feet flat on the floor, then lift your hips off the ground, coming into a crab position with your hands behind your head. Twist your torso to the right and touch your left hand to your right foot, then repeat on the other side.",
-          "time": 45
+          "time": 45,
+          "rest": 15
         },
         {
           "bodyPart": "waist",
@@ -236,7 +244,8 @@
           "name": "arms overhead full sit-up (male)",
           "target": "abs",
           "description": "Lie on your back with your arms extended towards the ceiling, then sit up, reaching your hands towards your feet. Return to starting position and repeat.",
-          "time": 45
+          "time": 45,
+          "rest": 15
         },
         {
           "bodyPart": "upper legs",
@@ -246,7 +255,8 @@
           "name": "all fours squad stretch",
           "target": "quads",
           "description": "Begin on all fours with your hands shoulder-width apart and your knees hip-width apart. Lift your knees off the ground and straighten your legs, then lower back down and repeat.",
-          "time": 45
+          "time": 45,
+          "rest": 15
         },
         {
           "bodyPart": "waist",
@@ -256,7 +266,8 @@
           "name": "bridge - mountain climber (cross body)",
           "target": "abs",
           "description": "Begin in a bridge position with your hands shoulder-width apart and your feet flat on the ground. Bring your right knee towards your left elbow, then return to starting position and repeat on the other side.",
-          "time": 45
+          "time": 45,
+          "rest": 15
         },
         {
           "bodyPart": "waist",
@@ -266,7 +277,8 @@
           "name": "crunch floor",
           "target": "abs",
           "description": "Lie on your back with your knees bent and feet flat on the floor, then crunch, bringing your shoulders off the ground and reaching your hands towards your feet.",
-          "time": 45
+          "time": 45,
+          "rest": 15
         },
         {
           "bodyPart": "waist",
@@ -276,7 +288,8 @@
           "name": "3/4 sit-up",
           "target": "abs",
           "description": "Lie on your back with your knees bent and feet flat on the floor, then sit up halfway, reaching your hands towards your feet. Return to starting position and repeat.",
-          "time": 45
+          "time": 45,
+          "rest": 15
         },
         {
           "bodyPart": "waist",
@@ -286,7 +299,8 @@
           "name": "alternate heel touchers",
           "target": "abs",
           "description": "Lie on your back with your knees bent and feet flat on the floor, then crunch, bringing your right hand towards your right heel and then your left hand towards your left heel.",
-          "time": 45
+          "time": 45,
+          "rest": 15
         },
         {
           "bodyPart": "waist",
@@ -296,7 +310,8 @@
           "name": "butt-ups",
           "target": "abs",
           "description": "Lie on your back with your hands by your sides and your legs lifted, then lift your hips off the ground towards the ceiling. Lower back down and repeat.",
-          "time": 45
+          "time": 45,
+          "rest": 15
         }
       ]
     }
