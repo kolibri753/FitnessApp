@@ -11,6 +11,8 @@ import WorkoutExercisesScreen from "./screens/WorkoutExercisesScreen";
 import WorkoutExerciseScreen from "./screens/WorkoutExerciseScreen";
 import WorkoutCompleteScreen from "./screens/WorkoutCompleteScreen";
 import ProfileScreen from "./screens/ProfileScreen";
+import FavoriteExercisesScreen from "./screens/FavoriteExercisesScreen";
+import MyWorkoutsScreen from "./screens/MyWorkoutsScreen";
 import BottomNavigationComponent from "./components/BottomNavigationComponent";
 import SplashScreen from "./components/SplashScreen";
 
@@ -68,6 +70,20 @@ const App = () => {
 						headerShown: false,
 					}}
 				/>
+				<Stack.Screen
+					name="FavoriteExercisesScreen"
+					component={FavoriteExercisesScreen}
+					options={{
+						headerShown: false,
+					}}
+				/>
+				<Stack.Screen
+					name="MyWorkoutsScreen"
+					component={MyWorkoutsScreen}
+					options={{
+						headerShown: false,
+					}}
+				/>
 			</Stack.Navigator>
 		</NavigationContainer>
 	);
@@ -113,7 +129,7 @@ const MainTabNavigator = () => {
 				component={ProfileScreen}
 				options={{
 					headerShown: false,
-					title: "User",
+					title: "Profile",
 					iconName: "at-circle",
 				}}
 			/>

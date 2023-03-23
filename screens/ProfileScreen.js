@@ -116,7 +116,7 @@ const ProfileScreen = ({ navigation }) => {
 							setNewName(text);
 						}}
 					/>
-					<TouchableOpacity style={styles.button} onPress={handleChangeName}>
+					<TouchableOpacity style={styles.buttonIcon} onPress={handleChangeName}>
 						<Entypo name="new-message" size={24} color={colors.yellow} />
 					</TouchableOpacity>
 				</KeyboardAvoidingView>
@@ -132,6 +132,12 @@ const ProfileScreen = ({ navigation }) => {
 				</TouchableOpacity>
 				<Text style={styles.title}>Hello, {name ? name : "there"}!</Text>
 				<Text style={styles.email}>{email}</Text>
+				<TouchableOpacity style={styles.button} onPress={() => navigation.navigate("FavoriteExercisesScreen")}>
+					<Text style={styles.buttonText}>Favorite Exercises</Text>
+				</TouchableOpacity>
+				<TouchableOpacity style={styles.button} onPress={() => navigation.navigate("MyWorkoutsScreen")}>
+					<Text style={styles.buttonText}>My Workouts</Text>
+				</TouchableOpacity>
 				<TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
 					<Text style={styles.logoutText}>Logout</Text>
 				</TouchableOpacity>
@@ -182,12 +188,25 @@ const styles = StyleSheet.create({
 		borderRadius: 5,
 		width: "80%",
 	},
-	button: {
+	buttonIcon: {
 		position: "absolute",
 		top: 0,
 		right: 0,
 		paddingVertical: 10,
 		paddingHorizontal: 10,
+	},
+	button: {
+		backgroundColor: colors.yellow,
+		borderRadius: 5,
+		padding: 10,
+		width: "80%",
+		alignItems: "center",
+		marginVertical: 10,
+	},
+	buttonText: {
+		color: colors.black,
+		fontSize: 18,
+		fontWeight: "bold",
 	},
 	logoutText: {
 		fontSize: 18,

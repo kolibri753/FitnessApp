@@ -1,43 +1,22 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import {
 	Text,
 	StyleSheet,
 	ScrollView,
+  Alert,
 } from "react-native";
 import { colors } from "../styles/colors";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { exerciseOptions, fetchData } from "../utils/fetchData";
 import ExerciseComponent from "../components/ExerciseComponent";
 import PaginationComponent from "../components/PaginationComponent";
 import TopNavigationComponent from "../components/TopNavigationComponent";
+import { auth, db } from "../firebaseConfig";
+import { collection, doc, onSnapshot } from "firebase/firestore";
 
-const ExercisesScreen = ({ route, navigation }) => {
-	const { category } = route.params || { category: "all" };
+const FavoriteExercisesScreen = ({ navigation }) => {
 	const [exercises, setExercises] = useState([]);
 	const [page, setPage] = useState(1);
 	const scrollViewRef = useRef(null);
-
-	useEffect(() => {
-		const fetchExercisesData = async () => {
-			let exercisesData = [];
-
-			if (category === "all") {
-				exercisesData = await fetchData(
-					"https://exercisedb.p.rapidapi.com/exercises",
-					exerciseOptions
-				);
-			} else {
-				exercisesData = await fetchData(
-					`https://exercisedb.p.rapidapi.com/exercises/bodyPart/${category}`,
-					exerciseOptions
-				);
-			}
-
-			setExercises(exercisesData);
-		};
-
-		fetchExercisesData();
-	}, [category]);
 
 	const scrollToTop = () => {
 		scrollViewRef.current?.scrollTo({ x: 0, y: 0, animated: true });
@@ -57,17 +36,56 @@ const ExercisesScreen = ({ route, navigation }) => {
 		return exercises.slice(startIndex, endIndex);
 	};
 
+	useEffect(() => {
+    const currentUser = auth.currentUser;
+    if (!currentUser) {
+      Alert.alert(
+        "This function is only for registered users",
+        "Do you want to register now?",
+        [
+          {
+            text: "Cancel",
+            style: "cancel",
+          },
+          {
+            text: "OK",
+            onPress: () => {
+              navigation.navigate("RegistrationScreen");
+            },
+          },
+        ]
+      );
+       
+      return;
+    }
+
+		const unsubscribe = onSnapshot(
+      collection(db, "users", currentUser.uid, "favoriteExercises"),
+      (snapshot) => {
+        const exercises = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+        setExercises(exercises);
+      },
+      (error) => {
+        console.error("Error fetching favorite exercises:", error);
+      }
+    );
+  
+    return () => {
+      unsubscribe();
+    };
+    
+	}, []);
+
 	return (
 		<SafeAreaView style={styles.container}>
-			<TopNavigationComponent title={`Exercises: ${category}`} activeDot={2} navigation={navigation} />
+			<TopNavigationComponent title={`Favorite Exercises`} activeDot={2} navigation={navigation} />
 			<ScrollView style={styles.exercisesContainer} ref={scrollViewRef}>
 				{getPaginatedExercises().map((exercise) => (
-					<ExerciseComponent key={exercise.id} exercise={exercise} navigation={navigation}/>
+					<ExerciseComponent key={exercise.id} exercise={exercise} navigation={navigation} />
 				))}
 				{getPaginatedExercises().length === 0 ? (
 					<Text style={styles.headerText}>
-						This is a limited version with only a few exercises. Upgrade to premium to
-						get access to the full list of exercises.
+						You haven't added any exercises yet!
 					</Text>
 				) : (
 					<></>
@@ -93,11 +111,11 @@ const styles = StyleSheet.create({
 		flex: 1,
 		padding: 20,
 	},
-	headerText: {
+  headerText: {
 		fontSize: 14,
 		color: colors.white,
 		marginBottom: 20,
 	}
 });
 
-export default ExercisesScreen;
+export default FavoriteExercisesScreen;

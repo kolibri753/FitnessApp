@@ -80,7 +80,7 @@ const RegistrationScreen = ({ navigation }) => {
 
 	return (
 		<SafeAreaView style={styles.container}>
-			<TopNavigationComponent title="Sign Up" activeDot={1} />
+			<TopNavigationComponent title="Sign Up" activeDot={2} />
 			<View style={styles.content}>
 				<LogoComponent />
 				<Text style={styles.motivation}>

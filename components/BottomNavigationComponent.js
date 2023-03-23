@@ -56,7 +56,6 @@ const styles = StyleSheet.create({
   tabLabel: {
     fontSize: 12,
     color: colors.white,
-    marginTop: 5,
   },
   activeTab: {
     borderBottomWidth: 2,
