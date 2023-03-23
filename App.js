@@ -13,6 +13,7 @@ import WorkoutCompleteScreen from "./screens/WorkoutCompleteScreen";
 import ProfileScreen from "./screens/ProfileScreen";
 import FavoriteExercisesScreen from "./screens/FavoriteExercisesScreen";
 import MyWorkoutsScreen from "./screens/MyWorkoutsScreen";
+import CreateWorkoutScreen from "./screens/CreateWorkoutScreen";
 import BottomNavigationComponent from "./components/BottomNavigationComponent";
 import SplashScreen from "./components/SplashScreen";
 
@@ -80,6 +81,13 @@ const App = () => {
 				<Stack.Screen
 					name="MyWorkoutsScreen"
 					component={MyWorkoutsScreen}
+					options={{
+						headerShown: false,
+					}}
+				/>
+				<Stack.Screen
+					name="CreateWorkoutScreen"
+					component={CreateWorkoutScreen}
 					options={{
 						headerShown: false,
 					}}

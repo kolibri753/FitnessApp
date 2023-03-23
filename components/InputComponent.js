@@ -9,19 +9,28 @@ const InputComponent = ({
 	onChangeText,
 	secureTextEntry,
 	error,
+	multiline,
+	numberOfLines,
 }) => {
 	const [showPassword, setShowPassword] = useState(false);
 
 	return (
 		<View style={styles.inputContainer}>
 			<TextInput
-				style={[styles.input, error ? styles.error : null]}
+				style={[
+					styles.input,
+					error ? styles.error : null,
+					multiline ? styles.multilineInput : null,
+				]}
 				placeholder={placeholder}
 				placeholderTextColor={colors.white}
 				selectionColor={colors.yellow}
 				onChangeText={onChangeText}
 				value={value}
 				secureTextEntry={!showPassword && secureTextEntry}
+				multiline={multiline}
+				numberOfLines={numberOfLines}
+				textAlignVertical={multiline ? "top" : "center"}
 			/>
 			{secureTextEntry && (
 				<TouchableOpacity
@@ -55,6 +64,14 @@ const styles = StyleSheet.create({
 		backgroundColor: colors.black,
 		color: colors.white,
 		position: "relative",
+	},
+	multilineInput: {
+		height: 100,
+		borderColor: colors.yellow,
+		borderWidth: 1,
+		padding: 10,
+		marginVertical: 10,
+		textAlignVertical: "top",
 	},
 	iconContainer: {
 		position: "absolute",
