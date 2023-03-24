@@ -85,7 +85,7 @@ const FavoriteExercisesScreen = ({ navigation }) => {
 				))}
 				{getPaginatedExercises().length === 0 ? (
 					<Text style={styles.headerText}>
-						You haven't added any exercises yet!
+						You haven't added any exercises at this page yet!
 					</Text>
 				) : (
 					<></>

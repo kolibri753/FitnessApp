@@ -18,6 +18,7 @@ import {
 	doc,
 	setDoc,
 	onSnapshot,
+	deleteDoc,
 } from "firebase/firestore";
 // import data from "../assets/data/workouts.json";
 
@@ -57,8 +58,23 @@ const MyWorkoutsScreen = ({ navigation }) => {
 		return unsubscribe;
 	}, []);
 
+	const handleDeleteWorkout = async (workoutId) => {
+		try {
+			await deleteDoc(
+				doc(db, "users", auth.currentUser.uid, "userWorkouts", workoutId)
+			);
+			console.log("Workout deleted successfully!");
+		} catch (error) {
+			console.error("Error deleting workout: ", error);
+		}
+	};
+
 	const handleCreateWorkoutPress = () => {
 		navigation.navigate("CreateWorkoutScreen");
+	};
+
+	const handleUpdateWorkout = (workout) => {
+		navigation.navigate("UpdateWorkoutScreen", { workout });
 	};
 
 	const handleWorkoutPress = (workout) => {
@@ -82,6 +98,10 @@ const MyWorkoutsScreen = ({ navigation }) => {
 						key={index}
 						workout={workout}
 						handleWorkoutPress={handleWorkoutPress}
+						handleDeleteWorkout={() => handleDeleteWorkout(workout.id)}
+						handleUpdateWorkout={() => handleUpdateWorkout(workout)}
+						showDeleteButton="true"
+						showUpdateButton="true"
 					/>
 				))}
 			</ScrollView>
@@ -103,13 +123,6 @@ const styles = StyleSheet.create({
 		fontSize: 28,
 		fontWeight: "bold",
 		marginBottom: 20,
-		textAlign: "center",
-	},
-	subtitle: {
-		color: colors.white,
-		fontSize: 20,
-		fontWeight: "bold",
-		marginTop: 20,
 		textAlign: "center",
 	},
 	button: {

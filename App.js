@@ -14,6 +14,7 @@ import ProfileScreen from "./screens/ProfileScreen";
 import FavoriteExercisesScreen from "./screens/FavoriteExercisesScreen";
 import MyWorkoutsScreen from "./screens/MyWorkoutsScreen";
 import CreateWorkoutScreen from "./screens/CreateWorkoutScreen";
+import UpdateWorkoutScreen from "./screens/UpdateWorkoutScreen";
 import BottomNavigationComponent from "./components/BottomNavigationComponent";
 import SplashScreen from "./components/SplashScreen";
 
@@ -71,27 +72,6 @@ const App = () => {
 						headerShown: false,
 					}}
 				/>
-				<Stack.Screen
-					name="FavoriteExercisesScreen"
-					component={FavoriteExercisesScreen}
-					options={{
-						headerShown: false,
-					}}
-				/>
-				<Stack.Screen
-					name="MyWorkoutsScreen"
-					component={MyWorkoutsScreen}
-					options={{
-						headerShown: false,
-					}}
-				/>
-				<Stack.Screen
-					name="CreateWorkoutScreen"
-					component={CreateWorkoutScreen}
-					options={{
-						headerShown: false,
-					}}
-				/>
 			</Stack.Navigator>
 		</NavigationContainer>
 	);
@@ -133,8 +113,8 @@ const MainTabNavigator = () => {
 				}}
 			/>
 			<Tab.Screen
-				name="ProfileScreen"
-				component={ProfileScreen}
+				name="ProfileStack"
+				component={ProfileStackNavigator}
 				options={{
 					headerShown: false,
 					title: "Profile",
@@ -166,5 +146,49 @@ const WorkoutStackNavigator = () => {
 		</Stack.Navigator>
 	);
 };
+
+const ProfileStackNavigator = () => {
+	const Stack = createStackNavigator();
+	return (
+		<Stack.Navigator>
+			<Stack.Screen
+				name="ProfileScreen"
+				component={ProfileScreen}
+				options={{
+					headerShown: false,
+				}}
+			/>
+			<Stack.Screen
+					name="FavoriteExercisesScreen"
+					component={FavoriteExercisesScreen}
+					options={{
+						headerShown: false,
+					}}
+				/>
+				<Stack.Screen
+					name="MyWorkoutsScreen"
+					component={MyWorkoutsScreen}
+					options={{
+						headerShown: false,
+					}}
+				/>
+				<Stack.Screen
+					name="CreateWorkoutScreen"
+					component={CreateWorkoutScreen}
+					options={{
+						headerShown: false,
+					}}
+				/>
+				<Stack.Screen
+					name="UpdateWorkoutScreen"
+					component={UpdateWorkoutScreen}
+					options={{
+						headerShown: false,
+					}}
+				/>
+		</Stack.Navigator>
+	);
+};
+
 
 export default App;

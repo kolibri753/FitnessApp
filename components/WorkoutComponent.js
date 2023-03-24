@@ -5,11 +5,43 @@ import {
 	StyleSheet,
 	TouchableHighlight,
 	Image,
+	Alert
 } from "react-native";
 import { colors } from "../styles/colors";
+import { AntDesign } from "@expo/vector-icons";
 
-const WorkoutComponent = ({ workout, handleWorkoutPress }) => {
+const WorkoutComponent = ({
+	workout,
+	handleWorkoutPress,
+	handleDeleteWorkout,
+	showDeleteButton,
+	handleUpdateWorkout,
+	showUpdateButton,
+}) => {
 	const [isHovered, setIsHovered] = useState(false);
+
+	const handleDeletePress = () => {
+		Alert.alert(
+			"Confirm Deletion",
+			"Are you sure you want to delete this workout?",
+			[
+				{
+					text: "Cancel",
+					style: "cancel",
+				},
+				{
+					text: "Delete",
+					onPress: () => handleDeleteWorkout(workout.id),
+					style: "destructive",
+				},
+			],
+			{ cancelable: false }
+		);
+	};
+
+	const handleUpdatePress = () => {
+		handleUpdateWorkout(workout.id);
+	};
 
 	return (
 		<TouchableHighlight
@@ -27,6 +59,24 @@ const WorkoutComponent = ({ workout, handleWorkoutPress }) => {
 				<View style={styles.workoutInfo}>
 					<Text style={styles.workoutTitle}>{workout.name}</Text>
 					<Text style={styles.workoutDescription}>{workout.description}</Text>
+					{showDeleteButton && (
+						<TouchableHighlight
+							style={styles.deleteButton}
+							onPress={handleDeletePress}
+							underlayColor="transparent"
+						>
+							<AntDesign name="delete" size={28} color={colors.yellow} />
+						</TouchableHighlight>
+					)}
+					{showUpdateButton && (
+						<TouchableHighlight
+							style={styles.updateButton}
+							onPress={handleUpdatePress}
+							underlayColor="transparent"
+						>
+							<AntDesign name="edit" size={28} color={colors.yellow} />
+						</TouchableHighlight>
+					)}
 				</View>
 			</View>
 		</TouchableHighlight>
@@ -37,7 +87,7 @@ const styles = StyleSheet.create({
 	workoutItem: {
 		backgroundColor: colors.black,
 		// backgroundImage: { uri: workout.image },
-    position: "relative",
+		position: "relative",
 		borderRadius: 10,
 		marginBottom: 10,
 		alignItems: "center",
@@ -57,7 +107,7 @@ const styles = StyleSheet.create({
 		position: "absolute",
 		top: 10,
 		left: 10,
-    borderRadius: 10,
+		borderRadius: 10,
 		width: "106%",
 		height: "106%",
 		resizeMode: "cover",
@@ -76,12 +126,35 @@ const styles = StyleSheet.create({
 		fontWeight: "bold",
 		textTransform: "capitalize",
 		marginBottom: 10,
+		paddingRight: 30,
 	},
 	workoutDescription: {
 		fontSize: 16,
 		color: colors.white,
 		textTransform: "capitalize",
 	},
+	deleteButton: {
+		backgroundColor: colors.black,
+		width: 50,
+		height: 50,
+		borderRadius: 5,
+		alignItems: "center",
+		justifyContent: "center",
+		position: "absolute",
+		bottom: -20,
+		right: -20,
+	},
+	updateButton: {
+		backgroundColor: colors.black,
+		width: 50,
+		height: 50,
+		borderRadius: 5,
+		alignItems: "center",
+		justifyContent: "center",
+		position: "absolute",
+		top: -20,
+		right: -20,
+	},	
 });
 
 export default WorkoutComponent;
