@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState, useEffect} from "react";
 import {
 	View,
 	Text,
@@ -11,23 +11,38 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { colors } from "../styles/colors";
 import { AntDesign } from "@expo/vector-icons";
 import TopNavigationComponent from "../components/TopNavigationComponent";
+import { auth, db } from "../firebaseConfig";
+import { collection, query, where, getDocs } from "firebase/firestore";
 
-const WorkoutExercisesScreen = ({ route, navigation }) => {
+const MyWorkoutExercisesScreen = ({ route, navigation }) => {
 	const { workout } = route.params;
-	
-	console.log(workout);
+  const [exercises, setExercises] = useState([]);
+
+	useEffect(() => {
+		const loadExercises = async () => {
+      const userId = auth.currentUser.uid;
+      const workoutId = workout.id;
+      const userWorkoutsRef = collection(db, "users", userId, "userWorkouts", workoutId, "exercises");
+    
+      const querySnapshot = await getDocs(userWorkoutsRef);
+      const data = querySnapshot.docs.map((doc) => doc.data());
+    
+      setExercises(data);
+    };
+
+		loadExercises();
+	}, []);
 
 	const handlePlayButtonPress = () => {
-		console.log("WorkoutExercisesScreen", JSON.stringify(workout.exercises));
 		navigation.navigate("WorkoutExerciseScreen", {
-			exercises: workout.exercises,
+			exercises: exercises,
 		});
 	};
 
 	return (
 		<SafeAreaView style={styles.container}>
 			<TopNavigationComponent
-				title={`Workout: #${workout.id}`}
+				title="My Workout"
 				activeDot={2}
 				navigation={navigation}
 			/>
@@ -37,15 +52,28 @@ const WorkoutExercisesScreen = ({ route, navigation }) => {
 				<Text style={styles.description}>{workout.description}</Text>
 				<TouchableOpacity
 					onPress={handlePlayButtonPress}
-					style={styles.playButton}
+					style={styles.button}
 					activeOpacity={0.5}
 				>
-					<Text style={styles.playButtonText}>Play Workout</Text>
+					<Text style={styles.buttonText}>Play Workout</Text>
 					<AntDesign name="play" size={24} color="black" />
+				</TouchableOpacity>
+				<TouchableOpacity
+					onPress={() =>
+						navigation.navigate("ExercisesScreen", {
+							showSelectButton: "true",
+							category: "all",
+              workoutId: workout.id,
+						})
+					}
+					style={styles.button}
+				>
+					<Text style={styles.buttonText}>Add Exercise</Text>
+					<AntDesign name="pluscircle" size={24} color="black" />
 				</TouchableOpacity>
 			</View>
 			<FlatList
-				data={workout.exercises}
+				data={exercises}
 				keyExtractor={(item, index) => index.toString()}
 				renderItem={({ item, index }) => (
 					<View style={styles.exerciseContainer}>
@@ -71,13 +99,13 @@ const styles = StyleSheet.create({
 		borderBottomColor: colors.lightGrey,
 	},
 	workoutImage: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    width: "100%",
-    height: "100%",
+		position: "absolute",
+		top: 0,
+		left: 0,
+		width: "100%",
+		height: "100%",
 		resizeMode: "cover",
-  },
+	},
 	title: {
 		color: colors.white,
 		fontSize: 24,
@@ -104,7 +132,7 @@ const styles = StyleSheet.create({
 		textAlign: "left",
 		textTransform: "capitalize",
 	},
-	playButton: {
+	button: {
 		display: "flex",
 		flexDirection: "row",
 		gap: 14,
@@ -114,7 +142,7 @@ const styles = StyleSheet.create({
 		padding: 10,
 		marginBottom: 20,
 	},
-	playButtonText: {
+	buttonText: {
 		color: colors.black,
 		fontSize: 20,
 		fontWeight: "bold",
@@ -122,4 +150,4 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default WorkoutExercisesScreen;
+export default MyWorkoutExercisesScreen;

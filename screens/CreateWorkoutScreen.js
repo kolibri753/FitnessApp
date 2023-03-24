@@ -81,7 +81,7 @@ const CreateWorkoutScreen = ({ navigation }) => {
 
 	return (
 		<SafeAreaView style={styles.container}>
-			<TopNavigationComponent title="Create Workout" activeDot={2} />
+			<TopNavigationComponent title="Create Workout" activeDot={2} navigation={navigation}/>
 			<View style={styles.content}>
 				<KeyboardAvoidingView
 					style={styles.form}

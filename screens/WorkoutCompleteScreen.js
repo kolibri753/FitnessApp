@@ -7,7 +7,7 @@ import LottieView from "lottie-react-native";
 const WorkoutCompleteScreen = ({ navigation }) => {
 	
 	const handleReturnPress = () => {
-		navigation.navigate("WorkoutsScreen");
+		navigation.navigate("ProfileScreen");
 	};
 
 	const { width, height } = useWindowDimensions();
@@ -32,7 +32,7 @@ const WorkoutCompleteScreen = ({ navigation }) => {
 					style={styles.returnButton}
 					activeOpacity={0.5}
 				>
-					<Text style={styles.returnButtonText}>Return to Home</Text>
+					<Text style={styles.returnButtonText}>Return!</Text>
 				</TouchableOpacity>
 			</View>
 		</SafeAreaView>

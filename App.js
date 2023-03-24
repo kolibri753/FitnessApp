@@ -15,6 +15,7 @@ import FavoriteExercisesScreen from "./screens/FavoriteExercisesScreen";
 import MyWorkoutsScreen from "./screens/MyWorkoutsScreen";
 import CreateWorkoutScreen from "./screens/CreateWorkoutScreen";
 import UpdateWorkoutScreen from "./screens/UpdateWorkoutScreen";
+import MyWorkoutExercisesScreen from "./screens/MyWorkoutExercisesScreen";
 import BottomNavigationComponent from "./components/BottomNavigationComponent";
 import SplashScreen from "./components/SplashScreen";
 
@@ -182,6 +183,13 @@ const ProfileStackNavigator = () => {
 				<Stack.Screen
 					name="UpdateWorkoutScreen"
 					component={UpdateWorkoutScreen}
+					options={{
+						headerShown: false,
+					}}
+				/>
+				<Stack.Screen
+					name="MyWorkoutExercisesScreen"
+					component={MyWorkoutExercisesScreen}
 					options={{
 						headerShown: false,
 					}}

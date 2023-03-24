@@ -78,12 +78,12 @@ const MyWorkoutsScreen = ({ navigation }) => {
 	};
 
 	const handleWorkoutPress = (workout) => {
-		navigation.navigate("WorkoutExercisesScreen", { workout });
+		navigation.navigate("MyWorkoutExercisesScreen", { workout });
 	};
 
 	return (
 		<SafeAreaView style={styles.container}>
-			<TopNavigationComponent title="Choose Workout" activeDot={1} />
+			<TopNavigationComponent title="Choose Workout" activeDot={2} navigation={navigation}/>
 			<ScrollView style={styles.scrollContainer}>
 				<TouchableOpacity
 					onPress={handleCreateWorkoutPress}
