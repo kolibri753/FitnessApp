@@ -14,8 +14,6 @@ import TopNavigationComponent from "../components/TopNavigationComponent";
 
 const WorkoutExercisesScreen = ({ route, navigation }) => {
 	const { workout } = route.params;
-	
-	console.log(workout);
 
 	const handlePlayButtonPress = () => {
 		console.log("WorkoutExercisesScreen", JSON.stringify(workout.exercises));

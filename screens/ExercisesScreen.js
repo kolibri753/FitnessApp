@@ -1,9 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
-import {
-	Text,
-	StyleSheet,
-	ScrollView,
-} from "react-native";
+import { Text, StyleSheet, ScrollView } from "react-native";
 import { colors } from "../styles/colors";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { exerciseOptions, fetchData } from "../utils/fetchData";
@@ -11,10 +7,7 @@ import ExerciseComponent from "../components/ExerciseComponent";
 import PaginationComponent from "../components/PaginationComponent";
 import TopNavigationComponent from "../components/TopNavigationComponent";
 import { auth, db } from "../firebaseConfig";
-import {
-	collection,
-	addDoc,
-} from "firebase/firestore";
+import { collection, addDoc, query, getDocs } from "firebase/firestore";
 
 const ExercisesScreen = ({ route, navigation }) => {
 	const { showSelectButton } = route.params || "false";
@@ -75,24 +68,37 @@ const ExercisesScreen = ({ route, navigation }) => {
 	};
 
 	const handleSelectExercise = (exerciseData) => {
-		console.log(exerciseData); // do something with the new exercise
-		
 		// Save exerciseData to Firestore
 		const userId = auth.currentUser.uid;
 		const workoutId = route.params.workoutId;
-		const userWorkoutsRef = collection(db, "users", userId, "userWorkouts", workoutId, "exercises");
-	
-		console.log(userWorkoutsRef)
+		const userWorkoutsRef = collection(
+			db,
+			"users",
+			userId,
+			"userWorkouts",
+			workoutId,
+			"exercises"
+		);
 
-		addDoc(userWorkoutsRef, exerciseData)
-			.then((docRef) => {
-				console.log("Exercise added with ID: ", docRef.id);
+		// Get the number of exercises already in the collection
+		const q = query(userWorkoutsRef);
+		getDocs(q)
+			.then((querySnapshot) => {
+				const numExercises = querySnapshot.size;
+				// Add the new exercise with an order value of the next number
+				addDoc(userWorkoutsRef, { ...exerciseData, order: numExercises + 1 })
+					.then((docRef) => {
+						console.log("Exercise added with ID: ", docRef.id);
+					})
+					.catch((error) => {
+						console.error("Error adding exercise: ", error);
+					});
 			})
 			.catch((error) => {
-				console.error("Error adding exercise: ", error);
+				console.error("Error getting exercises: ", error);
 			});
 	};
-
+	
 	return (
 		<SafeAreaView style={styles.container}>
 			<TopNavigationComponent

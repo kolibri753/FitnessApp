@@ -22,7 +22,7 @@ const WorkoutExerciseScreen = ({ route, navigation }) => {
 	const exercise = exercises[currentIndex];
 	const [timeLeft, setTimeLeft] = useState(exercise.time);
 	const [isResting, setIsResting] = useState(false);
-
+	
 	const handleNextPress = () => {
 		if (isResting) {
 			setIsResting(false);
@@ -48,7 +48,10 @@ const WorkoutExerciseScreen = ({ route, navigation }) => {
 	};
 
 	useEffect(() => {
-		if (currentIndex === exercises.length - 1 && !isResting) {
+		console.log(currentIndex)
+		console.log(isResting)
+	
+		if (currentIndex === exercises.length - 1 && isResting) {
 			navigation.navigate("WorkoutCompleteScreen");
 		}
 	}, [currentIndex, isResting]);

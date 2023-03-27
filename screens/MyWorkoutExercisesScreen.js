@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from "react";
+import React, { useState, useEffect } from "react";
 import {
 	View,
 	Text,
@@ -6,37 +6,86 @@ import {
 	FlatList,
 	TouchableOpacity,
 	Image,
+	Alert,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { colors } from "../styles/colors";
 import { AntDesign } from "@expo/vector-icons";
 import TopNavigationComponent from "../components/TopNavigationComponent";
 import { auth, db } from "../firebaseConfig";
-import { collection, query, where, getDocs } from "firebase/firestore";
+import { collection, onSnapshot, deleteDoc, doc } from "firebase/firestore";
 
 const MyWorkoutExercisesScreen = ({ route, navigation }) => {
 	const { workout } = route.params;
-  const [exercises, setExercises] = useState([]);
+	const [exercises, setExercises] = useState([]);
 
 	useEffect(() => {
-		const loadExercises = async () => {
-      const userId = auth.currentUser.uid;
-      const workoutId = workout.id;
-      const userWorkoutsRef = collection(db, "users", userId, "userWorkouts", workoutId, "exercises");
-    
-      const querySnapshot = await getDocs(userWorkoutsRef);
-      const data = querySnapshot.docs.map((doc) => doc.data());
-    
-      setExercises(data);
-    };
+		const userId = auth.currentUser.uid;
+		const workoutId = workout.id;
+		const userWorkoutsRef = collection(
+			db,
+			"users",
+			userId,
+			"userWorkouts",
+			workoutId,
+			"exercises"
+		);
 
-		loadExercises();
+		const unsubscribe = onSnapshot(userWorkoutsRef, (snapshot) => {
+			const data = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+			const sortedData = data.sort((a, b) => a.order - b.order);
+			console.log(sortedData);
+			setExercises(sortedData);
+		});
+
+		return unsubscribe;
 	}, []);
 
 	const handlePlayButtonPress = () => {
 		navigation.navigate("WorkoutExerciseScreen", {
 			exercises: exercises,
 		});
+	};
+
+	const handleDeleteExercise = async (item) => {
+		const userId = auth.currentUser.uid;
+		const workoutId = workout.id;
+		const exerciseId = item.id;
+
+		Alert.alert(
+			"Delete Exercise",
+			"Are you sure you want to delete this exercise?",
+			[
+				{
+					text: "Cancel",
+					onPress: () => console.log("Cancel Pressed"),
+					style: "cancel",
+				},
+				{
+					text: "Delete",
+					onPress: async () => {
+						try {
+							const exerciseRef = doc(
+								db,
+								"users",
+								userId,
+								"userWorkouts",
+								workoutId,
+								"exercises",
+								exerciseId
+							);
+
+							await deleteDoc(exerciseRef);
+
+							console.log("Exercise deleted successfully!");
+						} catch (error) {
+							console.error("Error deleting exercise: ", error);
+						}
+					},
+				},
+			],
+			{ cancelable: false }
+		);
 	};
 
 	return (
@@ -56,20 +105,20 @@ const MyWorkoutExercisesScreen = ({ route, navigation }) => {
 					activeOpacity={0.5}
 				>
 					<Text style={styles.buttonText}>Play Workout</Text>
-					<AntDesign name="play" size={24} color="black" />
+					<AntDesign name="play" size={24} color={colors.black} />
 				</TouchableOpacity>
 				<TouchableOpacity
 					onPress={() =>
 						navigation.navigate("ExercisesScreen", {
 							showSelectButton: "true",
 							category: "all",
-              workoutId: workout.id,
+							workoutId: workout.id,
 						})
 					}
 					style={styles.button}
 				>
 					<Text style={styles.buttonText}>Add Exercise</Text>
-					<AntDesign name="pluscircle" size={24} color="black" />
+					<AntDesign name="pluscircle" size={24} color={colors.black} />
 				</TouchableOpacity>
 			</View>
 			<FlatList
@@ -77,9 +126,17 @@ const MyWorkoutExercisesScreen = ({ route, navigation }) => {
 				keyExtractor={(item, index) => index.toString()}
 				renderItem={({ item, index }) => (
 					<View style={styles.exerciseContainer}>
-						<Text style={styles.exerciseTitle}>
-							{index + 1}. {item.name}
-						</Text>
+						<View style={styles.exerciseDetails}>
+							<Text style={styles.exerciseTitle}>
+								{index + 1}. {item.name}
+							</Text>
+							<TouchableOpacity
+								style={styles.deleteButton}
+								onPress={() => handleDeleteExercise(item)}
+							>
+								<AntDesign name="delete" size={24} color={colors.yellow} />
+							</TouchableOpacity>
+						</View>
 					</View>
 				)}
 			/>
@@ -124,6 +181,10 @@ const styles = StyleSheet.create({
 		borderRadius: 10,
 		padding: 10,
 		marginBottom: 10,
+	},
+	exerciseDetails: {
+		flexDirection: "row",
+		justifyContent: "space-between",
 	},
 	exerciseTitle: {
 		color: colors.white,

@@ -99,15 +99,15 @@ const ExerciseComponent = ({
 	};
 
 	const handleSaveExercise = async () => {
-		const exerciseData = {
-			...exercise,
+		const { id, ...exerciseDataWithoutId } = exercise;
+		const updatedExerciseData = {
+			...exerciseDataWithoutId,
 			description: description,
 			time: time,
 			rest: rest,
 		};
-
-		handleSelectExercise(exerciseData);
-
+	
+		handleSelectExercise(updatedExerciseData);
 		closeModal();
 	};
 
