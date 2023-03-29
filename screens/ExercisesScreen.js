@@ -12,19 +12,9 @@ import { collection, addDoc, query, getDocs } from "firebase/firestore";
 const ExercisesScreen = ({ route, navigation }) => {
 	const { showSelectButton } = route.params || "false";
 	const { category } = route.params || { category: "hello" };
-	const { workoutId } = route.params;
 	const [exercises, setExercises] = useState([]);
 	const [page, setPage] = useState(1);
 	const scrollViewRef = useRef(null);
-	const [isModalVisible, setIsModalVisible] = useState(false);
-
-	const [description, setDescription] = useState("");
-	const [time, setTime] = useState("");
-	const [rest, setRest] = useState("");
-
-	console.log("workoutId " + workoutId);
-
-	console.log("category " + category);
 
 	useEffect(() => {
 		const fetchExercisesData = async () => {

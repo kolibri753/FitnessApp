@@ -85,7 +85,7 @@ const AuthorizationScreen = ({ navigation }) => {
 				<KeyboardAvoidingView
 					style={styles.form}
 					behavior={Platform.OS === "ios" ? "padding" : "height"}
-					keyboardVerticalOffset={80}
+					keyboardVerticalOffset={50}
 				>
 					<InputComponent
 						placeholder="Email"
@@ -136,10 +136,11 @@ const AuthorizationScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
+		justifyContent: "space-between",
 		backgroundColor: colors.grey,
 	},
 	content: {
-		flex: 1,
+		flex: 0,
 		alignItems: "center",
 		justifyContent: "center",
 		paddingHorizontal: 20,

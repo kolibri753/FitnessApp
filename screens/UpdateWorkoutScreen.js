@@ -24,7 +24,6 @@ const UpdateWorkoutScreen = ({ navigation, route }) => {
   const [image, setImage] = useState("");
 
   const { workout } = route.params;
-  console.log(workout);
 
   useEffect(() => {
     async function fetchWorkout() {

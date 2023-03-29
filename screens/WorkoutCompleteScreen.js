@@ -7,7 +7,7 @@ import LottieView from "lottie-react-native";
 const WorkoutCompleteScreen = ({ navigation }) => {
 	
 	const handleReturnPress = () => {
-		navigation.navigate("ProfileScreen");
+		navigation.navigate("HomeScreen");
 	};
 
 	const { width, height } = useWindowDimensions();

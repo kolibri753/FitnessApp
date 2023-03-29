@@ -48,8 +48,6 @@ const WorkoutExerciseScreen = ({ route, navigation }) => {
 	};
 
 	useEffect(() => {
-		console.log(currentIndex)
-		console.log(isResting)
 	
 		if (currentIndex === exercises.length - 1 && isResting) {
 			navigation.navigate("WorkoutCompleteScreen");
