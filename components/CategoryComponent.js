@@ -13,30 +13,30 @@ const CategoryComponent = ({ category, handleCategoryPress, icons }) => {
 	const [isHovered, setIsHovered] = useState(false);
 
 	// Return the new view for the "all" category
-	if (!category) {
-		return (
-			<TouchableHighlight
-				onPress={() => {
-					handleCategoryPress(category);
-				}}
-				onShowUnderlay={() => setIsHovered(true)}
-				onHideUnderlay={() => setIsHovered(false)}
-				style={[styles.categoryItem, isHovered && styles.categoryItemHovered]}
-				activeOpacity={1}
-				underlayColor="transparent"
-			>
-				<View
-					style={[styles.categoryItem, isHovered && styles.categoryItemHovered]}
-				>
-					<Image
-						source={categoryIcon ? categoryIcon.src : ""}
-						style={styles.categoryImage}
-					/>
-					<Text style={styles.categoryText}>All</Text>
-				</View>
-			</TouchableHighlight>
-		);
-	}
+	// if (!category) {
+	// 	return (
+	// 		<TouchableHighlight
+	// 			onPress={() => {
+	// 				handleCategoryPress(category);
+	// 			}}
+	// 			onShowUnderlay={() => setIsHovered(true)}
+	// 			onHideUnderlay={() => setIsHovered(false)}
+	// 			style={[styles.categoryItem, isHovered && styles.categoryItemHovered]}
+	// 			activeOpacity={1}
+	// 			underlayColor="transparent"
+	// 		>
+	// 			<View
+	// 				style={[styles.categoryItem, isHovered && styles.categoryItemHovered]}
+	// 			>
+	// 				<Image
+	// 					source={categoryIcon ? categoryIcon.src : ""}
+	// 					style={styles.categoryImage}
+	// 				/>
+	// 				<Text style={styles.categoryText}>All</Text>
+	// 			</View>
+	// 		</TouchableHighlight>
+	// 	);
+	// }
 
 	return (
 		<TouchableHighlight

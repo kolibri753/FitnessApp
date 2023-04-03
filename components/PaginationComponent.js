@@ -100,6 +100,7 @@ const styles = StyleSheet.create({
 		backgroundColor: colors.black,
 		justifyContent: "center",
     marginBottom: 40,
+		borderRadius: 10,
 	},
 	paginationButtons: {
 		flexDirection: "row",

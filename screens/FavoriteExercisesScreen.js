@@ -46,6 +46,9 @@ const FavoriteExercisesScreen = ({ navigation }) => {
           {
             text: "Cancel",
             style: "cancel",
+						onPress: () => {
+              navigation.navigate("ProfileScreen");
+            },
           },
           {
             text: "OK",
