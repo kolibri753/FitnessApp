@@ -1,3 +1,5 @@
+import Constants from 'expo-constants';
+
 export const youtubeOptions = {
 	method: "GET",
 	headers: {
@@ -7,11 +9,11 @@ export const youtubeOptions = {
 };
 
 const rapidApiKeys = [
-	"77c3baa5a3mshd0799b8845cc7d4p1a1a8djsn4f2b8320c132",
-	"0be085387amsh87b872a285391a5p17e622jsnccf1f049c483",
-	"9f680cfbecmsh7658a3175193317p19059cjsncf1436544988",
-  "89309562f4mshc44b553518fddacp1f1c81jsnc3ccc5bf9cb9",
-  "7fd7cd720dmsh1dfda29abc8439bp12f076jsn8acfebb10f51",
+	Constants.expoConfig.extra.RAPID_API_EXERCISEDB_KEY_1,
+	Constants.expoConfig.extra.RAPID_API_EXERCISEDB_KEY_2,
+	Constants.expoConfig.extra.RAPID_API_EXERCISEDB_KEY_3,
+  Constants.expoConfig.extra.RAPID_API_EXERCISEDB_KEY_4,
+  Constants.expoConfig.extra.RAPID_API_EXERCISEDB_KEY_5,
 ];
 
 let currentKeyIndex = 0; // starting index

@@ -1,24 +1,20 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
-
-// Optionally import the services that you want to use
-// import {...} from "firebase/auth";
-// import {...} from "firebase/database";
-// import {...} from "firebase/firestore";
-// import {...} from "firebase/functions";
-// import {...} from "firebase/storage";
+import Constants from 'expo-constants';
 
 // Initialize Firebase
 const firebaseConfig = {
-  apiKey: "AIzaSyBM79QCxUfs3Z1FqdWRhFCZC6pEOCEf2qo",
-  authDomain: "fitness-app--react-native.firebaseapp.com",
-  projectId: "fitness-app--react-native",
-  storageBucket: "fitness-app--react-native.appspot.com",
-  messagingSenderId: "376813066895",
-  appId: "1:376813066895:web:e9092cb8d0b16b0fb26efa",
-  measurementId: "G-WJPFH0EFQ0"
+  apiKey: Constants.expoConfig.extra.FIREBASE_API_KEY,
+  authDomain: Constants.expoConfig.extra.FIREBASE_AUTH_DOMAIN,
+  projectId: Constants.expoConfig.extra.FIREBASE_PROJECT_ID,
+  storageBucket: Constants.expoConfig.extra.FIREBASE_STORAGE_BUCKET,
+  messagingSenderId: Constants.expoConfig.extra.FIREBASE_MESSAGING_SENDER_ID,
+  appId: Constants.expoConfig.extra.FIREBASE_APP_ID,
+  measurementId: Constants.expoConfig.extra.FIREBASE_MEASUREMENT_ID
 };
+
+// const firebaseConfig = Constants.manifest.extra.firebase;
 
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth();

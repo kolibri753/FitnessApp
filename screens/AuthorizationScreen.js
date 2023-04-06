@@ -193,6 +193,8 @@ const styles = StyleSheet.create({
 		fontWeight: "bold",
 	},
 	appLink: {
+		color: colors.white,
+		fontStyle: "italic",
 		textAlign: "center",
 		marginBottom: 20,
 	},
