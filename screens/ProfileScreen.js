@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
 import {
 	StyleSheet,
 	Text,
 	View,
 	TouchableOpacity,
-	TextInput,
 	Alert,
 	Image,
 	KeyboardAvoidingView,
@@ -14,6 +14,7 @@ import { colors } from "../styles/colors";
 import { Entypo } from "@expo/vector-icons";
 import TopNavigationComponent from "../components/common/TopNavigationComponent";
 import InputComponent from "../components/common/InputComponent";
+import { handleLogout } from "../redux/slices/authorizationSlice";
 
 import * as ImagePicker from "expo-image-picker";
 
@@ -26,6 +27,8 @@ const ProfileScreen = ({ navigation }) => {
 	const [newName, setNewName] = useState("");
 	const [photoURL, setPhotoURL] = useState("");
 
+	const dispatch = useDispatch();
+
 	useEffect(() => {
 		const user = auth.currentUser;
 		if (user) {
@@ -35,9 +38,8 @@ const ProfileScreen = ({ navigation }) => {
 		}
 	}, []);
 
-	const handleLogout = () => {
-		auth
-			.signOut()
+	const handleLogoutBtnPress = () => {
+		dispatch(handleLogout())
 			.then(() => {
 				navigation.reset({
 					index: 0,
@@ -132,13 +134,22 @@ const ProfileScreen = ({ navigation }) => {
 				</TouchableOpacity>
 				<Text style={styles.title}>Hello, {name ? name : "there"}!</Text>
 				<Text style={styles.email}>{email}</Text>
-				<TouchableOpacity style={styles.button} onPress={() => navigation.navigate("FavoriteExercisesScreen")}>
+				<TouchableOpacity
+					style={styles.button}
+					onPress={() => navigation.navigate("FavoriteExercisesScreen")}
+				>
 					<Text style={styles.buttonText}>Favorite Exercises</Text>
 				</TouchableOpacity>
-				<TouchableOpacity style={styles.button} onPress={() => navigation.navigate("MyWorkoutsScreen")}>
+				<TouchableOpacity
+					style={styles.button}
+					onPress={() => navigation.navigate("MyWorkoutsScreen")}
+				>
 					<Text style={styles.buttonText}>My Workouts</Text>
 				</TouchableOpacity>
-				<TouchableOpacity style={styles.logoutButton} onPress={handleLogout}>
+				<TouchableOpacity
+					style={styles.logoutButton}
+					onPress={handleLogoutBtnPress}
+				>
 					<Text style={styles.logoutText}>Logout</Text>
 				</TouchableOpacity>
 			</View>

@@ -1,77 +1,62 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import {
-	StyleSheet,
-	View,
-	Text,
-	TextInput,
-	TouchableOpacity,
-	KeyboardAvoidingView,
+  StyleSheet,
+  View,
+  Text,
+  TouchableOpacity,
+  KeyboardAvoidingView,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { useSelector, useDispatch } from "react-redux";
 import { colors } from "../styles/colors";
 import LogoComponent from "../components/common/LogoComponent";
 import TopNavigationComponent from "../components/common/TopNavigationComponent";
-
-import { auth } from "../firebaseConfig";
-import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
 import InputComponent from "../components/common/InputComponent";
 
+import {
+  setEmail,
+  setPassword,
+  setErrors,
+  setAuthenticated,
+  handleLogin,
+  checkAuthenticated,
+} from "../redux/slices/authorizationSlice";
+
 const AuthorizationScreen = ({ navigation }) => {
-	const [email, setEmail] = useState("");
-	const [password, setPassword] = useState("");
-	const [errors, setErrors] = useState([]);
+  const dispatch = useDispatch();
+  const { email, password, errors, authenticated } = useSelector(
+    (state) => state.authorization
+  );
 
-	onAuthStateChanged(auth, (user) => {
-		if (user) {
-			// User is logged in, navigate to main screen
-			console.log("User is logged in");
-			// navigation.navigate("Main");
-		} else {
-			// User is not logged in
-			console.log("User is not logged in");
+  useEffect(() => {
+    dispatch(checkAuthenticated());
+  }, [dispatch]);
+
+  useEffect(() => {
+    if (authenticated) {
+      navigation.navigate("Main");
+    }
+  }, [authenticated, navigation]);
+
+  const handleUseWithoutAuthorization = () => {
+    navigation.navigate("Main");
+  };
+
+  const handleLoginButtonPress = () => {
+    let newErrors = [];
+
+    if (!email.trim()) {
+      newErrors.push("Please enter your email address.");
 		}
-	});
-
-	const handleLogin = () => {
-		let newErrors = [];
-
-		if (!email.trim()) {
-			newErrors.push("Please enter your name");
-		}
-
 		if (!password.trim()) {
-			newErrors.push("Please enter your email");
+			newErrors.push("Please enter your password.");
 		}
-
-		setErrors(newErrors);
-
+		
+		dispatch(setErrors(newErrors));
+		
 		if (newErrors.length === 0) {
-			signInWithEmailAndPassword(auth, email, password)
-				.then((userCredential) => {
-					// The user has been authenticated successfully
-					const user = userCredential.user;
-					console.log(user);
-					navigation.navigate("Main");
-				})
-				.catch((error) => {
-					// An error occurred
-					const errorCode = error.code;
-					let errorMessage = error.message;
-					if (errorCode === "auth/email-already-exists") {
-						errorMessage = "This email is already used.";
-					} else if (errorCode === "auth/invalid-email") {
-						errorMessage = "Wrong email format.";
-					} else if (errorCode === "auth/user-not-found") {
-						errorMessage = "This email is not registred yet.";
-					}
-					setErrors([errorMessage]);
-					console.log(errorCode, errorMessage);
-				});
+			dispatch(handleLogin(email, password));
 		}
-	};
-
-	const handleUseWithoutAuthorization = () => {
-		navigation.navigate("Main");
 	};
 
 	return (
@@ -91,16 +76,16 @@ const AuthorizationScreen = ({ navigation }) => {
 						placeholder="Email"
 						value={email}
 						onChangeText={(text) => {
-							setEmail(text);
-							setErrors("");
+							dispatch(setEmail(text));
+							dispatch(setErrors(""));
 						}}
 					/>
 					<InputComponent
 						placeholder="Password"
 						value={password}
 						onChangeText={(text) => {
-							setPassword(text);
-							setErrors("");
+							dispatch(setPassword(text));
+							dispatch(setErrors(""));
 						}}
 						secureTextEntry={true}
 					/>
@@ -110,7 +95,7 @@ const AuthorizationScreen = ({ navigation }) => {
 								{error}
 							</Text>
 						))}
-					<TouchableOpacity style={styles.button} onPress={handleLogin}>
+					<TouchableOpacity style={styles.button} onPress={handleLoginButtonPress}>
 						<Text style={styles.buttonText}>Login</Text>
 					</TouchableOpacity>
 				</KeyboardAvoidingView>

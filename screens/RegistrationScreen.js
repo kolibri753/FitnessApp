@@ -1,9 +1,8 @@
-import React, { useState } from "react";
+import React from "react";
 import {
 	StyleSheet,
 	View,
 	Text,
-	TextInput,
 	TouchableOpacity,
 	KeyboardAvoidingView,
 } from "react-native";
@@ -12,68 +11,51 @@ import { colors } from "../styles/colors";
 import LogoComponent from "../components/common/LogoComponent";
 import TopNavigationComponent from "../components/common/TopNavigationComponent";
 import InputComponent from "../components/common/InputComponent";
-
-import { db, auth } from "../firebaseConfig";
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
+import { useDispatch, useSelector } from "react-redux";
+import {
+	setName,
+	setEmail,
+	setPassword,
+	setConfirmPassword,
+	handleRegister,
+	setErrors,
+} from "../redux/slices/registrationSlice";
 
 const RegistrationScreen = ({ navigation }) => {
-	const [name, setName] = useState("");
-	const [email, setEmail] = useState("");
-	const [password, setPassword] = useState("");
-	const [confirmPassword, setConfirmPassword] = useState("");
-	const [errors, setErrors] = useState([]);
+	const dispatch = useDispatch();
+	const { name, email, password, confirmPassword, errors } = useSelector(
+		(state) => state.registration
+	);
 
-	const handleRegister = () => {
+	const handleRegisterButtonPress = () => {
 		let newErrors = [];
-
 		if (!name.trim()) {
-			newErrors.push("Please enter your name");
+			newErrors.push("Please enter your name.");
 		}
-
 		if (!email.trim()) {
-			newErrors.push("Please enter your email");
+			newErrors.push("Please enter your email.");
 		}
-
 		if (!password.trim()) {
-			newErrors.push("Please enter your password");
+			newErrors.push("Please enter your password.");
 		}
-
 		if (!confirmPassword.trim()) {
-			newErrors.push("Please confirm your password");
-		} else if (password.trim() !== confirmPassword.trim()) {
-			newErrors.push("Passwords do not match");
+			newErrors.push("Please confirm your password.");
 		}
 
-		setErrors(newErrors);
+		dispatch(setErrors(newErrors));
 
 		if (newErrors.length === 0) {
-			
-			createUserWithEmailAndPassword(auth, email, password)
-			.then((userCredential) => {
-					const user = userCredential.user;
-					console.log("userCredential " + user);
-					updateProfile(userCredential.user, {
-							displayName: name,
-						})
-						.then(() => {
-							console.log("User registered successfully:", userCredential.user);
-							navigation.navigate("Main");
-						})
-						.catch((error) => {
-							setErrors([error.message]);
-						});
+			dispatch(handleRegister(name, email, password))
+				.then((response) => {
+					if (response.success) {
+						console.log("User registered successfully");
+						navigation.navigate("Main");
+					} else {
+						dispatch(setErrors([response.error]));
+					}
 				})
 				.catch((error) => {
-					// An error occurred
-					const errorCode = error.code;
-					let errorMessage = error.message;
-					if (errorCode === "auth/email-already-exists") {
-						errorMessage = "This email is already used.";
-					} else if (errorCode === "auth/invalid-email") {
-						errorMessage = "Wrong email format.";
-					}
-					setErrors([errorMessage]);
-					console.log(errorCode, errorMessage);
+					dispatch(setErrors([error.error]));
 				});
 		}
 	};
@@ -84,7 +66,8 @@ const RegistrationScreen = ({ navigation }) => {
 			<View style={styles.content}>
 				<LogoComponent />
 				<Text style={styles.motivation}>
-					"Exercise is a celebration of what your body can do. Not a punishment for what you ate."
+					"Exercise is a celebration of what your body can do. Not a punishment for
+					what you ate."
 				</Text>
 				<KeyboardAvoidingView
 					style={styles.form}
@@ -95,24 +78,24 @@ const RegistrationScreen = ({ navigation }) => {
 						placeholder="Name"
 						value={name}
 						onChangeText={(text) => {
-							setName(text);
-							setErrors("");
+							dispatch(setName(text));
+							dispatch(setErrors(""));
 						}}
 					/>
 					<InputComponent
 						placeholder="Email"
 						value={email}
 						onChangeText={(text) => {
-							setEmail(text);
-							setErrors("");
+							dispatch(setEmail(text));
+							dispatch(setErrors(""));
 						}}
 					/>
 					<InputComponent
 						placeholder="Password"
 						value={password}
 						onChangeText={(text) => {
-							setPassword(text);
-							setErrors("");
+							dispatch(setPassword(text));
+							dispatch(setErrors(""));
 						}}
 						secureTextEntry={true}
 					/>
@@ -120,8 +103,8 @@ const RegistrationScreen = ({ navigation }) => {
 						placeholder="Confirm Password"
 						value={confirmPassword}
 						onChangeText={(text) => {
-							setConfirmPassword(text);
-							setErrors("");
+							dispatch(setConfirmPassword(text));
+							dispatch(setErrors(""));
 						}}
 						secureTextEntry={true}
 					/>
@@ -131,7 +114,10 @@ const RegistrationScreen = ({ navigation }) => {
 								{error}
 							</Text>
 						))}
-					<TouchableOpacity style={styles.button} onPress={handleRegister}>
+					<TouchableOpacity
+						style={styles.button}
+						onPress={handleRegisterButtonPress}
+					>
 						<Text style={styles.buttonText}>Sign up</Text>
 					</TouchableOpacity>
 					<View style={styles.signin}>
