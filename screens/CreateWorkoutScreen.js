@@ -10,8 +10,8 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { colors } from "../styles/colors";
-import TopNavigationComponent from "../components/TopNavigationComponent";
-import InputComponent from "../components/InputComponent";
+import TopNavigationComponent from "../components/common/TopNavigationComponent";
+import InputComponent from "../components/common/InputComponent";
 import { auth, db } from "../firebaseConfig";
 import { doc, setDoc } from "firebase/firestore";
 

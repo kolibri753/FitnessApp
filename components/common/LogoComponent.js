@@ -4,8 +4,8 @@ import {
 	View,
 	Text,
 } from "react-native";
-import { colors } from "../styles/colors";
-import Logo from "../assets/logo.svg";
+import { colors } from "../../styles/colors";
+import Logo from "../../assets/logo.svg";
 
 const LogoComponent = () => {
 

@@ -10,7 +10,7 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { colors } from "../styles/colors";
 import { AntDesign } from "@expo/vector-icons";
-import TopNavigationComponent from "../components/TopNavigationComponent";
+import TopNavigationComponent from "../components/common/TopNavigationComponent";
 
 const WorkoutExercisesScreen = ({ route, navigation }) => {
 	const { workout } = route.params;

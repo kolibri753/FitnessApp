@@ -12,8 +12,8 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { colors } from "../styles/colors";
 import { Entypo } from "@expo/vector-icons";
-import TopNavigationComponent from "../components/TopNavigationComponent";
-import InputComponent from "../components/InputComponent";
+import TopNavigationComponent from "../components/common/TopNavigationComponent";
+import InputComponent from "../components/common/InputComponent";
 
 import * as ImagePicker from "expo-image-picker";
 

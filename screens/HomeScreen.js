@@ -7,7 +7,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { colors } from "../styles/colors";
 import { exerciseOptions, fetchData } from "../utils/fetchData";
 import CategoryComponent from "../components/CategoryComponent";
-import TopNavigationComponent from "../components/TopNavigationComponent";
+import TopNavigationComponent from "../components/common/TopNavigationComponent";
 
 import all from "../assets/categories/all.png";
 import back from "../assets/categories/back.png";

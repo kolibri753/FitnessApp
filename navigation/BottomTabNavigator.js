@@ -4,7 +4,7 @@ import HomeScreen from "../screens/HomeScreen";
 import ExercisesScreen from "../screens/ExercisesScreen";
 import ProfileStackNavigator from "./ProfileStackNavigator";
 import WorkoutStackNavigator from "./WorkoutStackNavigator";
-import BottomNavigationComponent from "../components/BottomNavigationComponent";
+import BottomNavigationComponent from "../components/common/BottomNavigationComponent";
 
 const Tab = createBottomTabNavigator();
 

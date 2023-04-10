@@ -12,8 +12,10 @@ import {
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { colors } from "../styles/colors";
+import showRegisterAlert from "../helpers/showRegisterAlert";
 import { db, auth } from "../firebaseConfig";
 import { doc, setDoc, getDoc, deleteDoc, onSnapshot } from "firebase/firestore";
+import useStarredExercise from "../hooks/useStarredExercise";
 
 const ExerciseComponent = ({
 	navigation,
@@ -21,32 +23,11 @@ const ExerciseComponent = ({
 	handleSelectExercise,
 	showSelectButton,
 }) => {
-	const [isStarred, setIsStarred] = useState(false);
+  const [isStarred, setIsStarred] = useStarredExercise(exercise.id);
 	const [isModalVisible, setIsModalVisible] = useState(false);
 	const [description, setDescription] = useState("");
 	const [time, setTime] = useState("");
 	const [rest, setRest] = useState("");
-
-	useEffect(() => {
-		const currentUser = auth.currentUser;
-		if (!currentUser) {
-			return;
-		}
-
-		const unsubscribe = onSnapshot(
-			doc(db, "users", currentUser.uid, "favoriteExercises", exercise.id),
-			(snapshot) => {
-				setIsStarred(snapshot.exists());
-			},
-			(error) => {
-				console.error("Error fetching starred exercise:", error);
-			}
-		);
-
-		return () => {
-			unsubscribe();
-		};
-	}, [exercise.id, auth.currentUser]);
 
 	const handleStarPress = async () => {
 		try {
@@ -68,22 +49,7 @@ const ExerciseComponent = ({
 					setIsStarred(true);
 				}
 			} else {
-				Alert.alert(
-					"This function is only for registered users",
-					"Do you want to register now?",
-					[
-						{
-							text: "Cancel",
-							style: "cancel",
-						},
-						{
-							text: "OK",
-							onPress: () => {
-								navigation.navigate("RegistrationScreen");
-							},
-						},
-					]
-				);
+				showRegisterAlert(navigation);
 			}
 		} catch (error) {
 			console.error("Error adding/deleting exercise to/from firestore:", error);

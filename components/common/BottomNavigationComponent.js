@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyleSheet, View, TouchableOpacity, Text } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { colors } from '../styles/colors';
+import { colors } from '../../styles/colors';
 
 const BottomNavigationComponent = ({ state, descriptors, navigation }) => {
   return (

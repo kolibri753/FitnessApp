@@ -9,56 +9,29 @@ import { colors } from "../styles/colors";
 import { SafeAreaView } from "react-native-safe-area-context";
 import ExerciseComponent from "../components/ExerciseComponent";
 import PaginationComponent from "../components/PaginationComponent";
-import TopNavigationComponent from "../components/TopNavigationComponent";
+import TopNavigationComponent from "../components/common/TopNavigationComponent";
+import showRegisterAlert from "../helpers/showRegisterAlert";
 import { auth, db } from "../firebaseConfig";
 import { collection, doc, onSnapshot } from "firebase/firestore";
+import useExercisesPagination from "../hooks/useExercisesPagination";
 
 const FavoriteExercisesScreen = ({ navigation }) => {
-	const [exercises, setExercises] = useState([]);
-	const [page, setPage] = useState(1);
-	const scrollViewRef = useRef(null);
-
-	const scrollToTop = () => {
-		scrollViewRef.current?.scrollTo({ x: 0, y: 0, animated: true });
-	};
-
-	const handleNextPage = () => {
-		setPage((prevPage) => prevPage + 1);
-	};
-
-	const handlePrevPage = () => {
-		setPage((prevPage) => prevPage - 1);
-	};
-
-	const getPaginatedExercises = () => {
-		const startIndex = (page - 1) * 5;
-		const endIndex = startIndex + 5;
-		return exercises.slice(startIndex, endIndex);
-	};
+	const {
+    exercises,
+    setExercises,
+    page,
+    setPage,
+    scrollViewRef,
+    scrollToTop,
+    handleNextPage,
+    handlePrevPage,
+    getPaginatedExercises,
+  } = useExercisesPagination([]);
 
 	useEffect(() => {
     const currentUser = auth.currentUser;
     if (!currentUser) {
-      Alert.alert(
-        "This function is only for registered users",
-        "Do you want to register now?",
-        [
-          {
-            text: "Cancel",
-            style: "cancel",
-						onPress: () => {
-              navigation.navigate("ProfileScreen");
-            },
-          },
-          {
-            text: "OK",
-            onPress: () => {
-              navigation.navigate("RegistrationScreen");
-            },
-          },
-        ]
-      );
-       
+      showRegisterAlert(navigation);
       return;
     }
 

@@ -11,7 +11,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { colors } from "../styles/colors";
 import { AntDesign } from "@expo/vector-icons";
 import ExerciseTimerComponent from "../components/ExerciseTimerComponent";
-import ScreenUnlock from "../utils/ScreenUnlock";
+import ScreenUnlock from "../helpers/ScreenUnlock";
 import WorkoutRestComponent from "../components/WorkoutRestComponent";
 
 const WorkoutExerciseScreen = ({ route, navigation }) => {

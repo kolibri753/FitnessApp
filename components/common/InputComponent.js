@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { TextInput, StyleSheet, View, TouchableOpacity } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
-import { colors } from "../styles/colors";
+import { colors } from "../../styles/colors";
 
 const InputComponent = ({
 	placeholder,

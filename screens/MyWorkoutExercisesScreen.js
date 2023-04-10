@@ -11,7 +11,7 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { colors } from "../styles/colors";
 import { AntDesign } from "@expo/vector-icons";
-import TopNavigationComponent from "../components/TopNavigationComponent";
+import TopNavigationComponent from "../components/common/TopNavigationComponent";
 import { auth, db } from "../firebaseConfig";
 import { collection, onSnapshot, deleteDoc, doc } from "firebase/firestore";
 

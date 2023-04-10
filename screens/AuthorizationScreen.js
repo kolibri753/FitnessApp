@@ -9,12 +9,12 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { colors } from "../styles/colors";
-import LogoComponent from "../components/LogoComponent";
-import TopNavigationComponent from "../components/TopNavigationComponent";
+import LogoComponent from "../components/common/LogoComponent";
+import TopNavigationComponent from "../components/common/TopNavigationComponent";
 
 import { auth } from "../firebaseConfig";
 import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
-import InputComponent from "../components/InputComponent";
+import InputComponent from "../components/common/InputComponent";
 
 const AuthorizationScreen = ({ navigation }) => {
 	const [email, setEmail] = useState("");

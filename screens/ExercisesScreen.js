@@ -5,16 +5,26 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { exerciseOptions, fetchData } from "../utils/fetchData";
 import ExerciseComponent from "../components/ExerciseComponent";
 import PaginationComponent from "../components/PaginationComponent";
-import TopNavigationComponent from "../components/TopNavigationComponent";
+import TopNavigationComponent from "../components/common/TopNavigationComponent";
 import { auth, db } from "../firebaseConfig";
 import { collection, addDoc, query, getDocs } from "firebase/firestore";
+import useExercisesPagination from "../hooks/useExercisesPagination";
 
 const ExercisesScreen = ({ route, navigation }) => {
 	const { showSelectButton } = route.params || "false";
-	const { category } = route.params || { category: "hello" };
-	const [exercises, setExercises] = useState([]);
-	const [page, setPage] = useState(1);
-	const scrollViewRef = useRef(null);
+	const { category } = route.params || { category: "biceps" };
+
+	const {
+    exercises,
+    setExercises,
+    page,
+    setPage,
+    scrollViewRef,
+    scrollToTop,
+    handleNextPage,
+    handlePrevPage,
+    getPaginatedExercises,
+  } = useExercisesPagination([]);
 
 	useEffect(() => {
 		const fetchExercisesData = async () => {
@@ -38,24 +48,6 @@ const ExercisesScreen = ({ route, navigation }) => {
 
 		fetchExercisesData();
 	}, [category]);
-
-	const scrollToTop = () => {
-		scrollViewRef.current?.scrollTo({ x: 0, y: 0, animated: true });
-	};
-
-	const handleNextPage = () => {
-		setPage((prevPage) => prevPage + 1);
-	};
-
-	const handlePrevPage = () => {
-		setPage((prevPage) => prevPage - 1);
-	};
-
-	const getPaginatedExercises = () => {
-		const startIndex = (page - 1) * 5;
-		const endIndex = startIndex + 5;
-		return exercises ? exercises.slice(startIndex, endIndex) : [];
-	};
 
 	const handleSelectExercise = (exerciseData) => {
 		// Save exerciseData to Firestore

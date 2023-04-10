@@ -8,9 +8,10 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import WorkoutComponent from "../components/WorkoutComponent";
-import TopNavigationComponent from "../components/TopNavigationComponent";
+import TopNavigationComponent from "../components/common/TopNavigationComponent";
 import { AntDesign } from "@expo/vector-icons";
 import { colors } from "../styles/colors";
+import showRegisterAlert from "../helpers/showRegisterAlert";
 import { auth, db } from "../firebaseConfig";
 import {
 	collection,
@@ -28,26 +29,7 @@ const MyWorkoutsScreen = ({ navigation }) => {
 	useEffect(() => {
 		const currentUser = auth.currentUser;
 		if (!currentUser) {
-			Alert.alert(
-				"This function is only for registered users",
-				"Do you want to register now?",
-				[
-					{
-						text: "Cancel",
-						style: "cancel",
-						onPress: () => {
-              navigation.navigate("ProfileScreen");
-            },
-					},
-					{
-						text: "OK",
-						onPress: () => {
-							navigation.navigate("RegistrationScreen");
-						},
-					},
-				]
-			);
-
+			showRegisterAlert(navigation);
 			return;
 		}
 
@@ -86,7 +68,11 @@ const MyWorkoutsScreen = ({ navigation }) => {
 
 	return (
 		<SafeAreaView style={styles.container}>
-			<TopNavigationComponent title="Choose Workout" activeDot={2} navigation={navigation}/>
+			<TopNavigationComponent
+				title="Choose Workout"
+				activeDot={2}
+				navigation={navigation}
+			/>
 			<ScrollView style={styles.scrollContainer}>
 				<TouchableOpacity
 					onPress={handleCreateWorkoutPress}

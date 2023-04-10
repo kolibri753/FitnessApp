@@ -9,9 +9,9 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { colors } from "../styles/colors";
-import LogoComponent from "../components/LogoComponent";
-import TopNavigationComponent from "../components/TopNavigationComponent";
-import InputComponent from "../components/InputComponent";
+import LogoComponent from "../components/common/LogoComponent";
+import TopNavigationComponent from "../components/common/TopNavigationComponent";
+import InputComponent from "../components/common/InputComponent";
 
 import { db, auth } from "../firebaseConfig";
 import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth";
