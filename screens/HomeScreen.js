@@ -6,7 +6,7 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { colors } from "../styles/colors";
 import { exerciseOptions, fetchData } from "../utils/fetchData";
-import CategoryComponent from "../components/CategoryComponent";
+import Category from "../components/Category";
 import TopNavigationComponent from "../components/TopNavigationComponent";
 
 import all from "../assets/categories/all.png";
@@ -47,7 +47,7 @@ const HomeScreen = ({ navigation }) => {
 			<TopNavigationComponent title="Choose Category" activeDot={1} />
 			<ScrollView style={styles.categoriesContainer}>
 				{categories.map((category) => (
-					<CategoryComponent
+					<Category
 						key={category}
 						category={category}
 						handleCategoryPress={handleCategoryPress}

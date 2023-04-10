@@ -1,102 +1,34 @@
-import React, { useState } from "react";
+import React from "react";
 import {
 	View,
 	Text,
 	StyleSheet,
 	Image,
 	TouchableOpacity,
-	Alert,
 	Modal,
 	TextInput,
+	Button,
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
-import { colors } from "../styles/colors";
-import { db, auth } from "../firebaseConfig";
-import { doc, setDoc, getDoc, deleteDoc } from "firebase/firestore";
-import useStarredExercise from "../hooks/useStarredExercise";
+import { colors } from "../../styles/colors";
 
-const ExerciseComponent = ({
-	navigation,
-	exercise,
+const ExerciseView = ({
+	model,
 	handleSelectExercise,
-	showSelectButton,
+	isStarred,
+	handleStarPress,
+	isModalVisible,
+	openModal,
+	closeModal,
+	description,
+	setDescription,
+	time,
+	setTime,
+	rest,
+	setRest,
 }) => {
-  const [isStarred, setIsStarred] = useStarredExercise(exercise.id);
-	const [isModalVisible, setIsModalVisible] = useState(false);
-	const [description, setDescription] = useState("");
-	const [time, setTime] = useState("");
-	const [rest, setRest] = useState("");
-
-	const handleStarPress = async () => {
-		try {
-			if (auth.currentUser) {
-				const userRef = doc(db, "users", auth.currentUser.uid);
-				const exerciseRef = doc(userRef, "favoriteExercises", exercise.id);
-				const exerciseDoc = await getDoc(exerciseRef);
-
-				if (exerciseDoc.exists()) {
-					// Exercise is already starred, so delete it from favoriteExercises
-					await deleteDoc(exerciseRef);
-					setIsStarred(false);
-				} else {
-					// Exercise is not starred, so add it to favoriteExercises
-					await setDoc(exerciseRef, {
-						...exercise,
-						starredAt: new Date(),
-					});
-					setIsStarred(true);
-				}
-			} else {
-				Alert.alert(
-					"This function is only for registered users",
-					"Do you want to register now?",
-					[
-						{
-							text: "Cancel",
-							style: "cancel",
-						},
-						{
-							text: "OK",
-							onPress: () => {
-								navigation.navigate("RegistrationScreen");
-							},
-						},
-					]
-				);
-			}
-		} catch (error) {
-			console.error("Error adding/deleting exercise to/from firestore:", error);
-		}
-	};
-
-	const openModal = () => {
-		setIsModalVisible(true);
-	};
-
-	const closeModal = () => {
-		setIsModalVisible(false);
-	};
-
-	const handleSaveExercise = async () => {
-		const { id, ...exerciseDataWithoutId } = exercise;
-		const updatedExerciseData = {
-			...exerciseDataWithoutId,
-			description: description,
-			time: time,
-			rest: rest,
-		};
-	
-		handleSelectExercise(updatedExerciseData);
-		closeModal();
-	};
-
 	return (
 		<View style={styles.container}>
-			{showSelectButton && (
-				<TouchableOpacity style={styles.selectButton} onPress={openModal}>
-					<MaterialIcons name="check" size={28} color={colors.black} />
-				</TouchableOpacity>
-			)}
 			<TouchableOpacity style={styles.button} onPress={handleStarPress}>
 				<MaterialIcons
 					name={isStarred ? "star" : "star-border"}
@@ -105,10 +37,10 @@ const ExerciseComponent = ({
 				/>
 			</TouchableOpacity>
 			<View style={styles.imageContainer}>
-				<Image style={styles.image} source={{ uri: exercise.gifUrl }} />
+				<Image style={styles.image} source={{ uri: model.gifUrl }} />
 			</View>
 			<View style={styles.details}>
-				<Text style={styles.title}>{exercise.name}</Text>
+				<Text style={styles.title}>{model.name}</Text>
 			</View>
 			<Modal animationType="slide" transparent={true} visible={isModalVisible}>
 				<View style={styles.modalContainer}>
@@ -117,7 +49,7 @@ const ExerciseComponent = ({
 							<MaterialIcons name="close" size={24} color="black" />
 						</TouchableOpacity>
 						<Text style={styles.modalTitle}>
-							Add |{exercise.name}| to your workout
+							Add |{model.name}| to your workout
 						</Text>
 						<View style={styles.inputContainer}>
 							<Text style={styles.inputLabel}>Description</Text>
@@ -133,23 +65,28 @@ const ExerciseComponent = ({
 							<Text style={styles.inputLabel}>Time for exercise</Text>
 							<TextInput
 								style={styles.input}
-								keyboardType="numeric"
 								value={time}
 								onChangeText={(text) => setTime(text)}
+								keyboardType="numeric"
 							/>
 						</View>
 						<View style={styles.inputContainer}>
 							<Text style={styles.inputLabel}>Rest time</Text>
 							<TextInput
 								style={styles.input}
-								keyboardType="numeric"
 								value={rest}
 								onChangeText={(text) => setRest(text)}
+								keyboardType="numeric"
 							/>
 						</View>
-						<TouchableOpacity style={styles.saveButton} onPress={handleSaveExercise}>
-							<Text style={styles.saveButtonText}>SAVE</Text>
-						</TouchableOpacity>
+						<Button
+							title="Add to workout"
+							onPress={() => {
+								model.updateDetails(description, time, rest);
+								handleSelectExercise(model);
+								closeModal();
+							}}
+						/>
 					</View>
 				</View>
 			</Modal>
@@ -263,4 +200,4 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default ExerciseComponent;
+export default ExerciseView;

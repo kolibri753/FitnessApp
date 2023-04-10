@@ -3,11 +3,12 @@ import { Text, StyleSheet, ScrollView } from "react-native";
 import { colors } from "../styles/colors";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { exerciseOptions, fetchData } from "../utils/fetchData";
-import ExerciseComponent from "../components/ExerciseComponent";
+import Exercise from "../components/Exercise";
 import PaginationComponent from "../components/PaginationComponent";
 import TopNavigationComponent from "../components/TopNavigationComponent";
 import { auth, db } from "../firebaseConfig";
 import { collection, addDoc, query, getDocs } from "firebase/firestore";
+import ExerciseComponent from "../components/ExerciseComponent";
 
 const ExercisesScreen = ({ route, navigation }) => {
 	const { showSelectButton } = route.params || "false";

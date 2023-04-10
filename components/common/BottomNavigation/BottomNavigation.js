@@ -1,9 +1,10 @@
 import React from 'react';
-import { StyleSheet, View, TouchableOpacity, Text } from 'react-native';
+import { View, TouchableOpacity, Text } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
-import { colors } from '../styles/colors';
+import { colors } from '../../../styles/colors';
+import styles from './BottomNavigation.styles';
 
-const BottomNavigationComponent = ({ state, descriptors, navigation }) => {
+const BottomNavigation = ({ state, descriptors, navigation }) => {
   return (
     <View style={styles.container}>
       {state.routes.map((route, index) => {
@@ -39,31 +40,4 @@ const BottomNavigationComponent = ({ state, descriptors, navigation }) => {
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    alignItems: 'center',
-    backgroundColor: colors.black,
-    height: 60,
-    borderTopWidth: 1,
-    borderTopColor: colors.lightGrey,
-    paddingHorizontal: 20,
-  },
-  tab: {
-    alignItems: 'center',
-  },
-  tabLabel: {
-    fontSize: 12,
-    color: colors.white,
-  },
-  activeTab: {
-    borderBottomWidth: 2,
-    borderBottomColor: colors.yellow,
-  },
-  activeTabLabel: {
-    color: colors.yellow,
-  },
-});
-
-export default BottomNavigationComponent;
+export default BottomNavigation;
