@@ -11,7 +11,7 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { colors } from "../styles/colors";
-import { Entypo } from "@expo/vector-icons";
+import { Entypo, Ionicons } from "@expo/vector-icons";
 import TopNavigationComponent from "../components/common/TopNavigationComponent";
 import InputComponent from "../components/common/InputComponent";
 import { handleLogout } from "../redux/slices/authorizationSlice";
@@ -134,18 +134,29 @@ const ProfileScreen = ({ navigation }) => {
 				</TouchableOpacity>
 				<Text style={styles.title}>Hello, {name ? name : "there"}!</Text>
 				<Text style={styles.email}>{email}</Text>
+
 				<TouchableOpacity
-					style={styles.button}
+					style={styles.navButton}
 					onPress={() => navigation.navigate("FavoriteExercisesScreen")}
 				>
-					<Text style={styles.buttonText}>Favorite Exercises</Text>
+					<Ionicons name="heart" size={24} color={colors.black} />
+					<Text style={styles.navButtonText}>Favorites</Text>
 				</TouchableOpacity>
 				<TouchableOpacity
-					style={styles.button}
+					style={styles.navButton}
 					onPress={() => navigation.navigate("MyWorkoutsScreen")}
 				>
-					<Text style={styles.buttonText}>My Workouts</Text>
+					<Ionicons name="barbell" size={24} color={colors.black} />
+					<Text style={styles.navButtonText}>My Workouts</Text>
 				</TouchableOpacity>
+				<TouchableOpacity
+					style={styles.navButton}
+					onPress={() => navigation.navigate("AboutAppScreen")}
+				>
+					<Ionicons name="information-circle" size={24} color={colors.black} />
+					<Text style={styles.navButtonText}>About App</Text>
+				</TouchableOpacity>
+
 				<TouchableOpacity
 					style={styles.logoutButton}
 					onPress={handleLogoutBtnPress}
@@ -206,20 +217,24 @@ const styles = StyleSheet.create({
 		paddingVertical: 10,
 		paddingHorizontal: 10,
 	},
-	button: {
+	navButton: {
+		flexDirection: "row",
+		alignItems: "center",
+		justifyContent: "center",
 		backgroundColor: colors.yellow,
 		borderRadius: 5,
 		padding: 10,
 		width: "80%",
-		alignItems: "center",
 		marginVertical: 10,
 	},
-	buttonText: {
+	navButtonText: {
 		color: colors.black,
 		fontSize: 18,
 		fontWeight: "bold",
+		marginLeft: 10,
 	},
 	logoutText: {
+		marginTop: 10,
 		fontSize: 18,
 		fontWeight: "bold",
 		color: colors.yellow,
