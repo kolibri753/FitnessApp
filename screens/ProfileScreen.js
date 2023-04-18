@@ -14,6 +14,7 @@ import { colors } from "../styles/colors";
 import { Entypo, Ionicons } from "@expo/vector-icons";
 import TopNavigationComponent from "../components/common/TopNavigationComponent";
 import InputComponent from "../components/common/InputComponent";
+import showRegisterAlert from "../helpers/showRegisterAlert";
 import { handleLogout } from "../redux/slices/authorizationSlice";
 
 import * as ImagePicker from "expo-image-picker";
@@ -72,6 +73,11 @@ const ProfileScreen = ({ navigation }) => {
 	};
 
 	const handleChangePhotoURL = async () => {
+		if (!auth.currentUser) {
+			Alert.alert("Error", "If you want to customise profile -> register first!");
+      return;
+		}
+
 		console.log("changeImage");
 		const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
 
@@ -111,16 +117,20 @@ const ProfileScreen = ({ navigation }) => {
 					behavior={Platform.OS === "ios" ? "padding" : "height"}
 					keyboardVerticalOffset={0}
 				>
-					<InputComponent
-						placeholder="New name"
-						value={newName}
-						onChangeText={(text) => {
-							setNewName(text);
-						}}
-					/>
-					<TouchableOpacity style={styles.buttonIcon} onPress={handleChangeName}>
-						<Entypo name="new-message" size={24} color={colors.yellow} />
-					</TouchableOpacity>
+					{auth.currentUser && (
+						<InputComponent
+							placeholder="New name"
+							value={newName}
+							onChangeText={(text) => {
+								setNewName(text);
+							}}
+						/>
+					)}
+					{auth.currentUser && (
+						<TouchableOpacity style={styles.buttonIcon} onPress={handleChangeName}>
+							<Entypo name="new-message" size={24} color={colors.yellow} />
+						</TouchableOpacity>
+					)}
 				</KeyboardAvoidingView>
 				<TouchableOpacity onPress={handleChangePhotoURL}>
 					<Image

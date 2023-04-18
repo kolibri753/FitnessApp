@@ -40,7 +40,7 @@ const WorkoutRestComponent = ({ restTime, handleNextPress }) => {
 			<View style={[styles.container, isLandscape && styles.landscapeContainer]}>
 				<View style={styles.animationContainer}>
 					<LottieView
-						source={require("../assets/data/cute-doggie.json")}
+						source={require("../assets/data/heartbeat.json")}
 						autoPlay
 						loop
 						style={[styles.animation, isLandscape && styles.landscapeAnimation]}
@@ -87,8 +87,8 @@ const styles = StyleSheet.create({
 		height: 300,
 	},
   landscapeAnimation: {
-		width: 200,
-		height: 200,
+		width: 250,
+		height: 250,
 	},
 	animationText: {
 		height: 50,
