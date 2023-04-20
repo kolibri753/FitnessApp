@@ -11,7 +11,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { colors } from "../styles/colors";
 import { AntDesign } from "@expo/vector-icons";
 import ExerciseTimerComponent from "../components/ExerciseTimerComponent";
-import ScreenUnlock from "../helpers/ScreenUnlock";
+import { useScreenUnlock } from "../helpers/useScreenUnlock";
 import WorkoutRestComponent from "../components/WorkoutRestComponent";
 
 const WorkoutExerciseScreen = ({ route, navigation }) => {
@@ -23,6 +23,8 @@ const WorkoutExerciseScreen = ({ route, navigation }) => {
 	const [timeLeft, setTimeLeft] = useState(exercise.time);
 	const [isResting, setIsResting] = useState(false);
 	
+	useScreenUnlock();
+
 	const handleNextPress = () => {
 		if (isResting) {
 			setIsResting(false);
@@ -61,7 +63,6 @@ const WorkoutExerciseScreen = ({ route, navigation }) => {
 		<SafeAreaView
 			style={[styles.container, isLandscape && styles.landscapeContainer]}
 		>
-			<ScreenUnlock />
 			{isResting ? (
 				<WorkoutRestComponent
 					restTime={exercise.rest}
