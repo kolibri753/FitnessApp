@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
 	View,
 	Text,
@@ -7,36 +7,27 @@ import {
 	Image,
 } from "react-native";
 import { colors } from "../styles/colors";
+import { ref, getDownloadURL } from "firebase/storage";
+import { storage } from "../firebaseConfig";
 
-const CategoryComponent = ({ category, handleCategoryPress, icons }) => {
-	const categoryIcon = icons.find((element) => element.title === category);
+const CategoryComponent = ({ category, handleCategoryPress }) => {
+	const [categoryImage, setCategoryImage] = useState("");
+
+	useEffect(() => {
+		const storageRef = ref(
+			storage,
+			`categories/${category.replace(/\s/g, "-")}.png`
+		);
+		getDownloadURL(storageRef)
+			.then((url) => {
+				setCategoryImage(url);
+			})
+			.catch((error) => {
+				console.error(error);
+			});
+	}, [category]);
+
 	const [isHovered, setIsHovered] = useState(false);
-
-	// Return the new view for the "all" category
-	// if (!category) {
-	// 	return (
-	// 		<TouchableHighlight
-	// 			onPress={() => {
-	// 				handleCategoryPress(category);
-	// 			}}
-	// 			onShowUnderlay={() => setIsHovered(true)}
-	// 			onHideUnderlay={() => setIsHovered(false)}
-	// 			style={[styles.categoryItem, isHovered && styles.categoryItemHovered]}
-	// 			activeOpacity={1}
-	// 			underlayColor="transparent"
-	// 		>
-	// 			<View
-	// 				style={[styles.categoryItem, isHovered && styles.categoryItemHovered]}
-	// 			>
-	// 				<Image
-	// 					source={categoryIcon ? categoryIcon.src : ""}
-	// 					style={styles.categoryImage}
-	// 				/>
-	// 				<Text style={styles.categoryText}>All</Text>
-	// 			</View>
-	// 		</TouchableHighlight>
-	// 	);
-	// }
 
 	return (
 		<TouchableHighlight
@@ -49,11 +40,16 @@ const CategoryComponent = ({ category, handleCategoryPress, icons }) => {
 			activeOpacity={1}
 			underlayColor="transparent"
 		>
-			<View style={{ flexDirection: "row", alignItems: "center" }}>
+			<View style={styles.categoryBox}>
 				<Image
-					source={categoryIcon ? categoryIcon.src : ""}
+					source={
+						categoryImage !== ""
+							? { uri: categoryImage }
+							: require("../assets/default-categories-img.png")
+					}
 					style={styles.categoryImage}
 				/>
+
 				<Text style={styles.categoryText}>{category}</Text>
 			</View>
 		</TouchableHighlight>
@@ -72,6 +68,10 @@ const styles = StyleSheet.create({
 	},
 	categoryItemHovered: {
 		backgroundColor: "#463A00",
+	},
+	categoryBox: {
+		flexDirection: "row",
+		alignItems: "center",
 	},
 	categoryImage: {
 		width: "55%",

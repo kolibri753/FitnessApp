@@ -5,10 +5,14 @@ import { Entypo, MaterialCommunityIcons } from "@expo/vector-icons";
 import TopNavigationComponent from "../components/common/TopNavigationComponent";
 import { colors } from "../styles/colors";
 
-const AboutAppScreen = () => {
+const AboutAppScreen = ({ navigation }) => {
 	return (
 		<SafeAreaView style={styles.container}>
-			<TopNavigationComponent title="About" activeDot={2} />
+			<TopNavigationComponent
+				title="About"
+				activeDot={2}
+				navigation={navigation}
+			/>
 			<ScrollView
 				style={styles.content}
 				contentContainerStyle={{ paddingBottom: 50 }}
@@ -30,16 +34,17 @@ const AboutAppScreen = () => {
 					<Text style={styles.sectionText}>Welcome to Fitness App "GymRat"!</Text>
 					<Text style={styles.sectionText}>
 						{"\t\t"}This app offers a diverse range of exercises and workouts to help
-						you achieve your fitness goals. {"\n\t\t"}I understand that everyone's fitness
-						journey is different, which is why I want to empower you to customize your
-						workouts and make them as effective and enjoyable as possible.
+						you achieve your fitness goals. {"\n\t\t"}I understand that everyone's
+						fitness journey is different, which is why I want to empower you to
+						customize your workouts and make them as effective and enjoyable as
+						possible.
 					</Text>
 				</View>
 				<View style={styles.sectionContainer}>
 					<MaterialCommunityIcons name="phone" size={50} color={colors.primary} />
 					<Text style={styles.sectionTitle}>Contact Me</Text>
 					<Text style={styles.sectionText}>
-          {"\t\t"}Have any questions or feedback? I'd love to hear from you!
+						{"\t\t"}Have any questions or feedback? I'd love to hear from you!
 					</Text>
 					<Text style={styles.sectionText}>Email: vahovskavm2003@gmail.com</Text>
 				</View>
