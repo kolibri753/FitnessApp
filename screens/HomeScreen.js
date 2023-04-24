@@ -2,24 +2,21 @@ import React, { useState, useEffect } from "react";
 import { StyleSheet, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { colors } from "../styles/colors";
-import { exerciseOptions, fetchData } from "../utils/fetchData";
+// import { exerciseOptions, fetchData } from "../utils/fetchData";
 import CategoryComponent from "../components/CategoryComponent";
 import TopNavigationComponent from "../components/common/TopNavigationComponent";
 
+import { useDispatch, useSelector } from "react-redux";
+import { fetchCategories } from "../redux/slices/categoriesSlice";
+
 const HomeScreen = ({ navigation }) => {
-	const [categories, setCategories] = useState([]);
-	categories.unshift("all");
+	const dispatch = useDispatch();
+	const categories = useSelector((state) => state.categories.data);
+	// categories.unshift("all");
 
 	useEffect(() => {
-		const fetchCategoriesData = async () => {
-			const categoriesData = await fetchData(
-				"https://exercisedb.p.rapidapi.com/exercises/bodyPartList",
-				exerciseOptions
-			);
-			setCategories(categoriesData);
-		};
-		fetchCategoriesData();
-	}, []);
+		dispatch(fetchCategories());
+	}, [dispatch]);
 
 	const handleCategoryPress = (category) => {
 		navigation.navigate("ExercisesScreen", {
