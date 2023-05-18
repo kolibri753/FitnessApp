@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect } from "react";
 import { StyleSheet, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { colors } from "../styles/colors";
@@ -44,7 +44,7 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: colors.grey,
-		paddingVertical: 10
+		// paddingVertical: 10,
 	},
 	categoriesContainer: {
 		paddingHorizontal: 20,

@@ -12,6 +12,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { colors } from "../styles/colors";
 import TopNavigationComponent from "../components/common/TopNavigationComponent";
 import InputComponent from "../components/common/InputComponent";
+import Toast from 'react-native-root-toast';
 import { auth, db } from "../firebaseConfig";
 import { doc, getDoc, updateDoc } from "firebase/firestore";
 
@@ -66,10 +67,28 @@ const UpdateWorkoutScreen = ({ navigation, route }) => {
         const workoutDocRef = doc(userRef, "userWorkouts", workout.id);
         await updateDoc(workoutDocRef, { name, description, image });
 
-        console.log("Workout updated successfully");
-        navigation.navigate("MyWorkoutsScreen");
+				Toast.show("Workout updated successfully", {
+					duration: Toast.durations.SHORT,
+					position: 0,
+					shadow: true,
+					animation: true,
+					hideOnPress: true,
+					backgroundColor: colors.success,
+					textColor: colors.white,
+					delay: 0,
+				});
+				navigation.navigate("MyWorkoutsScreen");
       } catch (error) {
-        console.error("Error updating workout: ", error);
+				Toast.show("Error updating workout: " + error, {
+					duration: Toast.durations.SHORT,
+					position: 0,
+					shadow: true,
+					animation: true,
+					hideOnPress: true,
+					backgroundColor: colors.error,
+					textColor: colors.white,
+					delay: 0,
+				});
       }
     }
   };

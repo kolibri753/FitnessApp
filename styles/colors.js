@@ -5,4 +5,6 @@ export const colors = {
   yellow: '#FFD500',
   white: '#FFFFFF',
   active: '#dddace',
+  error: '#DC143C	',
+  success: '#228B22',
 };

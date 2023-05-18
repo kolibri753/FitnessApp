@@ -12,12 +12,11 @@ import TopNavigationComponent from "../components/common/TopNavigationComponent"
 import { AntDesign } from "@expo/vector-icons";
 import { colors } from "../styles/colors";
 import showRegisterAlert from "../helpers/showRegisterAlert";
+import Toast from 'react-native-root-toast';
 import { auth, db } from "../firebaseConfig";
 import {
 	collection,
-	getDocs,
 	doc,
-	setDoc,
 	onSnapshot,
 	deleteDoc,
 } from "firebase/firestore";
@@ -48,9 +47,27 @@ const MyWorkoutsScreen = ({ navigation }) => {
 			await deleteDoc(
 				doc(db, "users", auth.currentUser.uid, "userWorkouts", workoutId)
 			);
-			console.log("Workout deleted successfully!");
+			Toast.show("Workout deleted successfully", {
+				duration: Toast.durations.SHORT,
+				position: 0,
+				shadow: true,
+				animation: true,
+				hideOnPress: true,
+				backgroundColor: colors.success,
+				textColor: colors.white,
+				delay: 0,
+			});
 		} catch (error) {
-			console.error("Error deleting workout: ", error);
+			Toast.show("Error deleting workout: " + error, {
+				duration: Toast.durations.SHORT,
+				position: 0,
+				shadow: true,
+				animation: true,
+				hideOnPress: true,
+				backgroundColor: colors.error,
+				textColor: colors.white,
+				delay: 0,
+			});
 		}
 	};
 

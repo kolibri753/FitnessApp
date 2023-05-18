@@ -11,6 +11,7 @@ import WorkoutExerciseScreen from "./screens/WorkoutExerciseScreen";
 import WorkoutCompleteScreen from "./screens/WorkoutCompleteScreen";
 import SplashScreen from "./components/SplashScreen";
 import rootReducer from "./redux/reducers/rootReducer";
+import { RootSiblingParent } from "react-native-root-siblings";
 
 const Stack = createStackNavigator();
 
@@ -35,45 +36,47 @@ const App = () => {
 
 	return (
 		<Provider store={store}>
-			<NavigationContainer>
-				<Stack.Navigator>
-					<Stack.Screen
-						name="AuthorizationScreen"
-						component={AuthorizationScreen}
-						options={{
-							headerShown: false,
-						}}
-					/>
-					<Stack.Screen
-						name="RegistrationScreen"
-						component={RegistrationScreen}
-						options={{
-							headerShown: false,
-						}}
-					/>
-					<Stack.Screen
-						name="Main"
-						component={BottomTabNavigator}
-						options={{
-							headerShown: false,
-						}}
-					/>
-					<Stack.Screen
-						name="WorkoutExerciseScreen"
-						component={WorkoutExerciseScreen}
-						options={{
-							headerShown: false,
-						}}
-					/>
-					<Stack.Screen
-						name="WorkoutCompleteScreen"
-						component={WorkoutCompleteScreen}
-						options={{
-							headerShown: false,
-						}}
-					/>
-				</Stack.Navigator>
-			</NavigationContainer>
+			<RootSiblingParent>
+				<NavigationContainer>
+					<Stack.Navigator>
+						<Stack.Screen
+							name="AuthorizationScreen"
+							component={AuthorizationScreen}
+							options={{
+								headerShown: false,
+							}}
+						/>
+						<Stack.Screen
+							name="RegistrationScreen"
+							component={RegistrationScreen}
+							options={{
+								headerShown: false,
+							}}
+						/>
+						<Stack.Screen
+							name="Main"
+							component={BottomTabNavigator}
+							options={{
+								headerShown: false,
+							}}
+						/>
+						<Stack.Screen
+							name="WorkoutExerciseScreen"
+							component={WorkoutExerciseScreen}
+							options={{
+								headerShown: false,
+							}}
+						/>
+						<Stack.Screen
+							name="WorkoutCompleteScreen"
+							component={WorkoutCompleteScreen}
+							options={{
+								headerShown: false,
+							}}
+						/>
+					</Stack.Navigator>
+				</NavigationContainer>
+			</RootSiblingParent>
 		</Provider>
 	);
 };

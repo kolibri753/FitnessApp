@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
 import {
-  StyleSheet,
-  View,
-  Text,
-  TouchableOpacity,
-  KeyboardAvoidingView,
+	StyleSheet,
+	View,
+	Text,
+	TouchableOpacity,
+	KeyboardAvoidingView,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useSelector, useDispatch } from "react-redux";
@@ -12,50 +12,61 @@ import { colors } from "../styles/colors";
 import LogoComponent from "../components/common/LogoComponent";
 import TopNavigationComponent from "../components/common/TopNavigationComponent";
 import InputComponent from "../components/common/InputComponent";
+import Toast from "react-native-root-toast";
 
 import {
-  setEmail,
-  setPassword,
-  setErrors,
-  setAuthenticated,
-  handleLogin,
-  checkAuthenticated,
+	setEmail,
+	setPassword,
+	setErrors,
+	setAuthenticated,
+	handleLogin,
+	checkAuthenticated,
 } from "../redux/slices/authorizationSlice";
 
 const AuthorizationScreen = ({ navigation }) => {
-  const dispatch = useDispatch();
-  const { email, password, errors, authenticated } = useSelector(
-    (state) => state.authorization
-  );
+	const dispatch = useDispatch();
+	const { email, password, errors, authenticated } = useSelector(
+		(state) => state.authorization
+	);
 
-  useEffect(() => {
-    dispatch(checkAuthenticated());
-  }, [dispatch]);
+	useEffect(() => {
+		dispatch(checkAuthenticated());
+	}, [dispatch]);
 
-  useEffect(() => {
-    if (authenticated) {
-      navigation.navigate("Main");
-    }
-  }, [authenticated, navigation]);
+	useEffect(() => {
+		if (authenticated) {
+			navigation.navigate("Main");
+		}
+	}, [authenticated, navigation]);
 
-  const handleUseWithoutAuthorization = () => {
-    navigation.navigate("Main");
-  };
+	const handleUseWithoutAuthorization = () => {
+		navigation.navigate("Main");
+	};
 
-  const handleLoginButtonPress = () => {
-    let newErrors = [];
+	const handleLoginButtonPress = () => {
+		let newErrors = [];
 
-    if (!email.trim()) {
-      newErrors.push("Please enter your email address.");
+		if (!email.trim()) {
+			newErrors.push("Please enter your email address.");
 		}
 		if (!password.trim()) {
 			newErrors.push("Please enter your password.");
 		}
-		
+
 		dispatch(setErrors(newErrors));
-		
+
 		if (newErrors.length === 0) {
 			dispatch(handleLogin(email, password));
+			Toast.show("You logged in using\n" + email, {
+				duration: Toast.durations.LONG,
+				position: 0,
+				shadow: true,
+				animation: true,
+				hideOnPress: true,
+				backgroundColor: colors.success,
+				textColor: colors.white,
+				delay: 0,
+			});
 		}
 	};
 
@@ -65,7 +76,8 @@ const AuthorizationScreen = ({ navigation }) => {
 			<View style={styles.content}>
 				<LogoComponent />
 				<Text style={styles.motivation}>
-					"Transform your body, transform your life. Let this fitness app be your guide on the journey to a healthier and happier you."
+					"Transform your body, transform your life. Let this fitness app be your
+					guide on the journey to a healthier and happier you."
 				</Text>
 				<KeyboardAvoidingView
 					style={styles.form}
