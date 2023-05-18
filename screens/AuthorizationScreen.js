@@ -36,6 +36,16 @@ const AuthorizationScreen = ({ navigation }) => {
 	useEffect(() => {
 		if (authenticated) {
 			navigation.navigate("Main");
+			Toast.show("You logged in using\n" + email, {
+				duration: Toast.durations.LONG,
+				position: 0,
+				shadow: true,
+				animation: true,
+				hideOnPress: true,
+				backgroundColor: colors.success,
+				textColor: colors.white,
+				delay: 0,
+			});
 		}
 	}, [authenticated, navigation]);
 
@@ -57,16 +67,6 @@ const AuthorizationScreen = ({ navigation }) => {
 
 		if (newErrors.length === 0) {
 			dispatch(handleLogin(email, password));
-			Toast.show("You logged in using\n" + email, {
-				duration: Toast.durations.LONG,
-				position: 0,
-				shadow: true,
-				animation: true,
-				hideOnPress: true,
-				backgroundColor: colors.success,
-				textColor: colors.white,
-				delay: 0,
-			});
 		}
 	};
 
