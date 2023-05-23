@@ -1,6 +1,14 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Text, StyleSheet, ScrollView } from "react-native";
+import React, { useState, useEffect } from "react";
+import {
+	Text,
+	View,
+	StyleSheet,
+	ScrollView,
+	TextInput,
+	TouchableOpacity,
+} from "react-native";
 import { colors } from "../styles/colors";
+import { AntDesign } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { exerciseOptions, fetchData } from "../utils/fetchData";
 import ExerciseComponent from "../components/ExerciseComponent";
@@ -13,18 +21,20 @@ import useExercisesPagination from "../hooks/useExercisesPagination";
 const ExercisesScreen = ({ route, navigation }) => {
 	const { showSelectButton } = route.params || "false";
 	const { category } = route.params || { category: "biceps" };
+	const [searchQuery, setSearchQuery] = useState("");
+	const [fetchedExercises, setFetchedExercises] = useState([]);
 
 	const {
-    exercises,
-    setExercises,
-    page,
-    setPage,
-    scrollViewRef,
-    scrollToTop,
-    handleNextPage,
-    handlePrevPage,
-    getPaginatedExercises,
-  } = useExercisesPagination([]);
+		exercises,
+		setExercises,
+		page,
+		setPage,
+		scrollViewRef,
+		scrollToTop,
+		handleNextPage,
+		handlePrevPage,
+		getPaginatedExercises,
+	} = useExercisesPagination([]);
 
 	useEffect(() => {
 		const fetchExercisesData = async () => {
@@ -44,6 +54,7 @@ const ExercisesScreen = ({ route, navigation }) => {
 			}
 
 			setExercises(exercisesData);
+			setFetchedExercises(exercisesData);
 		};
 
 		fetchExercisesData();
@@ -80,7 +91,24 @@ const ExercisesScreen = ({ route, navigation }) => {
 				console.error("Error getting exercises: ", error);
 			});
 	};
-	
+
+	const handleSearch = () => {
+		let filteredExercises = [];
+
+		if (searchQuery === "") {
+			filteredExercises = fetchedExercises;
+		} else {
+			filteredExercises = exercises.filter(
+				(exercise) =>
+					exercise.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+					exercise.equipment.toLowerCase().includes(searchQuery.toLowerCase()) ||
+					exercise.bodyPart.toLowerCase().includes(searchQuery.toLowerCase())
+			);
+		}
+
+		setExercises(filteredExercises);
+	};
+
 	return (
 		<SafeAreaView style={styles.container}>
 			<TopNavigationComponent
@@ -89,6 +117,17 @@ const ExercisesScreen = ({ route, navigation }) => {
 				navigation={navigation}
 			/>
 			<ScrollView style={styles.exercisesContainer} ref={scrollViewRef}>
+				<View style={styles.searchBarContainer}>
+					<TextInput
+						style={styles.searchInput}
+						placeholder="Search exercises..."
+						value={searchQuery}
+						onChangeText={setSearchQuery}
+					/>
+					<TouchableOpacity style={styles.searchButton} onPress={handleSearch}>
+						<AntDesign name="search1" size={24} color={colors.black} />
+					</TouchableOpacity>
+				</View>
 				{getPaginatedExercises().map((exercise) => (
 					<ExerciseComponent
 						key={exercise.id}
@@ -98,13 +137,11 @@ const ExercisesScreen = ({ route, navigation }) => {
 						showSelectButton={showSelectButton}
 					/>
 				))}
-				{getPaginatedExercises().length === 0 ? (
+				{getPaginatedExercises().length === 0 && (
 					<Text style={styles.headerText}>
 						This is a limited version with only a few exercises. Upgrade to premium to
 						get access to the full list of exercises.
 					</Text>
-				) : (
-					<></>
 				)}
 				<PaginationComponent
 					page={page}
@@ -126,6 +163,27 @@ const styles = StyleSheet.create({
 	exercisesContainer: {
 		flex: 1,
 		padding: 20,
+	},
+	searchBarContainer: {
+		flexDirection: "row",
+		alignItems: "center",
+		marginBottom: 10,
+	},
+	searchInput: {
+		flex: 1,
+		height: 40,
+		paddingHorizontal: 10,
+		borderWidth: 1,
+		borderColor: colors.black,
+		backgroundColor: colors.white,
+		borderRadius: 5,
+		marginRight: 10,
+	},
+	searchButton: {
+		backgroundColor: colors.white,
+		paddingHorizontal: 7,
+		paddingVertical: 7,
+		borderRadius: 5,
 	},
 	headerText: {
 		fontSize: 14,
