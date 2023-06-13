@@ -9,7 +9,6 @@ export const fetchCategories = createAsyncThunk(
       "https://exercisedb.p.rapidapi.com/exercises/bodyPartList",
       exerciseOptions
     );
-    console.log("Categories data:", categoriesData);
     return categoriesData;
   }
 );

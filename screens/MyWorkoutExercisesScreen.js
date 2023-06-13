@@ -34,7 +34,6 @@ const MyWorkoutExercisesScreen = ({ route, navigation }) => {
 		const unsubscribe = onSnapshot(userWorkoutsRef, (snapshot) => {
 			const data = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
 			const sortedData = data.sort((a, b) => a.order - b.order);
-			console.log(sortedData);
 			setExercises(sortedData);
 		});
 

@@ -12,6 +12,7 @@ import { storage } from "../firebaseConfig";
 
 const CategoryComponent = ({ category, handleCategoryPress }) => {
 	const [categoryImage, setCategoryImage] = useState("");
+	const [isHovered, setIsHovered] = useState(false);
 
 	useEffect(() => {
 		const storageRef = ref(
@@ -26,8 +27,6 @@ const CategoryComponent = ({ category, handleCategoryPress }) => {
 				console.error(error);
 			});
 	}, [category]);
-
-	const [isHovered, setIsHovered] = useState(false);
 
 	return (
 		<TouchableHighlight
@@ -90,4 +89,4 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default CategoryComponent;
+export default React.memo(CategoryComponent);

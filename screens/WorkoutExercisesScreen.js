@@ -16,7 +16,6 @@ const WorkoutExercisesScreen = ({ route, navigation }) => {
 	const { workout } = route.params;
 
 	const handlePlayButtonPress = () => {
-		console.log("WorkoutExercisesScreen", JSON.stringify(workout.exercises));
 		navigation.navigate("WorkoutExerciseScreen", {
 			exercises: workout.exercises,
 		});
