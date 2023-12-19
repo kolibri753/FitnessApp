@@ -10,7 +10,6 @@ import {
 import { colors } from "../styles/colors";
 import { AntDesign } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { exerciseOptions, fetchData } from "../utils/fetchData";
 import ExerciseComponent from "../components/ExerciseComponent";
 import PaginationComponent from "../components/PaginationComponent";
 import TopNavigationComponent from "../components/common/TopNavigationComponent";
@@ -18,9 +17,16 @@ import { auth, db } from "../firebaseConfig";
 import { collection, addDoc, query, getDocs } from "firebase/firestore";
 import useExercisesPagination from "../hooks/useExercisesPagination";
 
+import { useSelector, useDispatch } from "react-redux";
+import { fetchExercisesData } from "../redux/slices/exercisesSlice";
+
 const ExercisesScreen = ({ route, navigation }) => {
-	const { showSelectButton } = route.params || "false";
-	const { category } = route.params || { category: "biceps" };
+	const { showSelectButton } = route.params || false;
+
+	// Use useSelector to get the selected category from Redux state
+	const { selectedCategory } = useSelector((state) => state.exercises);
+	const dispatch = useDispatch();
+
 	const [searchQuery, setSearchQuery] = useState("");
 	const [fetchedExercises, setFetchedExercises] = useState([]);
 
@@ -37,28 +43,17 @@ const ExercisesScreen = ({ route, navigation }) => {
 	} = useExercisesPagination([]);
 
 	useEffect(() => {
-		const fetchExercisesData = async () => {
-			let exercisesData = [];
+		// Dispatch the fetchExercisesData thunk to fetch exercises data
+		dispatch(fetchExercisesData(selectedCategory));
+	}, [dispatch, selectedCategory]);
 
-			if (category === "all") {
-				exercisesData = await fetchData(
-					"https://exercisedb.p.rapidapi.com/exercises",
-					exerciseOptions,
-					showSelectButton ? 10 : 5
-				);
-			} else {
-				exercisesData = await fetchData(
-					`https://exercisedb.p.rapidapi.com/exercises/bodyPart/${category}`,
-					exerciseOptions
-				);
-			}
+	// Use the useSelector hook to get the updated Redux state
+	const reduxExercises = useSelector((state) => state.exercises.exercises);
 
-			setExercises(exercisesData);
-			setFetchedExercises(exercisesData);
-		};
-
-		fetchExercisesData();
-	}, [category]);
+	useEffect(() => {
+		setExercises(reduxExercises); // Use the updated Redux state
+		setFetchedExercises(reduxExercises);
+	}, [reduxExercises, setExercises]);
 
 	const handleSelectExercise = (exerciseData) => {
 		// Save exerciseData to Firestore
@@ -109,10 +104,15 @@ const ExercisesScreen = ({ route, navigation }) => {
 		setExercises(filteredExercises);
 	};
 
+	// const handleCategoryChange = (newCategory) => {
+	// 	// Dispatch the selectCategory action to update the Redux state
+	// 	dispatch(selectCategory(newCategory));
+	// };
+
 	return (
 		<SafeAreaView style={styles.container}>
 			<TopNavigationComponent
-				title={`Exercises: ${category}`}
+				title={`Exercises: ${selectedCategory}`}
 				activeDot={2}
 				navigation={navigation}
 			/>
@@ -128,9 +128,9 @@ const ExercisesScreen = ({ route, navigation }) => {
 						<AntDesign name="search1" size={24} color={colors.black} />
 					</TouchableOpacity>
 				</View>
-				{getPaginatedExercises().map((exercise) => (
+				{getPaginatedExercises().map((exercise, index) => (
 					<ExerciseComponent
-						key={exercise.id}
+						key={index}
 						exercise={exercise}
 						navigation={navigation}
 						handleSelectExercise={handleSelectExercise}

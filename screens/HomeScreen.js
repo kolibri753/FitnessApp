@@ -2,23 +2,23 @@ import React, { useEffect } from "react";
 import { StyleSheet, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { colors } from "../styles/colors";
-// import { exerciseOptions, fetchData } from "../utils/fetchData";
 import CategoryComponent from "../components/CategoryComponent";
 import TopNavigationComponent from "../components/common/TopNavigationComponent";
 
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCategories } from "../redux/slices/categoriesSlice";
+import { selectCategory } from "../redux/slices/exercisesSlice";
 
 const HomeScreen = ({ navigation }) => {
 	const dispatch = useDispatch();
 	const categories = useSelector((state) => state.categories.data);
-	// categories.unshift("all");
 
 	useEffect(() => {
 		dispatch(fetchCategories());
 	}, [dispatch]);
 
 	const handleCategoryPress = (category) => {
+		dispatch(selectCategory(category));
 		navigation.navigate("ExercisesScreen", {
 			category,
 		});
