@@ -4,10 +4,38 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import WorkoutComponent from "../components/WorkoutComponent";
 import TopNavigationComponent from "../components/common/TopNavigationComponent";
 import { colors } from "../styles/colors";
-
-import data from "../assets/data/workouts.json";
+import { realTimeDb } from "../firebaseConfig";
+import { ref, get } from "firebase/database";
 
 const WorkoutsScreen = ({ navigation }) => {
+	const [workouts, setWorkouts] = useState([]);
+
+	useEffect(() => {
+		const fetchWorkouts = async () => {
+			try {
+				const workoutsRef = ref(realTimeDb, "workouts");
+				const snapshot = await get(workoutsRef);
+
+				if (snapshot.exists()) {
+					const data = snapshot.val();
+					const workoutArray = Object.entries(data).map(([id, workout]) => ({
+						id,
+						...workout,
+						exercises: workout?.exercises || [],
+					}));
+
+					console.log("Workouts data:", workoutArray);
+					setWorkouts(workoutArray);
+				} else {
+					console.log("No data available");
+				}
+			} catch (error) {
+				console.error("Error fetching workouts:", error);
+			}
+		};
+
+		fetchWorkouts();
+	}, []);
 
 	const handleWorkoutPress = (workout) => {
 		navigation.navigate("WorkoutExercisesScreen", { workout });
@@ -15,9 +43,9 @@ const WorkoutsScreen = ({ navigation }) => {
 
 	return (
 		<SafeAreaView style={styles.container}>
-			<TopNavigationComponent title="Choose Workout" activeDot={1}/>
+			<TopNavigationComponent title="Choose Workout" activeDot={1} />
 			<ScrollView style={styles.scrollContainer}>
-				{data.workouts.map((workout, index) => (
+				{workouts.map((workout, index) => (
 					<WorkoutComponent
 						key={index}
 						workout={workout}

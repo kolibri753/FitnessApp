@@ -1,6 +1,7 @@
 import { initializeApp } from 'firebase/app';
 import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
+import { getDatabase } from "firebase/database";
 import { getStorage } from 'firebase/storage';
 import Constants from 'expo-constants';
 
@@ -12,7 +13,8 @@ const firebaseConfig = {
   storageBucket: Constants.expoConfig.extra.FIREBASE_STORAGE_BUCKET,
   messagingSenderId: Constants.expoConfig.extra.FIREBASE_MESSAGING_SENDER_ID,
   appId: Constants.expoConfig.extra.FIREBASE_APP_ID,
-  measurementId: Constants.expoConfig.extra.FIREBASE_MEASUREMENT_ID
+  measurementId: Constants.expoConfig.extra.FIREBASE_MEASUREMENT_ID,
+  databaseURL: Constants.expoConfig.extra.FIREBASE_DATABASE_URL,
 };
 
 // const firebaseConfig = Constants.manifest.extra.firebase;
@@ -20,4 +22,5 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth();
 export const db =  getFirestore(app);
+export const realTimeDb = getDatabase(app);
 export const storage = getStorage(app);
