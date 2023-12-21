@@ -11,9 +11,11 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { colors } from "../styles/colors";
 import { AntDesign } from "@expo/vector-icons";
 import TopNavigationComponent from "../components/common/TopNavigationComponent";
+import { useTargetColors } from "../hooks/useTargetColors";
 
 const WorkoutExercisesScreen = ({ route, navigation }) => {
 	const { workout } = route.params;
+	const { getColorForTarget } = useTargetColors();
 
 	const handlePlayButtonPress = () => {
 		navigation.navigate("WorkoutExerciseScreen", {
@@ -48,6 +50,9 @@ const WorkoutExercisesScreen = ({ route, navigation }) => {
 					<View style={styles.exerciseContainer}>
 						<Text style={styles.exerciseTitle}>
 							{index + 1}. {item.name}
+						</Text>
+						<Text style={[styles.exerciseTarget, { backgroundColor: getColorForTarget(item.target) }]}>
+							{item.target}
 						</Text>
 					</View>
 				)}
@@ -89,10 +94,16 @@ const styles = StyleSheet.create({
 		textAlign: "center",
 	},
 	exerciseContainer: {
+		display: "flex",
+		flexDirection: "row",
+		alignItems: "center",
+		flexWrap: "wrap",
+		justifyContent: "space-between",
+		gap: 10,
 		backgroundColor: colors.darkGray,
 		borderRadius: 10,
-		padding: 10,
-		marginBottom: 10,
+		padding: 5,
+		// marginBottom: 10,
 	},
 	exerciseTitle: {
 		color: colors.white,
@@ -100,6 +111,14 @@ const styles = StyleSheet.create({
 		fontWeight: "bold",
 		textAlign: "left",
 		textTransform: "capitalize",
+		flex: 1,
+	},
+	exerciseTarget: {
+		fontSize: 18,
+		fontWeight: "bold",
+		backgroundColor: colors.white,
+		borderRadius: 15,
+		padding: 5,
 	},
 	playButton: {
 		display: "flex",
