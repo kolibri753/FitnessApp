@@ -11,6 +11,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { colors } from "../styles/colors";
 import { AntDesign } from "@expo/vector-icons";
 import TopNavigationComponent from "../components/common/TopNavigationComponent";
+import TargetMusclePieChart from "../components/TargetMusclePieChart";
 import { useTargetColors } from "../hooks/useTargetColors";
 
 const WorkoutExercisesScreen = ({ route, navigation }) => {
@@ -51,11 +52,21 @@ const WorkoutExercisesScreen = ({ route, navigation }) => {
 						<Text style={styles.exerciseTitle}>
 							{index + 1}. {item.name}
 						</Text>
-						<Text style={[styles.exerciseTarget, { backgroundColor: getColorForTarget(item.target) }]}>
+						<Text
+							style={[
+								styles.exerciseTarget,
+								{ backgroundColor: getColorForTarget(item.target) },
+							]}
+						>
 							{item.target}
 						</Text>
 					</View>
 				)}
+				ListFooterComponent={() => (
+          <TargetMusclePieChart
+            targets={workout.exercises.map((exercise) => exercise.target)}
+          />
+        )}
 			/>
 		</SafeAreaView>
 	);
@@ -65,7 +76,6 @@ const styles = StyleSheet.create({
 	container: {
 		flex: 1,
 		backgroundColor: colors.grey,
-		// padding: 20,
 	},
 	detailsContainer: {
 		alignItems: "center",
@@ -73,13 +83,13 @@ const styles = StyleSheet.create({
 		borderBottomColor: colors.lightGrey,
 	},
 	workoutImage: {
-    position: "absolute",
-    top: 0,
-    left: 0,
-    width: "100%",
-    height: "100%",
+		position: "absolute",
+		top: 0,
+		left: 0,
+		width: "100%",
+		height: "100%",
 		resizeMode: "cover",
-  },
+	},
 	title: {
 		color: colors.white,
 		fontSize: 24,
@@ -103,7 +113,6 @@ const styles = StyleSheet.create({
 		backgroundColor: colors.darkGray,
 		borderRadius: 10,
 		padding: 5,
-		// marginBottom: 10,
 	},
 	exerciseTitle: {
 		color: colors.white,

@@ -10,23 +10,23 @@ export const colors = {
 };
 
 export const targetColors = {
-	abductors: "#FF5733", // Red
-	abs: "#FFA500", // Orange
-	adductors: "#32CD32", // Lime Green
-	biceps: "#1E90FF", // Dodger Blue
-	calves: "#9932CC", // Dark Orchid
-	cardiovascularSystem: "#FF6347", // Tomato
-	delts: "#FFD700", // Gold
-	forearms: "#00BFFF", // Deep Sky Blue
-	glutes: "#8A2BE2", // Blue Violet
-	hamstrings: "#FF8C00", // Dark Orange
-	lats: "#00FF7F", // Spring Green
-	levatorScapulae: "#FF69B4", // Hot Pink
-	pectorals: "#FF4500", // Orange Red
-	quads: "#8B4513", // Saddle Brown
-	serratusAnterior: "#4B0082", // Indigo
-	spine: "#FF0000", // Red
-	traps: "#4FC1E9", // Aqua
+  abductors: "#FF5252", // Bright red
+  abs: "#FFC107", // Amber
+  adductors: "#4CAF50", // Green
+  biceps: "#2196F3", // Blue
+  calves: "#9C27B0", // Purple
+  cardiovascularSystem: "#FF5722", // Deep orange
+  delts: "#FFD600", // Yellow
+  forearms: "#03A9F4", // Light blue
+  glutes: "#673AB7", // Deep purple
+  hamstrings: "#FF9800", // Orange
+  lats: "#8BC34A", // Light green
+  levatorScapulae: "#E91E63", // Pink
+  pectorals: "#FF5722", // Deep orange (same as cardiovascularSystem)
+  quads: "#00FF7F", // Spring Green
+  serratusAnterior: "#673AB7", // Deep purple (same as glutes)
+  spine: "#FF5252", // Bright red (same as abductors)
+  traps: "#00BCD4", // Cyan
 	triceps: "#SD9CEC", // Blue Jeans
-	upperBack: "#A0D468", // Grass
+  upperBack: "#4FC1E9", // Aqua
 };
