@@ -75,7 +75,7 @@ const ProfileScreen = ({ navigation }) => {
 	const handleChangePhotoURL = async () => {
 		if (!auth.currentUser) {
 			Alert.alert("Error", "If you want to customise profile -> register first!");
-      return;
+			return;
 		}
 
 		console.log("changeImage");
@@ -158,6 +158,13 @@ const ProfileScreen = ({ navigation }) => {
 				>
 					<Ionicons name="barbell" size={24} color={colors.black} />
 					<Text style={styles.navButtonText}>My Workouts</Text>
+				</TouchableOpacity>
+				<TouchableOpacity
+					style={styles.navButton}
+					onPress={() => navigation.navigate("ActivityCalendarScreen")}
+				>
+					<Ionicons name="calendar-sharp" size={24} color={colors.black} />
+					<Text style={styles.navButtonText}>Activity Calendar</Text>
 				</TouchableOpacity>
 				<TouchableOpacity
 					style={styles.navButton}
