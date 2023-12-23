@@ -12,12 +12,15 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { colors } from "../styles/colors";
 import { AntDesign } from "@expo/vector-icons";
 import TopNavigationComponent from "../components/common/TopNavigationComponent";
+import TargetMusclePieChart from "../components/TargetMusclePieChart";
+import { useTargetColors } from "../hooks/useTargetColors";
 import { auth, db } from "../firebaseConfig";
 import { collection, onSnapshot, deleteDoc, doc } from "firebase/firestore";
 
 const MyWorkoutExercisesScreen = ({ route, navigation }) => {
 	const { workout } = route.params;
 	const [exercises, setExercises] = useState([]);
+	const { getColorForTarget } = useTargetColors();
 
 	useEffect(() => {
 		const userId = auth.currentUser.uid;
@@ -129,6 +132,14 @@ const MyWorkoutExercisesScreen = ({ route, navigation }) => {
 							<Text style={styles.exerciseTitle}>
 								{index + 1}. {item.name}
 							</Text>
+							<Text
+								style={[
+									styles.exerciseTarget,
+									{ backgroundColor: getColorForTarget(item.target) },
+								]}
+							>
+								{item.target}
+							</Text>
 							<TouchableOpacity
 								style={styles.deleteButton}
 								onPress={() => handleDeleteExercise(item)}
@@ -137,6 +148,11 @@ const MyWorkoutExercisesScreen = ({ route, navigation }) => {
 							</TouchableOpacity>
 						</View>
 					</View>
+				)}
+				ListFooterComponent={() => (
+					<TargetMusclePieChart
+						targets={exercises.map((exercise) => exercise.target)}
+					/>
 				)}
 			/>
 		</SafeAreaView>
@@ -191,6 +207,13 @@ const styles = StyleSheet.create({
 		fontWeight: "bold",
 		textAlign: "left",
 		textTransform: "capitalize",
+	},
+	exerciseTarget: {
+		fontSize: 18,
+		fontWeight: "bold",
+		backgroundColor: colors.white,
+		borderRadius: 15,
+		padding: 5,
 	},
 	button: {
 		display: "flex",

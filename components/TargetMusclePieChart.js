@@ -13,14 +13,20 @@ const TargetMusclePieChart = ({ targets }) => {
 		(target) => targetColors[target] || "#FFFF00"
 	);
 
+	const hasDataPoints = targetCounts.some((count) => count > 0);
+
 	return (
 		<View style={styles.container}>
 			<Text style={styles.title}>Target Muscles</Text>
-			<PieChart
-				widthAndHeight={250}
-				series={targetCounts}
-				sliceColor={sliceColor}
-			/>
+			{hasDataPoints ? (
+				<PieChart
+					widthAndHeight={250}
+					series={targetCounts}
+					sliceColor={sliceColor}
+				/>
+			) : (
+				<Text style={styles.noDataText}>No data available for the chart.</Text>
+			)}
 			<View style={styles.legendContainer}>
 				{uniqueTargets.map((target, index) => (
 					<View key={index} style={styles.legendItem}>
@@ -31,8 +37,15 @@ const TargetMusclePieChart = ({ targets }) => {
 							]}
 						/>
 						<Text style={styles.legendText}>{target}</Text>
-						<Text style={[styles.legendPercentage, { color: targetColors[target] || "#FFFF00" }]}>
-							{((targetCounts[index] / targets.length) * 100).toFixed(2)}%
+						<Text
+							style={[
+								styles.legendPercentage,
+								{ color: targetColors[target] || "#FFFF00" },
+							]}
+						>
+							{hasDataPoints
+								? ((targetCounts[index] / targets.length) * 100).toFixed(2) + "%"
+								: "N/A"}
 						</Text>
 					</View>
 				))}
