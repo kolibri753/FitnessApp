@@ -9,6 +9,12 @@ export const colors = {
 	success: "#228B22",
 };
 
+export const markedDatesColors = {
+  first: "#800080",
+  second: "#4B0082",
+  third: "#1d1160",
+}
+
 export const targetColors = {
   abductors: "#FF5252", // Bright red
   abs: "#FFC107", // Amber

@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Calendar } from "react-native-calendars";
 import { View, Text, StyleSheet } from "react-native";
-import { colors } from "../styles/colors";
+import { colors, markedDatesColors } from "../styles/colors";
 
 const CalendarComponent = () => {
 	const [selectedDate, setSelectedDate] = useState(
@@ -29,42 +29,47 @@ const CalendarComponent = () => {
 	};
 
 	const workoutsForSelectedDate = workoutData[selectedDate] || [];
-	const workoutCount = workoutsForSelectedDate.length;
+	const markedDates = {};
 
-	// Determine dot color based on workout count
-	let dotColor;
-	if (workoutCount >= 3) {
-		dotColor = colors.red; // Red dot for 3 or more workouts
-	} else if (workoutCount > 0) {
-		dotColor = colors.orange; // Orange dot for 1 or 2 workouts
-	} else {
-		dotColor = colors.yellow; // Yellow dot for logged days
-	}
+	Object.keys(workoutData).forEach((date) => {
+		const workoutsCount = workoutData[date].length;
 
-	const markedDates = {
-		[selectedDate]: {
-			selected: true,
-			disableTouchEvent: true,
+		let dots = [];
+		if (workoutsCount >= 5) {
+			dots = [
+				{ key: "first", color: markedDatesColors.first },
+				{ key: "second", color: markedDatesColors.second },
+				{ key: "third", color: markedDatesColors.third },
+			];
+		} else if (workoutsCount >= 3) {
+			dots = [
+				{ key: "first", color: markedDatesColors.first },
+				{ key: "second", color: markedDatesColors.second },
+			];
+		} else if (workoutsCount < 3) {
+			dots = [{ key: "first", color: markedDatesColors.first }];
+		}
+
+		markedDates[date] = {
+			dots,
+			selected: false,
+			disableTouchEvent: false,
 			selectedDotColor: colors.yellow,
-			dotColor: colors.white,
-		},
-	};
+			marked: true,
+		};
+	});
 
-	if (workoutCount > 0) {
-		markedDates[selectedDate].dots = [
-			{
-				key: "workout",
-				color: dotColor,
-				selectedDotColor: colors.white,
-			},
-		];
-	}
+	markedDates[selectedDate] = {
+		...markedDates[selectedDate],
+		selected: true,
+	};
 
 	return (
 		<View style={styles.container}>
 			<Calendar
 				current={selectedDate}
 				onDayPress={onDayPress}
+				markingType="multi-dot"
 				markedDates={markedDates}
 				theme={{
 					"stylesheet.calendar.header": {
