@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import {
 	View,
 	Text,
@@ -11,8 +11,14 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { colors } from "../styles/colors";
 import { AntDesign } from "@expo/vector-icons";
 import ExerciseTimerComponent from "../components/ExerciseTimerComponent";
-import { useScreenUnlock } from "../helpers/useScreenUnlock";
 import WorkoutRestComponent from "../components/WorkoutRestComponent";
+import { useScreenUnlock } from "../helpers/useScreenUnlock";
+import { auth, db } from "../firebaseConfig";
+import {
+	collection,
+	addDoc,
+	serverTimestamp,
+} from "firebase/firestore";
 
 const WorkoutExerciseScreen = ({ route, navigation }) => {
 	const exercises = Array.isArray(route.params.exercises)
@@ -22,7 +28,7 @@ const WorkoutExerciseScreen = ({ route, navigation }) => {
 	const exercise = exercises[currentIndex];
 	const [timeLeft, setTimeLeft] = useState(exercise.time);
 	const [isResting, setIsResting] = useState(false);
-	
+
 	useScreenUnlock();
 
 	const handleNextPress = () => {
@@ -49,12 +55,27 @@ const WorkoutExerciseScreen = ({ route, navigation }) => {
 		}
 	};
 
-	useEffect(() => {
-	
-		if (currentIndex === exercises.length - 1 && isResting) {
+	const handleFinishPress = async () => {
+		try {
+			const userId = auth.currentUser.uid;
+			const userActivitiesRef = collection(db, "users", userId, "userActivities");
+			const timestamp = serverTimestamp();
+
+			// Create the user activity document
+			await addDoc(userActivitiesRef, {
+				workoutName: route.params.workoutName,
+				timestamp,
+				targets: exercises.map((exercise) => exercise.target),
+			});
+
+			console.log("New user activity created successfully!");
+
+			// Navigate to WorkoutCompleteScreen
 			navigation.navigate("WorkoutCompleteScreen");
+		} catch (error) {
+			console.error("Error creating user activity: ", error);
 		}
-	}, [currentIndex, isResting]);
+	};
 
 	const { width, height } = useWindowDimensions();
 	const isLandscape = width > height;
@@ -101,7 +122,14 @@ const WorkoutExerciseScreen = ({ route, navigation }) => {
 								setTimeLeft={setTimeLeft}
 								handleNextPress={handleNextPress}
 							/>
-							<TouchableOpacity onPress={handleNextPress} style={styles.button}>
+							<TouchableOpacity
+								onPress={
+									currentIndex === exercises.length - 1
+										? handleFinishPress
+										: handleNextPress
+								}
+								style={styles.button}
+							>
 								<Text style={styles.buttonText}>
 									{currentIndex === exercises.length - 1 ? "Finish" : "Next"}
 								</Text>
