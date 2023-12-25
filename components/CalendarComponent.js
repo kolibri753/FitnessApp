@@ -1,12 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { Calendar } from "react-native-calendars";
-import { View, Text, StyleSheet } from "react-native";
+import { View, Text, StyleSheet, FlatList } from "react-native";
 import { colors, markedDatesColors } from "../styles/colors";
+import { auth, db } from "../firebaseConfig";
+import { collection, query, getDocs } from "firebase/firestore";
 
 const CalendarComponent = () => {
 	const [selectedDate, setSelectedDate] = useState(
 		new Date().toISOString().split("T")[0]
 	);
+	const [workoutData, setWorkoutData] = useState([]);
 
 	const onDayPress = (day) => {
 		setSelectedDate(day.dateString);
@@ -15,24 +18,44 @@ const CalendarComponent = () => {
 		console.log("Selected date:", day.dateString);
 	};
 
-	// Dummy workout data for demonstration
-	const workoutData = {
-		"2023-12-01": [
-			{ time: "09:00 AM", exercise: "Running" },
-			{ time: "12:30 PM", exercise: "Weightlifting" },
-			{ time: "04:00 PM", exercise: "Yoga" },
-		],
-		"2023-12-02": [
-			{ time: "10:00 AM", exercise: "Cycling" },
-			{ time: "01:30 PM", exercise: "Swimming" },
-		],
-	};
+	useEffect(() => {
+		const fetchWorkoutData = async () => {
+			try {
+				const userId = auth.currentUser.uid;
+				const userActivitiesRef = collection(db, "users", userId, "userActivities");
+				const q = query(
+					userActivitiesRef
+					// Fetch all workouts for the user
+				);
 
-	const workoutsForSelectedDate = workoutData[selectedDate] || [];
+				const querySnapshot = await getDocs(q);
+				const data = [];
+				querySnapshot.forEach((doc) => {
+					const { workoutName, timestamp } = doc.data();
+					data.push({
+						workoutName,
+						timestamp: timestamp.toDate(),
+					});
+				});
+
+				console.log("Fetched workout data:", data);
+
+				setWorkoutData(data);
+			} catch (error) {
+				console.error("Error fetching workout data: ", error);
+			}
+		};
+
+		fetchWorkoutData();
+	}, []);
+
 	const markedDates = {};
 
-	Object.keys(workoutData).forEach((date) => {
-		const workoutsCount = workoutData[date].length;
+	workoutData.forEach((workout) => {
+		const date = new Date(workout.timestamp).toISOString().split("T")[0];
+		const workoutsCount = workoutData.filter(
+			(w) => w.timestamp.toISOString().split("T")[0] === date
+		).length;
 
 		let dots = [];
 		if (workoutsCount >= 5) {
@@ -63,6 +86,11 @@ const CalendarComponent = () => {
 		...markedDates[selectedDate],
 		selected: true,
 	};
+
+	const filteredWorkouts = workoutData.filter(
+		(workout) =>
+			new Date(workout.timestamp).toISOString().split("T")[0] === selectedDate
+	);
 
 	return (
 		<View style={styles.container}>
@@ -100,15 +128,24 @@ const CalendarComponent = () => {
 					textDayHeaderFontSize: 14,
 				}}
 			/>
-			<View style={styles.workoutContainer}>
-				<Text style={styles.workoutTitle}>Workouts for {selectedDate}</Text>
-				{workoutsForSelectedDate.map((workout, index) => (
+			<FlatList
+				data={filteredWorkouts}
+				keyExtractor={(item, index) => index.toString()}
+				ListHeaderComponent={() => (
+					<Text style={styles.workoutTitle}>Workouts for {selectedDate}</Text>
+				)}
+				renderItem={({ item, index }) => (
 					<View key={index} style={styles.workoutItem}>
-						<Text style={styles.workoutTime}>{workout.time}</Text>
-						<Text style={styles.workoutExercise}>{workout.exercise}</Text>
+						<Text style={styles.workoutName}>{item.workoutName}</Text>
+						<Text style={styles.workoutTime}>
+							{item.timestamp.toLocaleTimeString([], {
+								hour: "2-digit",
+								minute: "2-digit",
+							})}
+						</Text>
 					</View>
-				))}
-			</View>
+				)}
+			/>
 		</View>
 	);
 };
@@ -138,7 +175,7 @@ const styles = StyleSheet.create({
 		fontWeight: "bold",
 		color: colors.white,
 	},
-	workoutExercise: {
+	workoutName: {
 		fontSize: 16,
 		color: colors.white,
 	},
