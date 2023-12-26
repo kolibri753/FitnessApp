@@ -4,8 +4,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import WorkoutComponent from "../components/WorkoutComponent";
 import TopNavigationComponent from "../components/common/TopNavigationComponent";
 import { colors } from "../styles/colors";
-import { realTimeDb } from "../firebaseConfig";
-import { ref, get } from "firebase/database";
+import { fetchWorkoutsFromRealTimeDb } from "../utils/firebaseUtils";
 
 const WorkoutsScreen = ({ navigation }) => {
 	const [workouts, setWorkouts] = useState([]);
@@ -13,22 +12,9 @@ const WorkoutsScreen = ({ navigation }) => {
 	useEffect(() => {
 		const fetchWorkouts = async () => {
 			try {
-				const workoutsRef = ref(realTimeDb, "workouts");
-				const snapshot = await get(workoutsRef);
-
-				if (snapshot.exists()) {
-					const data = snapshot.val();
-					const workoutArray = Object.entries(data).map(([id, workout]) => ({
-						id,
-						...workout,
-						exercises: workout?.exercises || [],
-					}));
-
-					console.log("Workouts data:", workoutArray);
-					setWorkouts(workoutArray);
-				} else {
-					console.log("No data available");
-				}
+				const workoutArray = await fetchWorkoutsFromRealTimeDb();
+				console.log("Workouts data:", workoutArray);
+				setWorkouts(workoutArray);
 			} catch (error) {
 				console.error("Error fetching workouts:", error);
 			}

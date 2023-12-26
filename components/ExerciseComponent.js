@@ -2,9 +2,7 @@ import React, { useState } from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { colors } from "../styles/colors";
-import showRegisterAlert from "../helpers/showRegisterAlert";
-import { db, auth } from "../firebaseConfig";
-import { doc, setDoc, getDoc, deleteDoc, onSnapshot } from "firebase/firestore";
+import { toggleStarredExercise } from "../utils/firebaseUtils";
 import useStarredExercise from "../hooks/useStarredExercise";
 import ExerciseModal from "./ExerciseModal";
 
@@ -21,31 +19,13 @@ const ExerciseComponent = ({
 	const [rest, setRest] = useState("");
 
 	const handleStarPress = async () => {
-		try {
-			if (auth.currentUser) {
-				const userRef = doc(db, "users", auth.currentUser.uid);
-				const exerciseRef = doc(userRef, "favoriteExercises", exercise.id);
-				const exerciseDoc = await getDoc(exerciseRef);
-
-				if (exerciseDoc.exists()) {
-					// Exercise is already starred, so delete it from favoriteExercises
-					await deleteDoc(exerciseRef);
-					setIsStarred(false);
-				} else {
-					// Exercise is not starred, so add it to favoriteExercises
-					await setDoc(exerciseRef, {
-						...exercise,
-						starredAt: new Date(),
-					});
-					setIsStarred(true);
-				}
-			} else {
-				showRegisterAlert(navigation);
-			}
-		} catch (error) {
-			console.error("Error adding/deleting exercise to/from firestore:", error);
-		}
-	};
+    try {
+      const toggledStar = await toggleStarredExercise(exercise, navigation);
+      setIsStarred(toggledStar);
+    } catch (error) {
+      console.error("Error toggling starred exercise:", error);
+    }
+  };
 
 	const openModal = () => {
 		setIsModalVisible(true);

@@ -13,12 +13,7 @@ import { AntDesign } from "@expo/vector-icons";
 import ExerciseTimerComponent from "../components/ExerciseTimerComponent";
 import WorkoutRestComponent from "../components/WorkoutRestComponent";
 import { useScreenUnlock } from "../helpers/useScreenUnlock";
-import { auth, db } from "../firebaseConfig";
-import {
-	collection,
-	addDoc,
-	serverTimestamp,
-} from "firebase/firestore";
+import { createUserActivity } from "../utils/firebaseUtils";
 
 const WorkoutExerciseScreen = ({ route, navigation }) => {
 	const exercises = Array.isArray(route.params.exercises)
@@ -57,19 +52,7 @@ const WorkoutExerciseScreen = ({ route, navigation }) => {
 
 	const handleFinishPress = async () => {
 		try {
-			const userId = auth.currentUser.uid;
-			const userActivitiesRef = collection(db, "users", userId, "userActivities");
-			const timestamp = serverTimestamp();
-
-			// Create the user activity document
-			await addDoc(userActivitiesRef, {
-				workoutName: route.params.workoutName,
-				timestamp,
-				targets: exercises.map((exercise) => exercise.target),
-			});
-
-			console.log("New user activity created successfully!");
-
+			await createUserActivity(route.params.workoutName, exercises);
 			// Navigate to WorkoutCompleteScreen
 			navigation.navigate("WorkoutCompleteScreen");
 		} catch (error) {

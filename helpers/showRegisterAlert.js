@@ -9,7 +9,9 @@ const showRegisterAlert = (navigation) => {
 				text: "Cancel",
 				style: "cancel",
 				onPress: () => {
-					navigation.goBack();
+					if (navigation.canGoBack()) {
+						navigation.goBack();
+					}
 				},
 			},
 			{

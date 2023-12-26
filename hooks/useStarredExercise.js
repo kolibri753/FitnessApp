@@ -1,30 +1,27 @@
 import { useState, useEffect } from "react";
-import { auth, db } from "../firebaseConfig";
-import { doc, onSnapshot } from "firebase/firestore";
+import { auth } from "../firebaseConfig";
+import { fetchFavoriteExercises } from "../utils/firebaseUtils";
 
 export default function useStarredExercise(exerciseId) {
-  const [isStarred, setIsStarred] = useState(false);
+	const [isStarred, setIsStarred] = useState(false);
 
-  useEffect(() => {
+	useEffect(() => {
 		const currentUser = auth.currentUser;
 		if (!currentUser) {
 			return;
 		}
 
-		const unsubscribe = onSnapshot(
-			doc(db, "users", currentUser.uid, "favoriteExercises", exerciseId),
-			(snapshot) => {
-				setIsStarred(snapshot.exists());
-			},
-			(error) => {
-				console.error("Error fetching starred exercise:", error);
-			}
-		);
+		const unsubscribe = fetchFavoriteExercises(currentUser.uid, (exercises) => {
+			const starredExercise = exercises.find(
+				(exercise) => exercise.id === exerciseId
+			);
+			setIsStarred(!!starredExercise);
+		});
 
 		return () => {
 			unsubscribe();
 		};
 	}, [exerciseId, auth.currentUser]);
 
-  return [isStarred, setIsStarred];
+	return [isStarred, setIsStarred];
 }

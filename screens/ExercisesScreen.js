@@ -13,9 +13,10 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import ExerciseComponent from "../components/ExerciseComponent";
 import PaginationComponent from "../components/PaginationComponent";
 import TopNavigationComponent from "../components/common/TopNavigationComponent";
-import { auth, db } from "../firebaseConfig";
-import { collection, addDoc, query, getDocs } from "firebase/firestore";
 import useExercisesPagination from "../hooks/useExercisesPagination";
+import { addWorkoutExercise } from "../utils/firebaseUtils";
+import Toast from "react-native-root-toast";
+import { auth } from "../firebaseConfig";
 
 import { useSelector, useDispatch } from "react-redux";
 import { fetchExercisesData } from "../redux/slices/exercisesSlice";
@@ -55,36 +56,42 @@ const ExercisesScreen = ({ route, navigation }) => {
 		setFetchedExercises(reduxExercises);
 	}, [reduxExercises, setExercises]);
 
-	const handleSelectExercise = (exerciseData) => {
-		// Save exerciseData to Firestore
-		const userId = auth.currentUser.uid;
-		const workoutId = route.params.workoutId;
-		const userWorkoutsRef = collection(
-			db,
-			"users",
-			userId,
-			"userWorkouts",
-			workoutId,
-			"exercises"
-		);
+	const handleSelectExercise = async (exerciseData) => {
+		try {
+			const userId = auth.currentUser.uid;
+			const workoutId = route.params.workoutId;
 
-		// Get the number of exercises already in the collection
-		const q = query(userWorkoutsRef);
-		getDocs(q)
-			.then((querySnapshot) => {
-				const numExercises = querySnapshot.size;
-				// Add the new exercise with an order value of the next number
-				addDoc(userWorkoutsRef, { ...exerciseData, order: numExercises + 1 })
-					.then((docRef) => {
-						console.log("Exercise added with ID: ", docRef.id);
-					})
-					.catch((error) => {
-						console.error("Error adding exercise: ", error);
-					});
-			})
-			.catch((error) => {
-				console.error("Error getting exercises: ", error);
-			});
+			await addWorkoutExercise(userId, workoutId, exerciseData, handleSuccess, handleError);
+
+		} catch (error) {
+			console.error("Error handling select exercise: ", error);
+		}
+	};
+
+	const handleSuccess = (message) => {
+		Toast.show(message, {
+			duration: Toast.durations.SHORT,
+			position: 0,
+			shadow: true,
+			animation: true,
+			hideOnPress: true,
+			backgroundColor: colors.success,
+			textColor: colors.white,
+			delay: 0,
+		});
+	};
+
+	const handleError = (error) => {
+		Toast.show(error, {
+			duration: Toast.durations.SHORT,
+			position: 0,
+			shadow: true,
+			animation: true,
+			hideOnPress: true,
+			backgroundColor: colors.error,
+			textColor: colors.white,
+			delay: 0,
+		});
 	};
 
 	const handleSearch = () => {

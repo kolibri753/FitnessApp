@@ -1,13 +1,18 @@
 import showRegisterAlert from "../helpers/showRegisterAlert";
-import { auth, db } from "../firebaseConfig";
+import { auth, db, realTimeDb } from "../firebaseConfig";
+import { ref, get } from "firebase/database";
 import {
 	collection,
 	doc,
 	getDoc,
+	getDocs,
 	setDoc,
+	addDoc,
 	updateDoc,
 	deleteDoc,
 	onSnapshot,
+	serverTimestamp,
+  query,
 } from "firebase/firestore";
 
 export const checkLoggedInAndAlert = (navigation) => {
@@ -137,6 +142,29 @@ export const fetchWorkoutExercises = (uid, workoutId, setExercises) => {
 	return unsubscribe;
 };
 
+export const addWorkoutExercise = async (uid, workoutId, exerciseData, onSuccess, onError) => {
+  try {
+    const userWorkoutsRef = collection(
+      db,
+      "users",
+      uid,
+      "userWorkouts",
+      workoutId,
+      "exercises"
+    );
+
+    const q = query(userWorkoutsRef);
+    const querySnapshot = await getDocs(q);
+
+    const numExercises = querySnapshot.size;
+
+    await addDoc(userWorkoutsRef, { ...exerciseData, order: numExercises + 1 });
+    onSuccess("Exercise added to workout successfully");
+	} catch (error) {
+		onError(`Error adding exercise: ${error}`);
+	}
+};
+
 export const deleteWorkoutExercise = async (uid, workoutId, exerciseId) => {
 	try {
 		const exerciseRef = doc(
@@ -156,31 +184,95 @@ export const deleteWorkoutExercise = async (uid, workoutId, exerciseId) => {
 	}
 };
 
-export const fetchUserActivity = (onSuccess, onError) => {
+export const toggleStarredExercise = async (exercise, navigation) => {
 	try {
-		const userId = auth.currentUser.uid;
-		const userActivitiesRef = collection(db, "users", userId, "userActivities");
+		if (!checkLoggedInAndAlert(navigation)) {
+			return;
+		}
 
-		const unsubscribe = onSnapshot(
-			userActivitiesRef,
-			(snapshot) => {
-				const data = snapshot.docs.map((doc) => {
-					const { workoutName, timestamp, targets } = doc.data();
-					return {
-						workoutName,
-						timestamp: timestamp.toDate(),
-						targets,
-					};
-				});
-				onSuccess(data);
-			},
-			onError
-		);
+		const userRef = doc(db, "users", auth.currentUser.uid);
+		const exerciseRef = doc(userRef, "favoriteExercises", exercise.id);
+		const exerciseDoc = await getDoc(exerciseRef);
 
-		return unsubscribe;
+		if (exerciseDoc.exists()) {
+			// Exercise is already starred, so delete it from favoriteExercises
+			await deleteDoc(exerciseRef);
+			return false;
+		} else {
+			// Exercise is not starred, so add it to favoriteExercises
+			await setDoc(exerciseRef, {
+				...exercise,
+				starredAt: new Date(),
+			});
+			return true;
+		}
+	} catch (error) {
+		console.error("Error adding/deleting exercise to/from firestore:", error);
+		throw error;
+	}
+};
+
+export const fetchUserActivity = async (onSuccess, onError) => {
+	try {
+		const uid = auth.currentUser.uid;
+		const userActivitiesRef = collection(db, "users", uid, "userActivities");
+
+		const querySnapshot = await getDocs(userActivitiesRef);
+
+		const data = querySnapshot.docs.map((doc) => {
+			const { workoutName, timestamp, targets } = doc.data();
+			return {
+				workoutName,
+				timestamp: timestamp.toDate(),
+				targets,
+			};
+		});
+
+		onSuccess(data);
 	} catch (error) {
 		console.error("Error fetching workout data: ", error);
 		onError(error);
+		throw error;
+	}
+};
+
+export const createUserActivity = async (workoutName, exercises) => {
+	try {
+		const uid = auth.currentUser.uid;
+		const userActivitiesRef = collection(db, "users", uid, "userActivities");
+		const timestamp = serverTimestamp();
+
+		await addDoc(userActivitiesRef, {
+			workoutName,
+			timestamp,
+			targets: exercises.map((exercise) => exercise.target),
+		});
+
+		console.log("New user activity created successfully!");
+	} catch (error) {
+		console.error("Error creating user activity: ", error);
+		throw error;
+	}
+};
+
+export const fetchWorkoutsFromRealTimeDb = async () => {
+	try {
+		const workoutsRef = ref(realTimeDb, "workouts");
+		const snapshot = await get(workoutsRef);
+
+		if (snapshot.exists()) {
+			const data = snapshot.val();
+			return Object.entries(data).map(([id, workout]) => ({
+				id,
+				...workout,
+				exercises: workout?.exercises || [],
+			}));
+		} else {
+			console.log("No data available");
+			return [];
+		}
+	} catch (error) {
+		console.error("Error fetching workouts:", error);
 		throw error;
 	}
 };
