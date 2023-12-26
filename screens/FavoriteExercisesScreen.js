@@ -1,63 +1,57 @@
-import React, { useState, useRef, useEffect } from "react";
-import {
-	Text,
-	StyleSheet,
-	ScrollView,
-  Alert,
-} from "react-native";
+import React, { useEffect } from "react";
+import { Text, StyleSheet, ScrollView, Alert } from "react-native";
 import { colors } from "../styles/colors";
 import { SafeAreaView } from "react-native-safe-area-context";
 import ExerciseComponent from "../components/ExerciseComponent";
 import PaginationComponent from "../components/PaginationComponent";
 import TopNavigationComponent from "../components/common/TopNavigationComponent";
-import showRegisterAlert from "../helpers/showRegisterAlert";
-import { auth, db } from "../firebaseConfig";
-import { collection, doc, onSnapshot } from "firebase/firestore";
 import useExercisesPagination from "../hooks/useExercisesPagination";
+import {
+	checkLoggedInAndAlert,
+	fetchFavoriteExercises,
+} from "../utils/firebaseUtils";
+import { auth } from "../firebaseConfig";
 
 const FavoriteExercisesScreen = ({ navigation }) => {
 	const {
-    exercises,
-    setExercises,
-    page,
-    setPage,
-    scrollViewRef,
-    scrollToTop,
-    handleNextPage,
-    handlePrevPage,
-    getPaginatedExercises,
-  } = useExercisesPagination([]);
+		exercises,
+		setExercises,
+		page,
+		setPage,
+		scrollViewRef,
+		scrollToTop,
+		handleNextPage,
+		handlePrevPage,
+		getPaginatedExercises,
+	} = useExercisesPagination([]);
 
 	useEffect(() => {
-    const currentUser = auth.currentUser;
-    if (!currentUser) {
-      showRegisterAlert(navigation);
-      return;
-    }
+		const currentUser = auth.currentUser;
+		if (!checkLoggedInAndAlert(navigation)) {
+			return;
+		}
 
-		const unsubscribe = onSnapshot(
-      collection(db, "users", currentUser.uid, "favoriteExercises"),
-      (snapshot) => {
-        const exercises = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-        setExercises(exercises);
-      },
-      (error) => {
-        console.error("Error fetching favorite exercises:", error);
-      }
-    );
-  
-    return () => {
-      unsubscribe();
-    };
-    
+		const unsubscribe = fetchFavoriteExercises(currentUser.uid, setExercises);
+
+		return () => {
+			unsubscribe();
+		};
 	}, []);
 
 	return (
 		<SafeAreaView style={styles.container}>
-			<TopNavigationComponent title={`Favorite Exercises`} activeDot={2} navigation={navigation} />
+			<TopNavigationComponent
+				title={`Favorite Exercises`}
+				activeDot={2}
+				navigation={navigation}
+			/>
 			<ScrollView style={styles.exercisesContainer} ref={scrollViewRef}>
 				{getPaginatedExercises().map((exercise) => (
-					<ExerciseComponent key={exercise.id} exercise={exercise} navigation={navigation} />
+					<ExerciseComponent
+						key={exercise.id}
+						exercise={exercise}
+						navigation={navigation}
+					/>
 				))}
 				{getPaginatedExercises().length === 0 ? (
 					<Text style={styles.headerText}>
@@ -87,11 +81,11 @@ const styles = StyleSheet.create({
 		flex: 1,
 		padding: 20,
 	},
-  headerText: {
+	headerText: {
 		fontSize: 14,
 		color: colors.white,
 		marginBottom: 20,
-	}
+	},
 });
 
 export default FavoriteExercisesScreen;

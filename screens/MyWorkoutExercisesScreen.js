@@ -14,8 +14,12 @@ import { AntDesign } from "@expo/vector-icons";
 import TopNavigationComponent from "../components/common/TopNavigationComponent";
 import TargetMusclePieChart from "../components/TargetMusclePieChart";
 import { useTargetColors } from "../hooks/useTargetColors";
-import { auth, db } from "../firebaseConfig";
-import { collection, onSnapshot, deleteDoc, doc } from "firebase/firestore";
+import {
+	checkLoggedInAndAlert,
+	fetchWorkoutExercises,
+	deleteWorkoutExercise,
+} from "../utils/firebaseUtils";
+import { auth } from "../firebaseConfig";
 
 const MyWorkoutExercisesScreen = ({ route, navigation }) => {
 	const { workout } = route.params;
@@ -23,38 +27,29 @@ const MyWorkoutExercisesScreen = ({ route, navigation }) => {
 	const { getColorForTarget } = useTargetColors();
 
 	useEffect(() => {
-		const userId = auth.currentUser.uid;
-		const workoutId = workout.id;
-		const userWorkoutsRef = collection(
-			db,
-			"users",
-			userId,
-			"userWorkouts",
-			workoutId,
-			"exercises"
-		);
+		const fetchData = async () => {
+			if (!checkLoggedInAndAlert(navigation)) {
+				return;
+			}
 
-		const unsubscribe = onSnapshot(userWorkoutsRef, (snapshot) => {
-			const data = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
-			const sortedData = data.sort((a, b) => a.order - b.order);
-			setExercises(sortedData);
-		});
+			const userId = auth.currentUser.uid;
+			const workoutId = workout.id;
 
-		return unsubscribe;
-	}, []);
+			const unsubscribe = fetchWorkoutExercises(userId, workoutId, setExercises);
+			return unsubscribe;
+		};
+
+		fetchData();
+	}, [workout, navigation]);
 
 	const handlePlayButtonPress = () => {
 		navigation.navigate("WorkoutExerciseScreen", {
-			exercises: exercises,
+			exercises,
 			workoutName: workout.name,
 		});
 	};
 
-	const handleDeleteExercise = async (item) => {
-		const userId = auth.currentUser.uid;
-		const workoutId = workout.id;
-		const exerciseId = item.id;
-
+	const handleDeleteExercise = (item) => {
 		Alert.alert(
 			"Delete Exercise",
 			"Are you sure you want to delete this exercise?",
@@ -66,24 +61,12 @@ const MyWorkoutExercisesScreen = ({ route, navigation }) => {
 				},
 				{
 					text: "Delete",
-					onPress: async () => {
-						try {
-							const exerciseRef = doc(
-								db,
-								"users",
-								userId,
-								"userWorkouts",
-								workoutId,
-								"exercises",
-								exerciseId
-							);
+					onPress: () => {
+						const userId = auth.currentUser.uid;
+						const workoutId = workout.id;
+						const exerciseId = item.id;
 
-							await deleteDoc(exerciseRef);
-
-							console.log("Exercise deleted successfully!");
-						} catch (error) {
-							console.error("Error deleting exercise: ", error);
-						}
+						deleteWorkoutExercise(userId, workoutId, exerciseId);
 					},
 				},
 			],

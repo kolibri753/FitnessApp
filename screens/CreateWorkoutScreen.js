@@ -12,9 +12,8 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { colors } from "../styles/colors";
 import TopNavigationComponent from "../components/common/TopNavigationComponent";
 import InputComponent from "../components/common/InputComponent";
-import Toast from 'react-native-root-toast';
-import { auth, db } from "../firebaseConfig";
-import { doc, setDoc } from "firebase/firestore";
+import Toast from "react-native-root-toast";
+import { createUserWorkout } from "../utils/firebaseUtils";
 
 import * as ImagePicker from "expo-image-picker";
 
@@ -23,15 +22,6 @@ const CreateWorkoutScreen = ({ navigation }) => {
 	const [description, setDescription] = useState("");
 	const [errors, setErrors] = useState([]);
 	const [image, setImage] = useState(null);
-
-  const createId = () => {
-    const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    let result = '';
-    for (let i = 0; i < 10; i++) {
-      result += chars.charAt(Math.floor(Math.random() * chars.length));
-    }
-    return result;
-  }
 
 	const handleCreate = async () => {
 		let newErrors = [];
@@ -47,35 +37,35 @@ const CreateWorkoutScreen = ({ navigation }) => {
 		setErrors(newErrors);
 
 		if (newErrors.length === 0) {
-			try {
-				const userRef = doc(db, "users", auth.currentUser.uid);
-				const workoutDocRef = doc(userRef, "userWorkouts", createId());
-				await setDoc(workoutDocRef, { name, description, image });
-
-				Toast.show("Workout created successfully", {
-					duration: Toast.durations.SHORT,
-					position: 0,
-					shadow: true,
-					animation: true,
-					hideOnPress: true,
-					backgroundColor: colors.success,
-					textColor: colors.white,
-					delay: 0,
-				});
-				navigation.navigate("MyWorkoutsScreen");
-			} catch (error) {
-				Toast.show("Error adding workout: " + error, {
-					duration: Toast.durations.SHORT,
-					position: 0,
-					shadow: true,
-					animation: true,
-					hideOnPress: true,
-					backgroundColor: colors.error,
-					textColor: colors.white,
-					delay: 0,
-				});
-			}
+			createUserWorkout(name, description, image, handleSuccess, handleError);
 		}
+	};
+
+	const handleSuccess = (message) => {
+		Toast.show(message, {
+			duration: Toast.durations.SHORT,
+			position: 0,
+			shadow: true,
+			animation: true,
+			hideOnPress: true,
+			backgroundColor: colors.success,
+			textColor: colors.white,
+			delay: 0,
+		});
+		navigation.navigate("MyWorkoutsScreen");
+	};
+
+	const handleError = (error) => {
+		Toast.show(error, {
+			duration: Toast.durations.SHORT,
+			position: 0,
+			shadow: true,
+			animation: true,
+			hideOnPress: true,
+			backgroundColor: colors.error,
+			textColor: colors.white,
+			delay: 0,
+		});
 	};
 
 	const handleSelectImage = async () => {
@@ -100,7 +90,11 @@ const CreateWorkoutScreen = ({ navigation }) => {
 
 	return (
 		<SafeAreaView style={styles.container}>
-			<TopNavigationComponent title="Create Workout" activeDot={2} navigation={navigation}/>
+			<TopNavigationComponent
+				title="Create Workout"
+				activeDot={2}
+				navigation={navigation}
+			/>
 			<View style={styles.content}>
 				<KeyboardAvoidingView
 					style={styles.form}

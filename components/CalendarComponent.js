@@ -2,20 +2,18 @@ import React, { useState } from "react";
 import { Calendar } from "react-native-calendars";
 import { View, StyleSheet } from "react-native";
 import { colors } from "../styles/colors";
-import useUserActivity from "../hooks/useUserActivity";
 import { generateMarkedDates } from "../utils/calendarUtils";
 import CalendarAgendaComponent from "./CalendarAgendaComponent";
 
-const CalendarComponent = () => {
+const CalendarComponent = ({ workoutData }) => {
 	const [selectedDate, setSelectedDate] = useState(
 		new Date().toISOString().split("T")[0]
 	);
-	const workoutData = useUserActivity();
 
 	const handleDayPress = (day) => {
-    setSelectedDate(day.dateString);
-    console.log("Selected date:", day.dateString);
-  };
+		setSelectedDate(day.dateString);
+		console.log("Selected date:", day.dateString);
+	};
 
 	const markedDates = generateMarkedDates(workoutData, selectedDate);
 

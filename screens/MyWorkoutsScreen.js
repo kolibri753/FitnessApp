@@ -1,74 +1,68 @@
 import React, { useState, useEffect } from "react";
-import {
-	StyleSheet,
-	ScrollView,
-	Text,
-	TouchableOpacity,
-	Alert,
-} from "react-native";
+import { StyleSheet, ScrollView, Text, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import WorkoutComponent from "../components/WorkoutComponent";
 import TopNavigationComponent from "../components/common/TopNavigationComponent";
 import { AntDesign } from "@expo/vector-icons";
 import { colors } from "../styles/colors";
-import showRegisterAlert from "../helpers/showRegisterAlert";
-import Toast from 'react-native-root-toast';
-import { auth, db } from "../firebaseConfig";
 import {
-	collection,
-	doc,
-	onSnapshot,
-	deleteDoc,
-} from "firebase/firestore";
-// import data from "../assets/data/workouts.json";
+	checkLoggedInAndAlert,
+	fetchUserWorkouts,
+	deleteUserWorkout,
+} from "../utils/firebaseUtils";
+import Toast from "react-native-root-toast";
+import { auth } from "../firebaseConfig";
 
 const MyWorkoutsScreen = ({ navigation }) => {
 	const [workouts, setWorkouts] = useState([]);
 
 	useEffect(() => {
-		const currentUser = auth.currentUser;
-		if (!currentUser) {
-			showRegisterAlert(navigation);
+		if (!checkLoggedInAndAlert(navigation)) {
 			return;
 		}
 
-		const unsubscribe = onSnapshot(
-			collection(db, "users", auth.currentUser.uid, "userWorkouts"),
-			(snapshot) => {
-				setWorkouts(snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })));
-			}
+		const userId = auth.currentUser.uid;
+
+		const unsubscribe = fetchUserWorkouts(
+			userId,
+			(workouts) => setWorkouts(workouts),
+			(error) => console.error(error)
 		);
 
 		return unsubscribe;
 	}, []);
 
 	const handleDeleteWorkout = async (workoutId) => {
-		try {
-			await deleteDoc(
-				doc(db, "users", auth.currentUser.uid, "userWorkouts", workoutId)
-			);
-			Toast.show("Workout deleted successfully", {
-				duration: Toast.durations.SHORT,
-				position: 0,
-				shadow: true,
-				animation: true,
-				hideOnPress: true,
-				backgroundColor: colors.success,
-				textColor: colors.white,
-				delay: 0,
-			});
-		} catch (error) {
-			Toast.show("Error deleting workout: " + error, {
-				duration: Toast.durations.SHORT,
-				position: 0,
-				shadow: true,
-				animation: true,
-				hideOnPress: true,
-				backgroundColor: colors.error,
-				textColor: colors.white,
-				delay: 0,
-			});
-		}
+		const userId = auth.currentUser.uid;
+
+		deleteUserWorkout(
+			userId,
+			workoutId,
+			(message) => {
+				Toast.show(message, {
+					duration: Toast.durations.SHORT,
+					position: 0,
+					shadow: true,
+					animation: true,
+					hideOnPress: true,
+					backgroundColor: colors.success,
+					textColor: colors.white,
+					delay: 0,
+				});
+			},
+			(error) => {
+				Toast.show(error, {
+					duration: Toast.durations.SHORT,
+					position: 0,
+					shadow: true,
+					animation: true,
+					hideOnPress: true,
+					backgroundColor: colors.error,
+					textColor: colors.white,
+					delay: 0,
+				});
+			}
+		);
 	};
 
 	const handleCreateWorkoutPress = () => {

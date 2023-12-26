@@ -12,86 +12,87 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { colors } from "../styles/colors";
 import TopNavigationComponent from "../components/common/TopNavigationComponent";
 import InputComponent from "../components/common/InputComponent";
-import Toast from 'react-native-root-toast';
-import { auth, db } from "../firebaseConfig";
-import { doc, getDoc, updateDoc } from "firebase/firestore";
+import { fetchUserWorkout, updateUserWorkout } from "../utils/firebaseUtils";
+import Toast from "react-native-root-toast";
 
 import * as ImagePicker from "expo-image-picker";
 
 const UpdateWorkoutScreen = ({ navigation, route }) => {
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-  const [errors, setErrors] = useState([]);
-  const [image, setImage] = useState("");
+	const [name, setName] = useState("");
+	const [description, setDescription] = useState("");
+	const [errors, setErrors] = useState([]);
+	const [image, setImage] = useState("");
 
-  const { workout } = route.params;
+	const { workout } = route.params;
 
-  useEffect(() => {
-    async function fetchWorkout() {
-      try {
-        const userRef = doc(db, "users", auth.currentUser.uid);
-        const workoutDocRef = doc(userRef, "userWorkouts", workout.id);
-        const workoutDoc = await getDoc(workoutDocRef);
+	useEffect(() => {
+		async function fetchWorkoutData() {
+			const workoutData = await fetchUserWorkout(workout.id);
 
-        if (workoutDoc.exists()) {
-          const { name, description, image } = workoutDoc.data();
-          setName(name);
-          setDescription(description);
-          setImage(image);
-        } else {
-          console.log("Workout not found");
-        }
-      } catch (error) {
-        console.error("Error fetching workout: ", error);
-      }
-    }
-    fetchWorkout();
-  }, [workout.id]);
+			if (workoutData) {
+				const { name, description, image } = workoutData;
+				setName(name);
+				setDescription(description);
+				setImage(image);
+			} else {
+				console.log("Workout not found");
+			}
+		}
 
-  const handleUpdate = async () => {
-    let newErrors = [];
+		fetchWorkoutData();
+	}, [workout.id]);
 
-    if (!name.trim()) {
-      newErrors.push("Please enter workout name");
-    }
+	const handleUpdate = async () => {
+		let newErrors = [];
 
-    if (!description.trim()) {
-      newErrors.push("Please enter workout description");
-    }
+		if (!name.trim()) {
+			newErrors.push("Please enter workout name");
+		}
 
-    setErrors(newErrors);
+		if (!description.trim()) {
+			newErrors.push("Please enter workout description");
+		}
 
-    if (newErrors.length === 0) {
-      try {
-        const userRef = doc(db, "users", auth.currentUser.uid);
-        const workoutDocRef = doc(userRef, "userWorkouts", workout.id);
-        await updateDoc(workoutDocRef, { name, description, image });
+		setErrors(newErrors);
 
-				Toast.show("Workout updated successfully", {
-					duration: Toast.durations.SHORT,
-					position: 0,
-					shadow: true,
-					animation: true,
-					hideOnPress: true,
-					backgroundColor: colors.success,
-					textColor: colors.white,
-					delay: 0,
-				});
-				navigation.navigate("MyWorkoutsScreen");
-      } catch (error) {
-				Toast.show("Error updating workout: " + error, {
-					duration: Toast.durations.SHORT,
-					position: 0,
-					shadow: true,
-					animation: true,
-					hideOnPress: true,
-					backgroundColor: colors.error,
-					textColor: colors.white,
-					delay: 0,
-				});
-      }
-    }
-  };
+		if (newErrors.length === 0) {
+			updateUserWorkout(
+				workout.id,
+				name,
+				description,
+				image,
+				handleSuccess,
+				handleError
+			);
+		}
+	};
+
+	const handleSuccess = (message) => {
+		Toast.show(message, {
+			duration: Toast.durations.SHORT,
+			position: 0,
+			shadow: true,
+			animation: true,
+			hideOnPress: true,
+			backgroundColor: colors.success,
+			textColor: colors.white,
+			delay: 0,
+		});
+		navigation.navigate("MyWorkoutsScreen");
+	};
+
+	const handleError = (error) => {
+		Toast.show(error, {
+			duration: Toast.durations.SHORT,
+			position: 0,
+			shadow: true,
+			animation: true,
+			hideOnPress: true,
+			backgroundColor: colors.error,
+			textColor: colors.white,
+			delay: 0,
+		});
+	};
 
 	const handleSelectImage = async () => {
 		const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
