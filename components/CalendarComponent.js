@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Calendar } from "react-native-calendars";
 import { View, Text, StyleSheet, FlatList } from "react-native";
 import { colors, markedDatesColors } from "../styles/colors";
+import TargetMusclePieChart from "./TargetMusclePieChart";
 import { auth, db } from "../firebaseConfig";
 import { collection, query, getDocs } from "firebase/firestore";
 
@@ -31,10 +32,11 @@ const CalendarComponent = () => {
 				const querySnapshot = await getDocs(q);
 				const data = [];
 				querySnapshot.forEach((doc) => {
-					const { workoutName, timestamp } = doc.data();
+					const { workoutName, timestamp, targets } = doc.data();
 					data.push({
 						workoutName,
 						timestamp: timestamp.toDate(),
+						targets,
 					});
 				});
 
@@ -144,6 +146,11 @@ const CalendarComponent = () => {
 							})}
 						</Text>
 					</View>
+				)}
+				ListFooterComponent={() => (
+					<TargetMusclePieChart
+						targets={filteredWorkouts.flatMap((w) => w.targets)}
+					/>
 				)}
 			/>
 		</View>
