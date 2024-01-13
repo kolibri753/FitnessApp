@@ -17,10 +17,12 @@ const CalendarComponent = ({ workoutData }) => {
 
 	const markedDates = generateMarkedDates(workoutData, selectedDate);
 
-	const filteredWorkouts = workoutData.filter(
-		(workout) =>
-			new Date(workout.timestamp).toISOString().split("T")[0] === selectedDate
-	);
+	const filteredWorkouts = workoutData
+    .filter(
+      (workout) =>
+        new Date(workout.timestamp).toISOString().split("T")[0] === selectedDate
+    )
+    .sort((a, b) => new Date(a.timestamp) - new Date(b.timestamp));
 
 	return (
 		<View style={styles.container}>
