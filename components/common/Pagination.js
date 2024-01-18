@@ -1,8 +1,8 @@
 import React from "react";
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-import { colors } from "../styles/colors";
+import { colors } from "../../styles/colors";
 
-const PaginationComponent = ({
+const Pagination = ({
 	page,
 	totalPages,
 	handlePrevPage,
@@ -128,4 +128,4 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default PaginationComponent;
+export default Pagination;

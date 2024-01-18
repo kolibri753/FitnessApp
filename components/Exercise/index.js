@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
-import { colors } from "../styles/colors";
-import { toggleStarredExercise } from "../utils/firebaseUtils";
-import useStarredExercise from "../hooks/useStarredExercise";
-import ExerciseModal from "./ExerciseModal";
+import { colors } from "../../styles/colors";
+import { toggleStarredExercise } from "../../utils/firebaseUtils";
+import useStarredExercise from "../../hooks/useStarredExercise";
+import AddExerciseToWorkoutModal from "./AddToWorkoutModal";
 
-const ExerciseComponent = ({
+const Exercise = ({
 	navigation,
 	exercise,
 	handleSelectExercise,
@@ -72,7 +72,7 @@ const ExerciseComponent = ({
 			<View style={styles.details}>
 				<Text style={styles.title}>{exercise.name}</Text>
 			</View>
-			<ExerciseModal
+			<AddExerciseToWorkoutModal
 				isModalVisible={isModalVisible}
 				closeModal={closeModal}
 				handleSaveExercise={handleSaveExercise}
@@ -135,4 +135,4 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default React.memo(ExerciseComponent);
+export default React.memo(Exercise);

@@ -10,8 +10,8 @@ import {
 import { colors } from "../styles/colors";
 import { AntDesign } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
-import ExerciseComponent from "../components/ExerciseComponent";
-import PaginationComponent from "../components/PaginationComponent";
+import Exercise from "../components/Exercise";
+import Pagination from "../components/common/Pagination";
 import TopNavigation from "../components/common/TopNavigation";
 import useExercisesPagination from "../hooks/useExercisesPagination";
 import { addWorkoutExercise } from "../utils/firebaseUtils";
@@ -136,7 +136,7 @@ const ExercisesScreen = ({ route, navigation }) => {
 					</TouchableOpacity>
 				</View>
 				{getPaginatedExercises().map((exercise, index) => (
-					<ExerciseComponent
+					<Exercise
 						key={index}
 						exercise={exercise}
 						navigation={navigation}
@@ -150,7 +150,7 @@ const ExercisesScreen = ({ route, navigation }) => {
 						get access to the full list of exercises.
 					</Text>
 				)}
-				<PaginationComponent
+				<Pagination
 					page={page}
 					handlePrevPage={handlePrevPage}
 					handleNextPage={handleNextPage}

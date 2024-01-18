@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, StyleSheet } from "react-native";
 import PieChart from "react-native-pie-chart";
-import { targetColors } from "../styles/colors";
+import { targetColors } from "../../styles/colors";
 
 const TargetMusclePieChart = ({ targets }) => {
 	const uniqueTargets = Array.from(new Set(targets));

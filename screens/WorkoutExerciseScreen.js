@@ -10,8 +10,8 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { colors } from "../styles/colors";
 import { AntDesign } from "@expo/vector-icons";
-import ExerciseTimerComponent from "../components/ExerciseTimerComponent";
-import WorkoutRestComponent from "../components/WorkoutRestComponent";
+import ExerciseTimer from "../components/Exercise/Timer";
+import WorkoutRest from "../components/Workout/Rest";
 import { useScreenUnlock } from "../helpers/useScreenUnlock";
 import { createUserActivity } from "../utils/firebaseUtils";
 
@@ -68,7 +68,7 @@ const WorkoutExerciseScreen = ({ route, navigation }) => {
 			style={[styles.container, isLandscape && styles.landscapeContainer]}
 		>
 			{isResting ? (
-				<WorkoutRestComponent
+				<WorkoutRest
 					restTime={exercise.rest}
 					handleNextPress={handleNextPress}
 				/>
@@ -100,7 +100,7 @@ const WorkoutExerciseScreen = ({ route, navigation }) => {
 								<AntDesign name="arrowleft" size={24} color="black" />
 								<Text style={styles.buttonText}>Prev</Text>
 							</TouchableOpacity>
-							<ExerciseTimerComponent
+							<ExerciseTimer
 								timeLeft={timeLeft}
 								setTimeLeft={setTimeLeft}
 								handleNextPress={handleNextPress}

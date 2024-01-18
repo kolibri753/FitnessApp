@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import WorkoutComponent from "../components/WorkoutComponent";
+import Workout from "../components/Workout";
 import TopNavigation from "../components/common/TopNavigation";
 import { colors } from "../styles/colors";
 import { fetchWorkoutsFromRealTimeDb } from "../utils/firebaseUtils";
@@ -32,7 +32,7 @@ const WorkoutsScreen = ({ navigation }) => {
 			<TopNavigation title="Choose Workout" activeDot={1} />
 			<ScrollView style={styles.scrollContainer}>
 				{workouts.map((workout, index) => (
-					<WorkoutComponent
+					<Workout
 						key={index}
 						workout={workout}
 						handleWorkoutPress={handleWorkoutPress}

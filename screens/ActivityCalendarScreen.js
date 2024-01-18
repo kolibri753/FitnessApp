@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import TopNavigation from "../components/common/TopNavigation";
-import CalendarComponent from "../components/CalendarComponent";
+import CustomCalendar from "../components/Calendar";
 import { colors } from "../styles/colors";
 import {
 	checkLoggedInAndAlert,
@@ -36,7 +36,7 @@ const ActivityCalendarScreen = ({ navigation }) => {
 				activeDot={2}
 				navigation={navigation}
 			/>
-			<CalendarComponent workoutData={workoutData} />
+			<CustomCalendar workoutData={workoutData} />
 		</SafeAreaView>
 	);
 };

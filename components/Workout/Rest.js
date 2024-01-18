@@ -7,11 +7,11 @@ import {
 	useWindowDimensions,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { colors } from "../styles/colors";
-import ExerciseTimerComponent from "./ExerciseTimerComponent";
+import { colors } from "../../styles/colors";
+import ExerciseTimer from "../Exercise/Timer";
 import LottieView from "lottie-react-native";
 
-const WorkoutRestComponent = ({ restTime, handleNextPress }) => {
+const WorkoutRest = ({ restTime, handleNextPress }) => {
 	const [timeLeft, setTimeLeft] = useState(restTime);
 
 	// useEffect(() => {
@@ -31,7 +31,7 @@ const WorkoutRestComponent = ({ restTime, handleNextPress }) => {
 		<SafeAreaView style={styles.container}>
 			<View style={styles.animatedTextContainer}>
 				<LottieView
-					source={require("../assets/data/break-text.json")}
+					source={require("../../assets/data/break-text.json")}
 					autoPlay
 					loop
 					style={styles.animationText}
@@ -40,7 +40,7 @@ const WorkoutRestComponent = ({ restTime, handleNextPress }) => {
 			<View style={[styles.container, isLandscape && styles.landscapeContainer]}>
 				<View style={styles.animationContainer}>
 					<LottieView
-						source={require("../assets/data/heartbeat.json")}
+						source={require("../../assets/data/heartbeat.json")}
 						autoPlay
 						loop
 						style={[styles.animation, isLandscape && styles.landscapeAnimation]}
@@ -48,7 +48,7 @@ const WorkoutRestComponent = ({ restTime, handleNextPress }) => {
 				</View>
 				<View style={[styles.infoContainer, isLandscape && styles.landscapeInfoContainer]}>
 					<Text style={styles.title}>Rest Time</Text>
-					<ExerciseTimerComponent
+					<ExerciseTimer
 						timeLeft={timeLeft}
 						setTimeLeft={setTimeLeft}
 						handleNextPress={handleNextPress}
@@ -123,4 +123,4 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default WorkoutRestComponent;
+export default WorkoutRest;

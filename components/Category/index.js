@@ -6,11 +6,11 @@ import {
 	TouchableHighlight,
 	Image,
 } from "react-native";
-import { colors } from "../styles/colors";
+import { colors } from "../../styles/colors";
 import { ref, getDownloadURL } from "firebase/storage";
-import { storage } from "../firebaseConfig";
+import { storage } from "../../firebaseConfig";
 
-const CategoryComponent = ({ category, handleCategoryPress }) => {
+const Category = ({ category, handleCategoryPress }) => {
 	const [categoryImage, setCategoryImage] = useState("");
 	const [isHovered, setIsHovered] = useState(false);
 
@@ -44,7 +44,7 @@ const CategoryComponent = ({ category, handleCategoryPress }) => {
 					source={
 						categoryImage !== ""
 							? { uri: categoryImage }
-							: require("../assets/default-categories-img.png")
+							: require("../../assets/default-categories-img.png")
 					}
 					style={styles.categoryImage}
 				/>
@@ -89,4 +89,4 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default React.memo(CategoryComponent);
+export default React.memo(Category);

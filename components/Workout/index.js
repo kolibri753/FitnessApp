@@ -7,10 +7,10 @@ import {
 	Image,
 	Alert
 } from "react-native";
-import { colors } from "../styles/colors";
+import { colors } from "../../styles/colors";
 import { AntDesign } from "@expo/vector-icons";
 
-const WorkoutComponent = ({
+const Workout = ({
 	workout,
 	handleWorkoutPress,
 	handleDeleteWorkout,
@@ -157,4 +157,4 @@ const styles = StyleSheet.create({
 	},	
 });
 
-export default WorkoutComponent;
+export default Workout;

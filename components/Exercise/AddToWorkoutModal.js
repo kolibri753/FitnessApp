@@ -6,12 +6,11 @@ import {
   TouchableOpacity,
   Modal,
   TextInput,
-  Button,
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
-import { colors } from "../styles/colors";
+import { colors } from "../../styles/colors";
 
-const ExerciseModal = ({
+const AddExerciseToWorkoutModal = ({
   isModalVisible,
   closeModal,
   handleSaveExercise,
@@ -127,4 +126,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default ExerciseModal;
+export default AddExerciseToWorkoutModal;

@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { StyleSheet, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { colors } from "../styles/colors";
-import CategoryComponent from "../components/CategoryComponent";
+import Category from "../components/Category";
 import TopNavigation from "../components/common/TopNavigation";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -29,7 +29,7 @@ const HomeScreen = ({ navigation }) => {
 			<TopNavigation title="Choose Category" activeDot={1} />
 			<ScrollView style={styles.categoriesContainer}>
 				{categories.map((category) => (
-					<CategoryComponent
+					<Category
 						key={category}
 						category={category}
 						handleCategoryPress={handleCategoryPress}

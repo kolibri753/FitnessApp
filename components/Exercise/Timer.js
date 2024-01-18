@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
 import { View, Text, StyleSheet } from "react-native";
-import { colors } from "../styles/colors";
+import { colors } from "../../styles/colors";
 
-const ExerciseTimerComponent = ({ timeLeft, setTimeLeft, handleNextPress }) => {
+const ExerciseTimer = ({ timeLeft, setTimeLeft, handleNextPress }) => {
   useEffect(() => {
     const timer = setInterval(() => {
       setTimeLeft((prevTimeLeft) => prevTimeLeft - 1);
@@ -44,4 +44,4 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default ExerciseTimerComponent;
+export default ExerciseTimer;

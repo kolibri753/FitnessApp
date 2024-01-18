@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet, ScrollView, Text, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import WorkoutComponent from "../components/WorkoutComponent";
+import Workout from "../components/Workout";
 import TopNavigation from "../components/common/TopNavigation";
 import { AntDesign } from "@expo/vector-icons";
 import { colors } from "../styles/colors";
@@ -94,7 +94,7 @@ const MyWorkoutsScreen = ({ navigation }) => {
 					<AntDesign name="pluscircle" size={24} color="black" />
 				</TouchableOpacity>
 				{workouts.map((workout, index) => (
-					<WorkoutComponent
+					<Workout
 						key={index}
 						workout={workout}
 						handleWorkoutPress={handleWorkoutPress}

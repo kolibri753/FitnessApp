@@ -2,8 +2,8 @@ import React, { useEffect } from "react";
 import { Text, StyleSheet, ScrollView, Alert } from "react-native";
 import { colors } from "../styles/colors";
 import { SafeAreaView } from "react-native-safe-area-context";
-import ExerciseComponent from "../components/ExerciseComponent";
-import PaginationComponent from "../components/PaginationComponent";
+import Exercise from "../components/Exercise";
+import Pagination from "../components/common/Pagination";
 import TopNavigation from "../components/common/TopNavigation";
 import useExercisesPagination from "../hooks/useExercisesPagination";
 import {
@@ -47,7 +47,7 @@ const FavoriteExercisesScreen = ({ navigation }) => {
 			/>
 			<ScrollView style={styles.exercisesContainer} ref={scrollViewRef}>
 				{getPaginatedExercises().map((exercise) => (
-					<ExerciseComponent
+					<Exercise
 						key={exercise.id}
 						exercise={exercise}
 						navigation={navigation}
@@ -60,7 +60,7 @@ const FavoriteExercisesScreen = ({ navigation }) => {
 				) : (
 					<></>
 				)}
-				<PaginationComponent
+				<Pagination
 					page={page}
 					handlePrevPage={handlePrevPage}
 					handleNextPage={handleNextPage}

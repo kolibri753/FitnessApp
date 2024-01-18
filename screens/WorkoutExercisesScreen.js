@@ -11,7 +11,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { colors } from "../styles/colors";
 import { AntDesign } from "@expo/vector-icons";
 import TopNavigation from "../components/common/TopNavigation";
-import TargetMusclePieChart from "../components/TargetMusclePieChart";
+import TargetMusclePieChart from "../components/common/TargetMusclePieChart";
 import { useTargetColors } from "../hooks/useTargetColors";
 
 const WorkoutExercisesScreen = ({ route, navigation }) => {

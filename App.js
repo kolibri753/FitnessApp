@@ -9,7 +9,7 @@ import RegistrationScreen from "./screens/RegistrationScreen";
 import BottomTabNavigator from "./navigation/BottomTabNavigator";
 import WorkoutExerciseScreen from "./screens/WorkoutExerciseScreen";
 import WorkoutCompleteScreen from "./screens/WorkoutCompleteScreen";
-import SplashScreen from "./components/SplashScreen";
+import SplashScreen from "./screens/SplashScreen";
 import rootReducer from "./redux/reducers/rootReducer";
 import { RootSiblingParent } from "react-native-root-siblings";
 
