@@ -10,8 +10,8 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { colors } from "../styles/colors";
-import TopNavigationComponent from "../components/common/TopNavigationComponent";
-import InputComponent from "../components/common/InputComponent";
+import TopNavigation from "../components/common/TopNavigation";
+import InputField from "../components/common/InputField";
 import Toast from "react-native-root-toast";
 import { createUserWorkout } from "../utils/firebaseUtils";
 
@@ -90,7 +90,7 @@ const CreateWorkoutScreen = ({ navigation }) => {
 
 	return (
 		<SafeAreaView style={styles.container}>
-			<TopNavigationComponent
+			<TopNavigation
 				title="Create Workout"
 				activeDot={2}
 				navigation={navigation}
@@ -110,7 +110,7 @@ const CreateWorkoutScreen = ({ navigation }) => {
 							</View>
 						)}
 					</TouchableOpacity>
-					<InputComponent
+					<InputField
 						placeholder="Workout Name"
 						value={name}
 						onChangeText={(text) => {
@@ -118,7 +118,7 @@ const CreateWorkoutScreen = ({ navigation }) => {
 							setErrors("");
 						}}
 					/>
-					<InputComponent
+					<InputField
 						placeholder="Workout Description"
 						value={description}
 						onChangeText={(text) => {

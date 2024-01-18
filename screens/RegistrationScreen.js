@@ -8,9 +8,9 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { colors } from "../styles/colors";
-import LogoComponent from "../components/common/LogoComponent";
-import TopNavigationComponent from "../components/common/TopNavigationComponent";
-import InputComponent from "../components/common/InputComponent";
+import Logo from "../components/common/Logo";
+import TopNavigation from "../components/common/TopNavigation";
+import InputField from "../components/common/InputField";
 import { useDispatch, useSelector } from "react-redux";
 import {
 	setName,
@@ -62,9 +62,9 @@ const RegistrationScreen = ({ navigation }) => {
 
 	return (
 		<SafeAreaView style={styles.container}>
-			<TopNavigationComponent title="Sign Up" activeDot={2} />
+			<TopNavigation title="Sign Up" activeDot={2} />
 			<View style={styles.content}>
-				<LogoComponent />
+				<Logo />
 				<Text style={styles.motivation}>
 					"Exercise is a celebration of what your body can do. Not a punishment for
 					what you ate."
@@ -74,7 +74,7 @@ const RegistrationScreen = ({ navigation }) => {
 					behavior={Platform.OS === "ios" ? "padding" : "height"}
 					keyboardVerticalOffset={-20}
 				>
-					<InputComponent
+					<InputField
 						placeholder="Name"
 						value={name}
 						onChangeText={(text) => {
@@ -82,7 +82,7 @@ const RegistrationScreen = ({ navigation }) => {
 							dispatch(setErrors(""));
 						}}
 					/>
-					<InputComponent
+					<InputField
 						placeholder="Email"
 						value={email}
 						onChangeText={(text) => {
@@ -90,7 +90,7 @@ const RegistrationScreen = ({ navigation }) => {
 							dispatch(setErrors(""));
 						}}
 					/>
-					<InputComponent
+					<InputField
 						placeholder="Password"
 						value={password}
 						onChangeText={(text) => {
@@ -99,7 +99,7 @@ const RegistrationScreen = ({ navigation }) => {
 						}}
 						secureTextEntry={true}
 					/>
-					<InputComponent
+					<InputField
 						placeholder="Confirm Password"
 						value={confirmPassword}
 						onChangeText={(text) => {

@@ -12,9 +12,8 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { colors } from "../styles/colors";
 import { Entypo, Ionicons } from "@expo/vector-icons";
-import TopNavigationComponent from "../components/common/TopNavigationComponent";
-import InputComponent from "../components/common/InputComponent";
-import showRegisterAlert from "../helpers/showRegisterAlert";
+import TopNavigation from "../components/common/TopNavigation";
+import InputField from "../components/common/InputField";
 import { handleLogout } from "../redux/slices/authorizationSlice";
 
 import * as ImagePicker from "expo-image-picker";
@@ -110,7 +109,7 @@ const ProfileScreen = ({ navigation }) => {
 
 	return (
 		<SafeAreaView style={styles.container}>
-			<TopNavigationComponent title="Profile" activeDot={1} />
+			<TopNavigation title="Profile" activeDot={1} />
 			<View style={styles.content}>
 				<KeyboardAvoidingView
 					style={styles.form}
@@ -118,7 +117,7 @@ const ProfileScreen = ({ navigation }) => {
 					keyboardVerticalOffset={0}
 				>
 					{auth.currentUser && (
-						<InputComponent
+						<InputField
 							placeholder="New name"
 							value={newName}
 							onChangeText={(text) => {

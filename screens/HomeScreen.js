@@ -3,7 +3,7 @@ import { StyleSheet, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { colors } from "../styles/colors";
 import CategoryComponent from "../components/CategoryComponent";
-import TopNavigationComponent from "../components/common/TopNavigationComponent";
+import TopNavigation from "../components/common/TopNavigation";
 
 import { useDispatch, useSelector } from "react-redux";
 import { fetchCategories } from "../redux/slices/categoriesSlice";
@@ -26,7 +26,7 @@ const HomeScreen = ({ navigation }) => {
 
 	return (
 		<SafeAreaView style={styles.container}>
-			<TopNavigationComponent title="Choose Category" activeDot={1} />
+			<TopNavigation title="Choose Category" activeDot={1} />
 			<ScrollView style={styles.categoriesContainer}>
 				{categories.map((category) => (
 					<CategoryComponent

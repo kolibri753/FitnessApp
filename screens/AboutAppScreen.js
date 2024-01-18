@@ -2,13 +2,13 @@ import React from "react";
 import { StyleSheet, Text, View, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Entypo, MaterialCommunityIcons } from "@expo/vector-icons";
-import TopNavigationComponent from "../components/common/TopNavigationComponent";
+import TopNavigation from "../components/common/TopNavigation";
 import { colors } from "../styles/colors";
 
 const AboutAppScreen = ({ navigation }) => {
 	return (
 		<SafeAreaView style={styles.container}>
-			<TopNavigationComponent
+			<TopNavigation
 				title="About"
 				activeDot={2}
 				navigation={navigation}

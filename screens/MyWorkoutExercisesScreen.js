@@ -11,7 +11,7 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { colors } from "../styles/colors";
 import { AntDesign } from "@expo/vector-icons";
-import TopNavigationComponent from "../components/common/TopNavigationComponent";
+import TopNavigation from "../components/common/TopNavigation";
 import TargetMusclePieChart from "../components/TargetMusclePieChart";
 import { useTargetColors } from "../hooks/useTargetColors";
 import {
@@ -76,7 +76,7 @@ const MyWorkoutExercisesScreen = ({ route, navigation }) => {
 
 	return (
 		<SafeAreaView style={styles.container}>
-			<TopNavigationComponent
+			<TopNavigation
 				title="My Workout"
 				activeDot={2}
 				navigation={navigation}

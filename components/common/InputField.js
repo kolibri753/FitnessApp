@@ -3,7 +3,7 @@ import { TextInput, StyleSheet, View, TouchableOpacity } from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { colors } from "../../styles/colors";
 
-const InputComponent = ({
+const InputField = ({
 	placeholder,
 	value,
 	onChangeText,
@@ -89,4 +89,4 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default InputComponent;
+export default InputField;

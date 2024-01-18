@@ -5,14 +5,14 @@ import {
 	Text,
 } from "react-native";
 import { colors } from "../../styles/colors";
-import Logo from "../../assets/logo.svg";
+import LogoImg from "../../assets/logo.svg";
 
-const LogoComponent = () => {
+const Logo = () => {
 
 	return (
 		<View style={styles.logoContainer}>
 			<Text style={styles.logoText}>Gym</Text>
-			<Logo width={60} height={40} fill="white" />
+			<LogoImg width={60} height={40} fill="white" />
 			<Text style={[styles.logoText, { color: colors.white }]}>Rat</Text>
 		</View>
 	);
@@ -30,4 +30,4 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default LogoComponent;
+export default Logo;

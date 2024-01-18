@@ -9,9 +9,9 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { useSelector, useDispatch } from "react-redux";
 import { colors } from "../styles/colors";
-import LogoComponent from "../components/common/LogoComponent";
-import TopNavigationComponent from "../components/common/TopNavigationComponent";
-import InputComponent from "../components/common/InputComponent";
+import Logo from "../components/common/Logo";
+import TopNavigation from "../components/common/TopNavigation";
+import InputField from "../components/common/InputField";
 import Toast from "react-native-root-toast";
 
 import {
@@ -72,9 +72,9 @@ const AuthorizationScreen = ({ navigation }) => {
 
 	return (
 		<SafeAreaView style={styles.container}>
-			<TopNavigationComponent title="Sign In" activeDot={1} />
+			<TopNavigation title="Sign In" activeDot={1} />
 			<View style={styles.content}>
-				<LogoComponent />
+				<Logo />
 				<Text style={styles.motivation}>
 					"Transform your body, transform your life. Let this fitness app be your
 					guide on the journey to a healthier and happier you."
@@ -84,7 +84,7 @@ const AuthorizationScreen = ({ navigation }) => {
 					behavior={Platform.OS === "ios" ? "padding" : "height"}
 					keyboardVerticalOffset={50}
 				>
-					<InputComponent
+					<InputField
 						placeholder="Email"
 						value={email}
 						onChangeText={(text) => {
@@ -92,7 +92,7 @@ const AuthorizationScreen = ({ navigation }) => {
 							dispatch(setErrors(""));
 						}}
 					/>
-					<InputComponent
+					<InputField
 						placeholder="Password"
 						value={password}
 						onChangeText={(text) => {

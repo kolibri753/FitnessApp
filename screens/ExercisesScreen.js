@@ -12,7 +12,7 @@ import { AntDesign } from "@expo/vector-icons";
 import { SafeAreaView } from "react-native-safe-area-context";
 import ExerciseComponent from "../components/ExerciseComponent";
 import PaginationComponent from "../components/PaginationComponent";
-import TopNavigationComponent from "../components/common/TopNavigationComponent";
+import TopNavigation from "../components/common/TopNavigation";
 import useExercisesPagination from "../hooks/useExercisesPagination";
 import { addWorkoutExercise } from "../utils/firebaseUtils";
 import Toast from "react-native-root-toast";
@@ -118,7 +118,7 @@ const ExercisesScreen = ({ route, navigation }) => {
 
 	return (
 		<SafeAreaView style={styles.container}>
-			<TopNavigationComponent
+			<TopNavigation
 				title={`Exercises: ${selectedCategory}`}
 				activeDot={2}
 				navigation={navigation}

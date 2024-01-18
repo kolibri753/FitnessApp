@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { StyleSheet } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import TopNavigationComponent from "../components/common/TopNavigationComponent";
+import TopNavigation from "../components/common/TopNavigation";
 import CalendarComponent from "../components/CalendarComponent";
 import { colors } from "../styles/colors";
 import {
@@ -31,7 +31,7 @@ const ActivityCalendarScreen = ({ navigation }) => {
 
 	return (
 		<SafeAreaView style={styles.container}>
-			<TopNavigationComponent
+			<TopNavigation
 				title="Activity Calendar"
 				activeDot={2}
 				navigation={navigation}

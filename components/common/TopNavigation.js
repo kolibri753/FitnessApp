@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import { colors } from "../../styles/colors";
 
-const TopNavigationComponent = ({ title, activeDot, navigation }) => {
+const TopNavigation = ({ title, activeDot, navigation }) => {
 	return (
 		<View style={styles.header}>
 			{navigation && (
@@ -52,4 +52,4 @@ const styles = StyleSheet.create({
 	},
 });
 
-export default TopNavigationComponent;
+export default TopNavigation;

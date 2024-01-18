@@ -3,7 +3,7 @@ import { StyleSheet, View, TouchableOpacity, Text } from 'react-native';
 import { Ionicons } from '@expo/vector-icons';
 import { colors } from '../../styles/colors';
 
-const BottomNavigationComponent = ({ state, descriptors, navigation }) => {
+const BottomNavigation = ({ state, descriptors, navigation }) => {
   return (
     <View style={styles.container}>
       {state.routes.map((route, index) => {
@@ -66,4 +66,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default BottomNavigationComponent;
+export default BottomNavigation;

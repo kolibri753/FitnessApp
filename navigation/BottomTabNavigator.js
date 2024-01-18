@@ -4,13 +4,13 @@ import HomeScreen from "../screens/HomeScreen";
 import ExercisesScreen from "../screens/ExercisesScreen";
 import ProfileStackNavigator from "./ProfileStackNavigator";
 import WorkoutStackNavigator from "./WorkoutStackNavigator";
-import BottomNavigationComponent from "../components/common/BottomNavigationComponent";
+import BottomNavigation from "../components/common/BottomNavigation";
 
 const Tab = createBottomTabNavigator();
 
 const BottomTabNavigator = () => {
   return (
-    <Tab.Navigator tabBar={(props) => <BottomNavigationComponent {...props} />}>
+    <Tab.Navigator tabBar={(props) => <BottomNavigation {...props} />}>
       <Tab.Screen
         name="HomeScreen"
         component={HomeScreen}

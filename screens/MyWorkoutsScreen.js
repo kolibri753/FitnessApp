@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { StyleSheet, ScrollView, Text, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import WorkoutComponent from "../components/WorkoutComponent";
-import TopNavigationComponent from "../components/common/TopNavigationComponent";
+import TopNavigation from "../components/common/TopNavigation";
 import { AntDesign } from "@expo/vector-icons";
 import { colors } from "../styles/colors";
 import {
@@ -79,7 +79,7 @@ const MyWorkoutsScreen = ({ navigation }) => {
 
 	return (
 		<SafeAreaView style={styles.container}>
-			<TopNavigationComponent
+			<TopNavigation
 				title="Choose Workout"
 				activeDot={2}
 				navigation={navigation}

@@ -4,7 +4,7 @@ import { colors } from "../styles/colors";
 import { SafeAreaView } from "react-native-safe-area-context";
 import ExerciseComponent from "../components/ExerciseComponent";
 import PaginationComponent from "../components/PaginationComponent";
-import TopNavigationComponent from "../components/common/TopNavigationComponent";
+import TopNavigation from "../components/common/TopNavigation";
 import useExercisesPagination from "../hooks/useExercisesPagination";
 import {
 	checkLoggedInAndAlert,
@@ -40,7 +40,7 @@ const FavoriteExercisesScreen = ({ navigation }) => {
 
 	return (
 		<SafeAreaView style={styles.container}>
-			<TopNavigationComponent
+			<TopNavigation
 				title={`Favorite Exercises`}
 				activeDot={2}
 				navigation={navigation}
