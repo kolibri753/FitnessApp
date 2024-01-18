@@ -3,7 +3,7 @@ import { createStackNavigator } from "@react-navigation/stack";
 import { NavigationContainer } from "@react-navigation/native";
 import { Provider } from "react-redux";
 import { configureStore } from "@reduxjs/toolkit";
-import { useScreenLock } from "./helpers/useScreenLock";
+import { useScreenLock } from "./hooks/useScreenLock";
 import AuthorizationScreen from "./screens/AuthorizationScreen";
 import RegistrationScreen from "./screens/RegistrationScreen";
 import BottomTabNavigator from "./navigation/BottomTabNavigator";

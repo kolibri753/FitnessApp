@@ -12,7 +12,7 @@ import { colors } from "../styles/colors";
 import { AntDesign } from "@expo/vector-icons";
 import ExerciseTimer from "../components/Exercise/Timer";
 import WorkoutRest from "../components/Workout/Rest";
-import { useScreenUnlock } from "../helpers/useScreenUnlock";
+import { useScreenUnlock } from "../hooks/useScreenUnlock";
 import { createUserActivity } from "../utils/firebaseUtils";
 
 const WorkoutExerciseScreen = ({ route, navigation }) => {
