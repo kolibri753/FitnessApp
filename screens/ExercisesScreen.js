@@ -16,7 +16,6 @@ import TopNavigation from "../components/common/TopNavigation";
 import useExercisesPagination from "../hooks/useExercisesPagination";
 import { addWorkoutExercise } from "../utils/firebaseUtils";
 import Toast from "react-native-root-toast";
-import { auth } from "../firebaseConfig";
 
 import { useSelector, useDispatch } from "react-redux";
 import { fetchExercisesData } from "../redux/slices/exercisesSlice";
@@ -58,10 +57,9 @@ const ExercisesScreen = ({ route, navigation }) => {
 
 	const handleSelectExercise = async (exerciseData) => {
 		try {
-			const userId = auth.currentUser.uid;
 			const workoutId = route.params.workoutId;
 
-			await addWorkoutExercise(userId, workoutId, exerciseData, handleSuccess, handleError);
+			await addWorkoutExercise(workoutId, exerciseData, handleSuccess, handleError);
 
 		} catch (error) {
 			console.error("Error handling select exercise: ", error);

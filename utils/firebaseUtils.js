@@ -42,7 +42,8 @@ export const fetchFavoriteExercises = (uid, setExercises) => {
 	return unsubscribe;
 };
 
-export const fetchUserWorkouts = (uid, onSuccess, onError) => {
+export const fetchUserWorkouts = (onSuccess, onError) => {
+	const uid = auth.currentUser.uid;
 	const unsubscribe = onSnapshot(
 		collection(db, "users", uid, "userWorkouts"),
 		(snapshot) => {
@@ -68,8 +69,9 @@ export const fetchUserWorkout = async (workoutId) => {
 	}
 };
 
-export const deleteUserWorkout = async (uid, workoutId, onSuccess, onError) => {
+export const deleteUserWorkout = async (workoutId, onSuccess, onError) => {
 	try {
+		const uid = auth.currentUser.uid;
 		await deleteDoc(doc(db, "users", uid, "userWorkouts", workoutId));
 		onSuccess("Workout deleted successfully");
 	} catch (error) {
@@ -123,7 +125,8 @@ export const updateUserWorkout = async (
 	}
 };
 
-export const fetchWorkoutExercises = (uid, workoutId, setExercises) => {
+export const fetchWorkoutExercises = (workoutId, setExercises) => {
+	const uid = auth.currentUser.uid;
 	const userWorkoutsRef = collection(
 		db,
 		"users",
@@ -142,8 +145,9 @@ export const fetchWorkoutExercises = (uid, workoutId, setExercises) => {
 	return unsubscribe;
 };
 
-export const addWorkoutExercise = async (uid, workoutId, exerciseData, onSuccess, onError) => {
+export const addWorkoutExercise = async (workoutId, exerciseData, onSuccess, onError) => {
   try {
+		const uid = auth.currentUser.uid;
     const userWorkoutsRef = collection(
       db,
       "users",
@@ -165,8 +169,9 @@ export const addWorkoutExercise = async (uid, workoutId, exerciseData, onSuccess
 	}
 };
 
-export const deleteWorkoutExercise = async (uid, workoutId, exerciseId) => {
+export const deleteWorkoutExercise = async (workoutId, exerciseId) => {
 	try {
+		const uid = auth.currentUser.uid;
 		const exerciseRef = doc(
 			db,
 			"users",
@@ -238,7 +243,10 @@ export const fetchUserActivity = async (onSuccess, onError) => {
 
 export const createUserActivity = async (workoutName, exercises) => {
 	try {
-		const uid = auth.currentUser.uid;
+		const uid = auth.currentUser?.uid;
+
+		if (!uid) return;
+		
 		const userActivitiesRef = collection(db, "users", uid, "userActivities");
 		const timestamp = serverTimestamp();
 

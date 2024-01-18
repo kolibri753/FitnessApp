@@ -11,7 +11,6 @@ import {
 	deleteUserWorkout,
 } from "../utils/firebaseUtils";
 import Toast from "react-native-root-toast";
-import { auth } from "../firebaseConfig";
 
 const MyWorkoutsScreen = ({ navigation }) => {
 	const [workouts, setWorkouts] = useState([]);
@@ -21,10 +20,7 @@ const MyWorkoutsScreen = ({ navigation }) => {
 			return;
 		}
 
-		const userId = auth.currentUser.uid;
-
 		const unsubscribe = fetchUserWorkouts(
-			userId,
 			(workouts) => setWorkouts(workouts),
 			(error) => console.error(error)
 		);
@@ -33,10 +29,7 @@ const MyWorkoutsScreen = ({ navigation }) => {
 	}, []);
 
 	const handleDeleteWorkout = async (workoutId) => {
-		const userId = auth.currentUser.uid;
-
 		deleteUserWorkout(
-			userId,
 			workoutId,
 			(message) => {
 				Toast.show(message, {

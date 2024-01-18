@@ -25,7 +25,7 @@ const TargetMusclePieChart = ({ targets }) => {
 					sliceColor={sliceColor}
 				/>
 			) : (
-				<Text style={styles.noDataText}>No data available for the chart.</Text>
+				<Text style={styles.noDataText}>Add exercises to this workout!</Text>
 			)}
 			<View style={styles.legendContainer}>
 				{uniqueTargets.map((target, index) => (
@@ -63,6 +63,9 @@ const styles = StyleSheet.create({
 		fontSize: 18,
 		fontWeight: "bold",
 		marginBottom: 10,
+		color: "#fff",
+	},
+	noDataText: {
 		color: "#fff",
 	},
 	legendContainer: {

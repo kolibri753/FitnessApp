@@ -19,7 +19,6 @@ import {
 	fetchWorkoutExercises,
 	deleteWorkoutExercise,
 } from "../utils/firebaseUtils";
-import { auth } from "../firebaseConfig";
 
 const MyWorkoutExercisesScreen = ({ route, navigation }) => {
 	const { workout } = route.params;
@@ -31,11 +30,9 @@ const MyWorkoutExercisesScreen = ({ route, navigation }) => {
 			if (!checkLoggedInAndAlert(navigation)) {
 				return;
 			}
-
-			const userId = auth.currentUser.uid;
 			const workoutId = workout.id;
 
-			const unsubscribe = fetchWorkoutExercises(userId, workoutId, setExercises);
+			const unsubscribe = fetchWorkoutExercises(workoutId, setExercises);
 			return unsubscribe;
 		};
 
@@ -62,11 +59,10 @@ const MyWorkoutExercisesScreen = ({ route, navigation }) => {
 				{
 					text: "Delete",
 					onPress: () => {
-						const userId = auth.currentUser.uid;
 						const workoutId = workout.id;
 						const exerciseId = item.id;
 
-						deleteWorkoutExercise(userId, workoutId, exerciseId);
+						deleteWorkoutExercise(workoutId, exerciseId);
 					},
 				},
 			],
@@ -87,8 +83,9 @@ const MyWorkoutExercisesScreen = ({ route, navigation }) => {
 				<Text style={styles.description}>{workout.description}</Text>
 				<TouchableOpacity
 					onPress={handlePlayButtonPress}
-					style={styles.button}
+					style={[styles.button, exercises.length === 0 && styles.disabledButton]}
 					activeOpacity={0.5}
+					disabled={exercises.length === 0}
 				>
 					<Text style={styles.buttonText}>Play Workout</Text>
 					<AntDesign name="play" size={24} color={colors.black} />
@@ -210,6 +207,9 @@ const styles = StyleSheet.create({
 		padding: 10,
 		marginBottom: 20,
 	},
+	disabledButton: {
+		backgroundColor: colors.lightGrey
+  },
 	buttonText: {
 		color: colors.black,
 		fontSize: 20,
