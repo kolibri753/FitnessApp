@@ -13,6 +13,7 @@ import { colors } from "../styles/colors";
 import { AntDesign } from "@expo/vector-icons";
 import TopNavigation from "../components/common/TopNavigation";
 import TargetMusclePieChart from "../components/common/TargetMusclePieChart";
+import WorkoutDescription from "../components/Workout/Description";
 import { useTargetColors } from "../hooks/useTargetColors";
 import {
 	checkLoggedInAndAlert,
@@ -72,15 +73,14 @@ const MyWorkoutExercisesScreen = ({ route, navigation }) => {
 
 	return (
 		<SafeAreaView style={styles.container}>
-			<TopNavigation
-				title="My Workout"
-				activeDot={2}
-				navigation={navigation}
-			/>
+			<TopNavigation title="My Workout" activeDot={2} navigation={navigation} />
 			<View style={styles.detailsContainer}>
 				<Image source={{ uri: workout.image }} style={styles.workoutImage} />
 				<Text style={styles.title}>{workout.name}</Text>
-				<Text style={styles.description}>{workout.description}</Text>
+				<WorkoutDescription
+					description={workout.description}
+					style={styles.description}
+				/>
 				<TouchableOpacity
 					onPress={handlePlayButtonPress}
 					style={[styles.button, exercises.length === 0 && styles.disabledButton]}
@@ -208,8 +208,8 @@ const styles = StyleSheet.create({
 		marginBottom: 20,
 	},
 	disabledButton: {
-		backgroundColor: colors.lightGrey
-  },
+		backgroundColor: colors.lightGrey,
+	},
 	buttonText: {
 		color: colors.black,
 		fontSize: 20,

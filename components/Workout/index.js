@@ -5,10 +5,11 @@ import {
 	StyleSheet,
 	TouchableHighlight,
 	Image,
-	Alert
+	Alert,
 } from "react-native";
 import { colors } from "../../styles/colors";
 import { AntDesign } from "@expo/vector-icons";
+import WorkoutDescription from "./Description";
 
 const Workout = ({
 	workout,
@@ -58,7 +59,10 @@ const Workout = ({
 				<Image source={{ uri: workout.image }} style={styles.workoutImage} />
 				<View style={styles.workoutInfo}>
 					<Text style={styles.workoutTitle}>{workout.name}</Text>
-					<Text style={styles.workoutDescription}>{workout.description}</Text>
+					<WorkoutDescription
+						description={workout.description}
+						style={styles.workoutDescription}
+					/>
 					{showDeleteButton && (
 						<TouchableHighlight
 							style={styles.deleteButton}
@@ -154,7 +158,7 @@ const styles = StyleSheet.create({
 		position: "absolute",
 		top: -20,
 		right: -20,
-	},	
+	},
 });
 
 export default Workout;
