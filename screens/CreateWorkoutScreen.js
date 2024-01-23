@@ -16,12 +16,15 @@ import Toast from "react-native-root-toast";
 import { createUserWorkout } from "../utils/firebaseUtils";
 
 import * as ImagePicker from "expo-image-picker";
+import { query } from "../utils/huggingFaceUtils";
 
 const CreateWorkoutScreen = ({ navigation }) => {
 	const [name, setName] = useState("");
 	const [description, setDescription] = useState("");
 	const [errors, setErrors] = useState([]);
 	const [image, setImage] = useState(null);
+	const [prompt, setPrompt] = useState("");
+	const [loading, setLoading] = useState(false);
 
 	const handleCreate = async () => {
 		let newErrors = [];
@@ -38,6 +41,41 @@ const CreateWorkoutScreen = ({ navigation }) => {
 
 		if (newErrors.length === 0) {
 			createUserWorkout(name, description, image, handleSuccess, handleError);
+		}
+	};
+
+	const generateWorkout = async () => {
+		if (prompt.trim()) {
+			try {
+				setLoading(true);
+				const generatedWorkoutResponse = await query({
+					inputs: prompt,
+					parameters: {
+						max_new_tokens: 500,
+					},
+				});
+
+				console.log("Generated AI Workout:", generatedWorkoutResponse);
+
+				const generatedText = generatedWorkoutResponse[0]?.generated_text || "";
+
+				// Use a regular expression to find substrings like {name:"...",description:"..."}
+				const nameMatch = generatedText.match(/\{name:"([^"]+)"/);
+				const descriptionMatch = generatedText.match(/\,description:"([^"]+)/);
+
+				const name = nameMatch ? nameMatch[1] : null;
+				const description = descriptionMatch ? descriptionMatch[1] : generatedText;
+
+				console.log("name", name);
+				console.log("desc", description);
+
+				setName(name);
+				setDescription(description);
+			} catch (error) {
+				console.error("Error generating AI workout:", error);
+			} finally {
+				setLoading(false);
+			}
 		}
 	};
 
@@ -111,12 +149,21 @@ const CreateWorkoutScreen = ({ navigation }) => {
 						)}
 					</TouchableOpacity>
 					<InputField
+						placeholder="AI Workout Prompt"
+						value={prompt}
+						onChangeText={(text) => {
+							setPrompt(text);
+							setErrors("");
+						}}
+					/>
+					<InputField
 						placeholder="Workout Name"
 						value={name}
 						onChangeText={(text) => {
 							setName(text);
 							setErrors("");
 						}}
+						editable={!loading}
 					/>
 					<InputField
 						placeholder="Workout Description"
@@ -127,6 +174,7 @@ const CreateWorkoutScreen = ({ navigation }) => {
 						}}
 						multiline={true}
 						numberOfLines={4}
+						editable={!loading}
 					/>
 					{errors.length > 0 &&
 						errors.map((error, index) => (
@@ -136,6 +184,15 @@ const CreateWorkoutScreen = ({ navigation }) => {
 						))}
 					<TouchableOpacity style={styles.button} onPress={handleCreate}>
 						<Text style={styles.buttonText}>Create</Text>
+					</TouchableOpacity>
+					<TouchableOpacity
+						style={styles.button}
+						onPress={generateWorkout}
+						disabled={loading}
+					>
+						<Text style={styles.buttonText}>
+							{loading ? "Generating..." : "Generate"}
+						</Text>
 					</TouchableOpacity>
 				</KeyboardAvoidingView>
 			</View>
