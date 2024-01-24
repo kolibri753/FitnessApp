@@ -16,7 +16,7 @@ import Toast from "react-native-root-toast";
 import { createUserWorkout } from "../utils/firebaseUtils";
 
 import * as ImagePicker from "expo-image-picker";
-import { query } from "../utils/huggingFaceUtils";
+import { query, generateWorkout } from "../utils/huggingFaceUtils";
 
 const CreateWorkoutScreen = ({ navigation }) => {
 	const [name, setName] = useState("");
@@ -48,26 +48,7 @@ const CreateWorkoutScreen = ({ navigation }) => {
 		if (prompt.trim()) {
 			try {
 				setLoading(true);
-				const generatedWorkoutResponse = await query({
-					inputs: prompt,
-					parameters: {
-						max_new_tokens: 500,
-					},
-				});
-
-				console.log("Generated AI Workout:", generatedWorkoutResponse);
-
-				const generatedText = generatedWorkoutResponse[0]?.generated_text || "";
-
-				// Use a regular expression to find substrings like {name:"...",description:"..."}
-				const nameMatch = generatedText.match(/\{name:"([^"]+)"/);
-				const descriptionMatch = generatedText.match(/\,description:"([^"]+)/);
-
-				const name = nameMatch ? nameMatch[1] : null;
-				const description = descriptionMatch ? descriptionMatch[1] : generatedText;
-
-				console.log("name", name);
-				console.log("desc", description);
+				const { name, description } = await generateWorkout(prompt);
 
 				setName(name);
 				setDescription(description);
@@ -148,14 +129,25 @@ const CreateWorkoutScreen = ({ navigation }) => {
 							</View>
 						)}
 					</TouchableOpacity>
-					<InputField
-						placeholder="AI Workout Prompt"
-						value={prompt}
-						onChangeText={(text) => {
-							setPrompt(text);
-							setErrors("");
-						}}
-					/>
+						<InputField
+							placeholder="AI Workout Prompt"
+							value={prompt}
+							onChangeText={(text) => {
+								setPrompt(text);
+								setErrors("");
+							}}
+							multiline={true}
+							numberOfLines={2}
+						/>
+						<TouchableOpacity
+							style={styles.button}
+							onPress={generateWorkout}
+							disabled={loading}
+						>
+							<Text style={styles.buttonText}>
+								{loading ? "Generating..." : "Generate"}
+							</Text>
+						</TouchableOpacity>
 					<InputField
 						placeholder="Workout Name"
 						value={name}
@@ -184,15 +176,6 @@ const CreateWorkoutScreen = ({ navigation }) => {
 						))}
 					<TouchableOpacity style={styles.button} onPress={handleCreate}>
 						<Text style={styles.buttonText}>Create</Text>
-					</TouchableOpacity>
-					<TouchableOpacity
-						style={styles.button}
-						onPress={generateWorkout}
-						disabled={loading}
-					>
-						<Text style={styles.buttonText}>
-							{loading ? "Generating..." : "Generate"}
-						</Text>
 					</TouchableOpacity>
 				</KeyboardAvoidingView>
 			</View>
