@@ -9,22 +9,22 @@ import {
 	Image,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import { FontAwesome } from "@expo/vector-icons";
 import { colors } from "../styles/colors";
 import TopNavigation from "../components/common/TopNavigation";
 import InputField from "../components/common/InputField";
+import GenerateWorkoutModal from "../components/Workout/GenerateModal";
 import Toast from "react-native-root-toast";
 import { createUserWorkout } from "../utils/firebaseUtils";
 
 import * as ImagePicker from "expo-image-picker";
-import { query, generateWorkout } from "../utils/huggingFaceUtils";
 
 const CreateWorkoutScreen = ({ navigation }) => {
 	const [name, setName] = useState("");
 	const [description, setDescription] = useState("");
 	const [errors, setErrors] = useState([]);
 	const [image, setImage] = useState(null);
-	const [prompt, setPrompt] = useState("");
-	const [loading, setLoading] = useState(false);
+	const [isGenerateModalVisible, setGenerateModalVisible] = useState(false);
 
 	const handleCreate = async () => {
 		let newErrors = [];
@@ -44,20 +44,8 @@ const CreateWorkoutScreen = ({ navigation }) => {
 		}
 	};
 
-	const generateWorkout = async () => {
-		if (prompt.trim()) {
-			try {
-				setLoading(true);
-				const { name, description } = await generateWorkout(prompt);
-
-				setName(name);
-				setDescription(description);
-			} catch (error) {
-				console.error("Error generating AI workout:", error);
-			} finally {
-				setLoading(false);
-			}
-		}
+	const handleGenerateWorkout = async () => {
+		setGenerateModalVisible(true);
 	};
 
 	const handleSuccess = (message) => {
@@ -129,25 +117,22 @@ const CreateWorkoutScreen = ({ navigation }) => {
 							</View>
 						)}
 					</TouchableOpacity>
-						<InputField
-							placeholder="AI Workout Prompt"
-							value={prompt}
-							onChangeText={(text) => {
-								setPrompt(text);
-								setErrors("");
-							}}
-							multiline={true}
-							numberOfLines={2}
-						/>
-						<TouchableOpacity
-							style={styles.button}
-							onPress={generateWorkout}
-							disabled={loading}
-						>
-							<Text style={styles.buttonText}>
-								{loading ? "Generating..." : "Generate"}
-							</Text>
-						</TouchableOpacity>
+					<TouchableOpacity
+						style={[styles.button, styles.magicButton]}
+						onPress={handleGenerateWorkout}
+					>
+						<FontAwesome name="magic" size={24} color="black" />
+						<Text style={styles.buttonText}>Generate Workout using our AI</Text>
+						<FontAwesome name="magic" size={24} color="black" />
+					</TouchableOpacity>
+					<GenerateWorkoutModal
+						isVisible={isGenerateModalVisible}
+						onClose={() => setGenerateModalVisible(false)}
+						onGenerate={(generatedName, generatedDescription) => {
+							setName(generatedName);
+							setDescription(generatedDescription);
+						}}
+					/>
 					<InputField
 						placeholder="Workout Name"
 						value={name}
@@ -155,7 +140,6 @@ const CreateWorkoutScreen = ({ navigation }) => {
 							setName(text);
 							setErrors("");
 						}}
-						editable={!loading}
 					/>
 					<InputField
 						placeholder="Workout Description"
@@ -166,7 +150,6 @@ const CreateWorkoutScreen = ({ navigation }) => {
 						}}
 						multiline={true}
 						numberOfLines={4}
-						editable={!loading}
 					/>
 					{errors.length > 0 &&
 						errors.map((error, index) => (
@@ -175,7 +158,7 @@ const CreateWorkoutScreen = ({ navigation }) => {
 							</Text>
 						))}
 					<TouchableOpacity style={styles.button} onPress={handleCreate}>
-						<Text style={styles.buttonText}>Create</Text>
+						<Text style={styles.buttonText}>Save Workout</Text>
 					</TouchableOpacity>
 				</KeyboardAvoidingView>
 			</View>
@@ -216,6 +199,12 @@ const styles = StyleSheet.create({
 	imagePlaceholderText: {
 		fontSize: 16,
 		color: colors.grey,
+	},
+	magicButton: {
+		flexDirection: "row",
+		justifyContent: "space-between",
+		width: "100%",
+		marginBottom: 40,
 	},
 	button: {
 		backgroundColor: colors.yellow,
