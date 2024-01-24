@@ -1,14 +1,11 @@
 import Constants from "expo-constants";
 
-const API_ENDPOINT =
-	"https://dvr34km07bh4cl1w.us-east-1.aws.endpoints.huggingface.cloud";
-
 export async function query(data) {
 	try {
-		const response = await fetch(`${API_ENDPOINT}`, {
+		const response = await fetch(`${Constants.expoConfig.extra.HUGGINGFACE_API_ENDPOINT}`, {
 			method: "POST",
 			headers: {
-				Authorization: `Bearer ${Constants.expoConfig.extra.FIREBASE_API_KEY}`,
+				Authorization: `Bearer ${Constants.expoConfig.extra.HUGGINGFACE_API_KEY}`,
 				"Content-Type": "application/json",
 			},
 			body: JSON.stringify(data),
