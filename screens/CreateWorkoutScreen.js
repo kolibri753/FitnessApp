@@ -14,8 +14,8 @@ import { colors } from "../styles/colors";
 import TopNavigation from "../components/common/TopNavigation";
 import InputField from "../components/common/InputField";
 import GenerateWorkoutModal from "../components/Workout/GenerateModal";
-import Toast from "react-native-root-toast";
 import { createUserWorkout } from "../utils/firebaseUtils";
+import { showSuccessToast, showErrorToast } from "../utils/toastUtils";
 
 import * as ImagePicker from "expo-image-picker";
 
@@ -49,30 +49,12 @@ const CreateWorkoutScreen = ({ navigation }) => {
 	};
 
 	const handleSuccess = (message) => {
-		Toast.show(message, {
-			duration: Toast.durations.SHORT,
-			position: 0,
-			shadow: true,
-			animation: true,
-			hideOnPress: true,
-			backgroundColor: colors.success,
-			textColor: colors.white,
-			delay: 0,
-		});
+		showSuccessToast(message);
 		navigation.navigate("MyWorkoutsScreen");
 	};
 
 	const handleError = (error) => {
-		Toast.show(error, {
-			duration: Toast.durations.SHORT,
-			position: 0,
-			shadow: true,
-			animation: true,
-			hideOnPress: true,
-			backgroundColor: colors.error,
-			textColor: colors.white,
-			delay: 0,
-		});
+		showErrorToast(error);
 	};
 
 	const handleSelectImage = async () => {

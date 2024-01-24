@@ -6,11 +6,11 @@ import {
 	Alert,
 	ActivityIndicator,
 } from "react-native";
-import Toast from "react-native-root-toast";
+import { colors } from "../../styles/colors";
 import CustomModal from "../common/CustomModal";
 import InputField from "../common/InputField";
-import { colors } from "../../styles/colors";
 import { generateWorkout } from "../../utils/huggingFaceUtils";
+import { showSuccessToast, showErrorToast } from "../../utils/toastUtils";
 
 const GenerateWorkoutModal = ({ isVisible, onClose, onGenerate }) => {
 	const [prompt, setPrompt] = useState("");
@@ -23,10 +23,10 @@ const GenerateWorkoutModal = ({ isVisible, onClose, onGenerate }) => {
 				const { name, description } = await generateWorkout(prompt);
 
 				onGenerate(name, description);
-				handleSuccess("Check out the generated name and description!");
+        showSuccessToast("Check out the generated name and description!");
 			} catch (error) {
 				console.error("Error generating AI workout:", error);
-				handleError(`Failed to generate workout. ${error}`);
+				showErrorToast(`Failed to generate workout. ${error}`);
 			} finally {
 				setLoading(false);
 				onClose();
@@ -34,32 +34,6 @@ const GenerateWorkoutModal = ({ isVisible, onClose, onGenerate }) => {
 		} else {
 			Alert.alert("Warning", "Please enter a prompt to generate the workout.");
 		}
-	};
-
-	const handleSuccess = (message) => {
-		Toast.show(message, {
-			duration: Toast.durations.SHORT,
-			position: 0,
-			shadow: true,
-			animation: true,
-			hideOnPress: true,
-			backgroundColor: colors.success,
-			textColor: colors.white,
-			delay: 0,
-		});
-	};
-
-	const handleError = (message) => {
-		Toast.show(message, {
-			duration: Toast.durations.SHORT,
-			position: 0,
-			shadow: true,
-			animation: true,
-			hideOnPress: true,
-			backgroundColor: colors.error,
-			textColor: colors.white,
-			delay: 0,
-		});
 	};
 
 	return (

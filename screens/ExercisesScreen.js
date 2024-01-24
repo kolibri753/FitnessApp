@@ -15,8 +15,7 @@ import Pagination from "../components/common/Pagination";
 import TopNavigation from "../components/common/TopNavigation";
 import useExercisesPagination from "../hooks/useExercisesPagination";
 import { addWorkoutExercise } from "../utils/firebaseUtils";
-import Toast from "react-native-root-toast";
-
+import { showSuccessToast, showErrorToast } from "../utils//toastUtils";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchExercisesData } from "../redux/slices/exercisesSlice";
 
@@ -59,37 +58,23 @@ const ExercisesScreen = ({ route, navigation }) => {
 		try {
 			const workoutId = route.params.workoutId;
 
-			await addWorkoutExercise(workoutId, exerciseData, handleSuccess, handleError);
-
+			await addWorkoutExercise(
+				workoutId,
+				exerciseData,
+				handleSuccess,
+				handleError
+			);
 		} catch (error) {
 			console.error("Error handling select exercise: ", error);
 		}
 	};
 
 	const handleSuccess = (message) => {
-		Toast.show(message, {
-			duration: Toast.durations.SHORT,
-			position: 0,
-			shadow: true,
-			animation: true,
-			hideOnPress: true,
-			backgroundColor: colors.success,
-			textColor: colors.white,
-			delay: 0,
-		});
+		showSuccessToast(message);
 	};
 
 	const handleError = (error) => {
-		Toast.show(error, {
-			duration: Toast.durations.SHORT,
-			position: 0,
-			shadow: true,
-			animation: true,
-			hideOnPress: true,
-			backgroundColor: colors.error,
-			textColor: colors.white,
-			delay: 0,
-		});
+		showErrorToast(error);
 	};
 
 	const handleSearch = () => {

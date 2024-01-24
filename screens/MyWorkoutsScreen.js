@@ -10,7 +10,7 @@ import {
 	fetchUserWorkouts,
 	deleteUserWorkout,
 } from "../utils/firebaseUtils";
-import Toast from "react-native-root-toast";
+import { showSuccessToast, showErrorToast } from "../utils/toastUtils";
 
 const MyWorkoutsScreen = ({ navigation }) => {
 	const [workouts, setWorkouts] = useState([]);
@@ -32,28 +32,10 @@ const MyWorkoutsScreen = ({ navigation }) => {
 		deleteUserWorkout(
 			workoutId,
 			(message) => {
-				Toast.show(message, {
-					duration: Toast.durations.SHORT,
-					position: 0,
-					shadow: true,
-					animation: true,
-					hideOnPress: true,
-					backgroundColor: colors.success,
-					textColor: colors.white,
-					delay: 0,
-				});
+				showSuccessToast(message);
 			},
 			(error) => {
-				Toast.show(error, {
-					duration: Toast.durations.SHORT,
-					position: 0,
-					shadow: true,
-					animation: true,
-					hideOnPress: true,
-					backgroundColor: colors.error,
-					textColor: colors.white,
-					delay: 0,
-				});
+				showErrorToast(error);
 			}
 		);
 	};

@@ -12,7 +12,7 @@ import { colors } from "../styles/colors";
 import Logo from "../components/common/Logo";
 import TopNavigation from "../components/common/TopNavigation";
 import InputField from "../components/common/InputField";
-import Toast from "react-native-root-toast";
+import { showSuccessToast } from "../utils/toastUtils";
 
 import {
 	setEmail,
@@ -36,16 +36,8 @@ const AuthorizationScreen = ({ navigation }) => {
 	useEffect(() => {
 		if (authenticated) {
 			navigation.navigate("Main");
-			Toast.show("You logged in using\n" + email, {
-				duration: Toast.durations.LONG,
-				position: 0,
-				shadow: true,
-				animation: true,
-				hideOnPress: true,
-				backgroundColor: colors.success,
-				textColor: colors.white,
-				delay: 0,
-			});
+			const successMessage = `You logged in using\n${email}`;
+			showSuccessToast(successMessage);
 		}
 	}, [authenticated, navigation]);
 
