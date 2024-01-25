@@ -16,7 +16,10 @@ import TopNavigation from "../components/common/TopNavigation";
 import InputField from "../components/common/InputField";
 import { handleLogout } from "../redux/slices/authorizationSlice";
 
-import * as ImagePicker from "expo-image-picker";
+import {
+	requestMediaLibraryPermissions,
+	launchImageLibrary,
+} from "../utils/imagePickerUtils";
 
 import { auth } from "../firebaseConfig";
 import { updateProfile } from "firebase/auth";
@@ -73,24 +76,21 @@ const ProfileScreen = ({ navigation }) => {
 
 	const handleChangePhotoURL = async () => {
 		if (!auth.currentUser) {
-			Alert.alert("Error", "If you want to customise profile -> register first!");
+			Alert.alert(
+				"Error",
+				"If you want to customize the profile, please register first!"
+			);
 			return;
 		}
 
-		console.log("changeImage");
-		const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+		const hasPermission = await requestMediaLibraryPermissions();
 
-		if (status !== "granted") {
-			Alert.alert("Error", "Permission to access media library is required.");
+		if (!hasPermission) {
+			Alert.alert("Error", "Permission to access the media library is required.");
 			return;
 		}
 
-		const result = await ImagePicker.launchImageLibraryAsync({
-			mediaTypes: ImagePicker.MediaTypeOptions.Images,
-			allowsEditing: true,
-			aspect: [1, 1],
-			quality: 1,
-		});
+		const result = await launchImageLibrary();
 
 		if (!result.canceled || (result.assets && result.assets.length > 0)) {
 			updateProfile(auth.currentUser, {
