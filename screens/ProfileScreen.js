@@ -15,14 +15,11 @@ import { Entypo, Ionicons } from "@expo/vector-icons";
 import TopNavigation from "../components/common/TopNavigation";
 import InputField from "../components/common/InputField";
 import { handleLogout } from "../redux/slices/authorizationSlice";
-
 import {
-	requestMediaLibraryPermissions,
-	launchImageLibrary,
-} from "../utils/imagePickerUtils";
-
-import { auth } from "../firebaseConfig";
-import { updateProfile } from "firebase/auth";
+	updateUserName,
+	updatePhotoURL,
+	fetchUserProfile,
+} from "../utils/firebaseUtils";
 
 const ProfileScreen = ({ navigation }) => {
 	const [email, setEmail] = useState("");
@@ -33,13 +30,14 @@ const ProfileScreen = ({ navigation }) => {
 	const dispatch = useDispatch();
 
 	useEffect(() => {
-		const user = auth.currentUser;
-		if (user) {
-			setEmail(user.email);
-			setName(user.displayName);
-			setPhotoURL(user.photoURL);
+		const userProfile = fetchUserProfile();
+		if (userProfile) {
+			const { email, name, photoURL } = userProfile;
+			setEmail(email);
+			setName(name);
+			setPhotoURL(photoURL);
 		}
-	}, []);
+	}, [name, photoURL]);
 
 	const handleLogoutBtnPress = () => {
 		dispatch(handleLogout())
@@ -54,56 +52,26 @@ const ProfileScreen = ({ navigation }) => {
 			});
 	};
 
-	const handleChangeName = () => {
-		if (newName.trim() === "") {
-			Alert.alert("Error", "Name cannot be empty.");
-			return;
+	const handleChangeName = async () => {
+		try {
+			const message = await updateUserName(newName);
+			setName(newName.trim());
+			setNewName("");
+			Alert.alert("Success", message);
+		} catch (error) {
+			Alert.alert("Error", error.message || "Failed to update name.");
 		}
-
-		updateProfile(auth.currentUser, {
-			displayName: newName.trim(),
-		})
-			.then(() => {
-				setName(newName.trim());
-				setNewName("");
-				Alert.alert("Success", "Name updated successfully.");
-			})
-			.catch((error) => {
-				console.log(error);
-				Alert.alert("Error", "Failed to update name.");
-			});
 	};
 
 	const handleChangePhotoURL = async () => {
-		if (!auth.currentUser) {
-			Alert.alert(
-				"Error",
-				"If you want to customize the profile, please register first!"
-			);
-			return;
-		}
-
-		const hasPermission = await requestMediaLibraryPermissions();
-
-		if (!hasPermission) {
-			Alert.alert("Error", "Permission to access the media library is required.");
-			return;
-		}
-
-		const result = await launchImageLibrary();
-
-		if (!result.canceled || (result.assets && result.assets.length > 0)) {
-			updateProfile(auth.currentUser, {
-				photoURL: result.assets[0].uri,
-			})
-				.then(() => {
-					setPhotoURL(result.assets[0].uri);
-					Alert.alert("Success", "Photo URL updated successfully.");
-				})
-				.catch((error) => {
-					console.log(error);
-					Alert.alert("Error", "Failed to update photo URL.");
-				});
+		try {
+			const message = await updatePhotoURL(setPhotoURL);
+			const userProfile = fetchUserProfile();
+			const { photoURL } = userProfile;
+			setPhotoURL(photoURL);
+			Alert.alert("Success", message);
+		} catch (error) {
+			Alert.alert("Error", error.message || "Failed to update photo URL.");
 		}
 	};
 
@@ -116,7 +84,7 @@ const ProfileScreen = ({ navigation }) => {
 					behavior={Platform.OS === "ios" ? "padding" : "height"}
 					keyboardVerticalOffset={0}
 				>
-					{auth.currentUser && (
+					{email && (
 						<InputField
 							placeholder="New name"
 							value={newName}
@@ -125,7 +93,7 @@ const ProfileScreen = ({ navigation }) => {
 							}}
 						/>
 					)}
-					{auth.currentUser && (
+					{email && (
 						<TouchableOpacity style={styles.buttonIcon} onPress={handleChangeName}>
 							<Entypo name="new-message" size={24} color={colors.yellow} />
 						</TouchableOpacity>

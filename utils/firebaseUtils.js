@@ -1,3 +1,4 @@
+import { Alert } from "react-native";
 import showRegisterAlert from "../helpers/showRegisterAlert";
 import { auth, db, realTimeDb } from "../firebaseConfig";
 import { ref, get } from "firebase/database";
@@ -12,8 +13,13 @@ import {
 	deleteDoc,
 	onSnapshot,
 	serverTimestamp,
-  query,
+	query,
 } from "firebase/firestore";
+import { updateProfile } from "firebase/auth";
+import {
+	requestMediaLibraryPermissions,
+	launchImageLibrary,
+} from "../utils/imagePickerUtils";
 
 export const checkLoggedInAndAlert = (navigation) => {
 	const currentUser = auth.currentUser;
@@ -145,25 +151,30 @@ export const fetchWorkoutExercises = (workoutId, setExercises) => {
 	return unsubscribe;
 };
 
-export const addWorkoutExercise = async (workoutId, exerciseData, onSuccess, onError) => {
-  try {
+export const addWorkoutExercise = async (
+	workoutId,
+	exerciseData,
+	onSuccess,
+	onError
+) => {
+	try {
 		const uid = auth.currentUser.uid;
-    const userWorkoutsRef = collection(
-      db,
-      "users",
-      uid,
-      "userWorkouts",
-      workoutId,
-      "exercises"
-    );
+		const userWorkoutsRef = collection(
+			db,
+			"users",
+			uid,
+			"userWorkouts",
+			workoutId,
+			"exercises"
+		);
 
-    const q = query(userWorkoutsRef);
-    const querySnapshot = await getDocs(q);
+		const q = query(userWorkoutsRef);
+		const querySnapshot = await getDocs(q);
 
-    const numExercises = querySnapshot.size;
+		const numExercises = querySnapshot.size;
 
-    await addDoc(userWorkoutsRef, { ...exerciseData, order: numExercises + 1 });
-    onSuccess("Exercise added to workout successfully");
+		await addDoc(userWorkoutsRef, { ...exerciseData, order: numExercises + 1 });
+		onSuccess("Exercise added to workout successfully");
 	} catch (error) {
 		onError(`Error adding exercise: ${error}`);
 	}
@@ -246,7 +257,7 @@ export const createUserActivity = async (workoutName, exercises) => {
 		const uid = auth.currentUser?.uid;
 
 		if (!uid) return;
-		
+
 		const userActivitiesRef = collection(db, "users", uid, "userActivities");
 		const timestamp = serverTimestamp();
 
@@ -281,6 +292,62 @@ export const fetchWorkoutsFromRealTimeDb = async () => {
 		}
 	} catch (error) {
 		console.error("Error fetching workouts:", error);
+		throw error;
+	}
+};
+
+export const fetchUserProfile = () => {
+	const user = auth.currentUser;
+	if (user) {
+		const { email, displayName: name, photoURL } = user;
+		return { email, name, photoURL };
+	}
+	return null;
+};
+
+export const updateUserName = async (newName) => {
+	try {
+		if (newName.trim() === "") {
+			throw new Error("Name cannot be empty.");
+		}
+
+		await updateProfile(auth.currentUser, {
+			displayName: newName.trim(),
+		});
+
+		return "Name updated successfully.";
+	} catch (error) {
+		console.error("Error updating name: ", error);
+		throw error;
+	}
+};
+
+export const updatePhotoURL = async () => {
+	try {
+		if (!auth.currentUser) {
+			throw new Error("To customize the profile, please register first.");
+		}
+
+		const hasPermission = await requestMediaLibraryPermissions();
+
+		if (!hasPermission) {
+			Alert.alert("Error", "Permission to access the media library is required.");
+			return;
+		}
+
+		const result = await launchImageLibrary();
+
+		if (result.canceled || !(result.assets && result.assets.length > 0)) {
+			throw new Error("Image selection canceled or no image selected.");
+		}
+
+		await updateProfile(auth.currentUser, {
+			photoURL: result.assets[0].uri,
+		});
+
+		return "Photo URL updated successfully.";
+	} catch (error) {
+		console.error("Error updating photo URL: ", error);
 		throw error;
 	}
 };
