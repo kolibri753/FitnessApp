@@ -1,5 +1,5 @@
 import React from "react";
-import { Text } from "react-native";
+import { ScrollView, Text, StyleSheet } from "react-native";
 
 const WorkoutDescription = ({ description, style }) => {
 	if (!description) {
@@ -19,14 +19,31 @@ const WorkoutDescription = ({ description, style }) => {
 				);
 			} else {
 				return (
-					<Text key={index} style={{ fontWeight: "bold", ...style }}>
+					<Text key={index} style={[styles.boldText, style]}>
 						{part}
 					</Text>
 				);
 			}
 		});
 
-	return <Text>{boldTextArray}</Text>;
+	return (
+		<ScrollView style={styles.container}>
+			<Text style={styles.text}>{boldTextArray}</Text>
+		</ScrollView>
+	);
 };
+
+const styles = StyleSheet.create({
+	container: {
+		maxHeight: 200,
+		marginBottom: 20,
+	},
+	text: {
+		paddingHorizontal: 10,
+	},
+	boldText: {
+		fontWeight: "bold",
+	},
+});
 
 export default WorkoutDescription;
