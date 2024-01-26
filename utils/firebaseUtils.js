@@ -338,7 +338,7 @@ export const updatePhotoURL = async () => {
 		const result = await launchImageLibrary();
 
 		if (result.canceled || !(result.assets && result.assets.length > 0)) {
-			throw new Error("Image selection canceled or no image selected.");
+			return "Image selection canceled or no image selected.";
 		}
 
 		await updateProfile(auth.currentUser, {
