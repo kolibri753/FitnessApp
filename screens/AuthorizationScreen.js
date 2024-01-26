@@ -18,7 +18,6 @@ import {
 	setEmail,
 	setPassword,
 	setErrors,
-	setAuthenticated,
 	handleLogin,
 	checkAuthenticated,
 } from "../redux/slices/authorizationSlice";
@@ -66,7 +65,7 @@ const AuthorizationScreen = ({ navigation }) => {
 		<SafeAreaView style={styles.container}>
 			<TopNavigation title="Sign In" activeDot={1} />
 			<View style={styles.content}>
-				<Logo />
+				<Logo style={styles.logo} />
 				<Text style={styles.motivation}>
 					"Transform your body, transform your life. Let this fitness app be your
 					guide on the journey to a healthier and happier you."
@@ -114,10 +113,13 @@ const AuthorizationScreen = ({ navigation }) => {
 						</Text>
 					</Text>
 				</View>
+				<TouchableOpacity
+					style={styles.appLink}
+					onPress={handleUseWithoutAuthorization}
+				>
+					<Text style={styles.appLinkText}>Use app without authorization</Text>
+				</TouchableOpacity>
 			</View>
-			<TouchableOpacity onPress={handleUseWithoutAuthorization}>
-				<Text style={styles.appLink}>Use app without authorization</Text>
-			</TouchableOpacity>
 		</SafeAreaView>
 	);
 };
@@ -125,14 +127,17 @@ const AuthorizationScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		justifyContent: "space-between",
-		backgroundColor: colors.grey,
+		backgroundColor: colors.black,
 	},
 	content: {
-		flex: 0,
+		flex: 1,
 		alignItems: "center",
 		justifyContent: "center",
 		paddingHorizontal: 20,
+		backgroundColor: colors.grey,
+	},
+	logo: {
+		marginTop: "auto",
 	},
 	title: {
 		fontSize: 32,
@@ -166,7 +171,6 @@ const styles = StyleSheet.create({
 	},
 	error: {
 		color: "red",
-		// marginTop: 10,
 	},
 	signup: {
 		marginTop: 50,
@@ -182,10 +186,13 @@ const styles = StyleSheet.create({
 		fontWeight: "bold",
 	},
 	appLink: {
+		marginTop: "auto",
+		marginBottom: 20,
+	},
+	appLinkText: {
 		color: colors.white,
 		fontStyle: "italic",
 		textAlign: "center",
-		marginBottom: 20,
 	},
 });
 

@@ -8,20 +8,17 @@ import { colors } from "../styles/colors";
 const AboutAppScreen = ({ navigation }) => {
 	return (
 		<SafeAreaView style={styles.container}>
-			<TopNavigation
-				title="About"
-				activeDot={2}
-				navigation={navigation}
-			/>
+			<TopNavigation title="About" activeDot={2} navigation={navigation} />
 			<ScrollView
 				style={styles.content}
-				contentContainerStyle={{ paddingBottom: 50 }}
+				contentContainerStyle={{ paddingBottom: 10 }}
 			>
 				<View style={styles.sectionContainer}>
 					<MaterialCommunityIcons name="account" size={50} color={colors.primary} />
 					<Text style={styles.sectionTitle}>About the Developer</Text>
 					<Text style={styles.sectionText}>
-						{"\t\t"}Hi, I'm Vakhovska V.M., the developer behind this app. {"\n\t\t"}
+						{"\t\t"}Hi, I'm Vira (kolibri753), the developer behind this app.{" "}
+						{"\n\t\t"}
 						As a passionate fitness enthusiast, I wanted to create an app that allows
 						people to not only follow different exercises and workouts, but also
 						create their own routines. {"\n\t\t"}I hope you enjoy using this app as
@@ -56,11 +53,12 @@ const AboutAppScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: colors.grey,
+		backgroundColor: colors.black,
 	},
 	content: {
-		marginTop: 20,
 		paddingHorizontal: 20,
+		paddingVertical: 10,
+		backgroundColor: colors.grey,
 	},
 	sectionContainer: {
 		backgroundColor: colors.white,
@@ -69,7 +67,7 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 		justifyContent: "center",
 		elevation: 5,
-		marginBottom: 20,
+		marginBottom: 10,
 	},
 	sectionTitle: {
 		fontSize: 20,

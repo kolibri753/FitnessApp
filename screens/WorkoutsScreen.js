@@ -46,7 +46,7 @@ const WorkoutsScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: colors.grey,
+		backgroundColor: colors.black,
 	},
 	title: {
 		color: colors.white,
@@ -65,6 +65,7 @@ const styles = StyleSheet.create({
 	scrollContainer: {
 		paddingHorizontal: 20,
 		paddingVertical: 10,
+		backgroundColor: colors.grey,
 	},
 });
 

@@ -148,11 +148,13 @@ const ExercisesScreen = ({ route, navigation }) => {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: colors.grey,
+		backgroundColor: colors.black,
 	},
 	exercisesContainer: {
 		flex: 1,
-		padding: 20,
+		paddingHorizontal: 20,
+		paddingVertical: 10,
+		backgroundColor: colors.grey,
 	},
 	searchBarContainer: {
 		flexDirection: "row",

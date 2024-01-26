@@ -46,6 +46,7 @@ const WorkoutExercisesScreen = ({ route, navigation }) => {
 				</TouchableOpacity>
 			</View>
 			<FlatList
+				style={styles.exercises}
 				data={workout.exercises}
 				keyExtractor={(item, index) => index.toString()}
 				renderItem={({ item, index }) => (
@@ -64,10 +65,10 @@ const WorkoutExercisesScreen = ({ route, navigation }) => {
 					</View>
 				)}
 				ListFooterComponent={() => (
-          <TargetMusclePieChart
-            targets={workout.exercises.map((exercise) => exercise.target)}
-          />
-        )}
+					<TargetMusclePieChart
+						targets={workout.exercises.map((exercise) => exercise.target)}
+					/>
+				)}
 			/>
 		</SafeAreaView>
 	);
@@ -76,7 +77,7 @@ const WorkoutExercisesScreen = ({ route, navigation }) => {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: colors.grey,
+		backgroundColor: colors.black,
 	},
 	detailsContainer: {
 		alignItems: "center",
@@ -103,6 +104,9 @@ const styles = StyleSheet.create({
 		fontSize: 18,
 		marginBottom: 30,
 		textAlign: "center",
+	},
+	exercises: {
+		backgroundColor: colors.grey,
 	},
 	exerciseContainer: {
 		display: "flex",

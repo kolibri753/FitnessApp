@@ -155,14 +155,13 @@ const ProfileScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: colors.grey,
+		backgroundColor: colors.black,
 	},
 	content: {
 		flex: 1,
 		alignItems: "center",
-		marginTop: 20,
-		// justifyContent: "space-around",
 		paddingHorizontal: 20,
+		backgroundColor: colors.grey,
 	},
 	profilePhoto: {
 		height: 200,

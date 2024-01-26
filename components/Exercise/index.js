@@ -93,7 +93,7 @@ const styles = StyleSheet.create({
 		backgroundColor: colors.white,
 		borderRadius: 10,
 		padding: 20,
-		marginBottom: 20,
+		marginBottom: 10,
 		elevation: 2,
 		position: "relative",
 	},

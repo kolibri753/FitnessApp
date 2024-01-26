@@ -151,13 +151,14 @@ const CreateWorkoutScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: colors.grey,
+		backgroundColor: colors.black,
 	},
 	content: {
 		flex: 1,
 		justifyContent: "center",
 		alignItems: "center",
 		paddingHorizontal: 20,
+		backgroundColor: colors.grey,
 	},
 	form: {
 		alignItems: "center",

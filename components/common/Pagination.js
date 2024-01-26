@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
 		height: 60,
 		backgroundColor: colors.black,
 		justifyContent: "center",
-    marginBottom: 40,
+    marginBottom: 20,
 		borderRadius: 10,
 	},
 	paginationButtons: {

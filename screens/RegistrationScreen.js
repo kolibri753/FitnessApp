@@ -140,13 +140,14 @@ const RegistrationScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: colors.grey,
+		backgroundColor: colors.black,
 	},
 	content: {
 		flex: 1,
 		justifyContent: "center",
 		alignItems: "center",
 		paddingHorizontal: 20,
+		backgroundColor: colors.grey,
 	},
 	motivation: {
 		fontSize: 16,
@@ -169,7 +170,6 @@ const styles = StyleSheet.create({
 	error: {
 		color: "red",
 		textAlign: "center",
-		// marginBottom: 10,
 	},
 	button: {
 		backgroundColor: colors.yellow,

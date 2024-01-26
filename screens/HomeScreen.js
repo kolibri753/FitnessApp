@@ -28,11 +28,12 @@ const HomeScreen = ({ navigation }) => {
 		<SafeAreaView style={styles.container}>
 			<TopNavigation title="Choose Category" activeDot={1} />
 			<ScrollView style={styles.categoriesContainer}>
-				{categories.map((category) => (
+				{categories.map((category, index) => (
 					<Category
 						key={category}
 						category={category}
 						handleCategoryPress={handleCategoryPress}
+						isLast={index === categories.length - 1}
 					/>
 				))}
 			</ScrollView>
@@ -43,12 +44,12 @@ const HomeScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: colors.grey,
-		// paddingVertical: 10,
+		backgroundColor: colors.black,
 	},
 	categoriesContainer: {
 		paddingHorizontal: 20,
 		paddingVertical: 10,
+		backgroundColor: colors.grey,
 	},
 });
 

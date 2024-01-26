@@ -105,6 +105,7 @@ const MyWorkoutExercisesScreen = ({ route, navigation }) => {
 				</TouchableOpacity>
 			</View>
 			<FlatList
+				style={styles.exercises}
 				data={exercises}
 				keyExtractor={(item, index) => index.toString()}
 				renderItem={({ item, index }) => (
@@ -143,8 +144,7 @@ const MyWorkoutExercisesScreen = ({ route, navigation }) => {
 const styles = StyleSheet.create({
 	container: {
 		flex: 1,
-		backgroundColor: colors.grey,
-		// padding: 20,
+		backgroundColor: colors.black,
 	},
 	detailsContainer: {
 		alignItems: "center",
@@ -171,6 +171,9 @@ const styles = StyleSheet.create({
 		fontSize: 18,
 		marginBottom: 30,
 		textAlign: "center",
+	},
+	exercises: {
+		backgroundColor: colors.grey,
 	},
 	exerciseContainer: {
 		backgroundColor: colors.darkGray,

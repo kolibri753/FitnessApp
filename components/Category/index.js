@@ -10,7 +10,7 @@ import { colors } from "../../styles/colors";
 import { ref, getDownloadURL } from "firebase/storage";
 import { storage } from "../../firebaseConfig";
 
-const Category = ({ category, handleCategoryPress }) => {
+const Category = ({ category, handleCategoryPress, isLast }) => {
 	const [categoryImage, setCategoryImage] = useState("");
 	const [isHovered, setIsHovered] = useState(false);
 
@@ -35,7 +35,8 @@ const Category = ({ category, handleCategoryPress }) => {
 			}}
 			onShowUnderlay={() => setIsHovered(true)}
 			onHideUnderlay={() => setIsHovered(false)}
-			style={[styles.categoryItem, isHovered && styles.categoryItemHovered]}
+			style={[styles.categoryItem, 
+        isLast && styles.lastCategoryItem, isHovered && styles.categoryItemHovered]}
 			activeOpacity={1}
 			underlayColor="transparent"
 		>
@@ -65,6 +66,9 @@ const styles = StyleSheet.create({
 		borderWidth: 5,
 		borderColor: colors.yellow,
 	},
+	lastCategoryItem: {
+    marginBottom: 20,
+  },
 	categoryItemHovered: {
 		backgroundColor: "#463A00",
 	},
