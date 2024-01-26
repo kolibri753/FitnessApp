@@ -26,6 +26,7 @@ const ProfileScreen = ({ navigation }) => {
 	const [name, setName] = useState("");
 	const [newName, setNewName] = useState("");
 	const [photoURL, setPhotoURL] = useState("");
+	const [showInputField, setShowInputField] = useState(false);
 
 	const dispatch = useDispatch();
 
@@ -35,6 +36,7 @@ const ProfileScreen = ({ navigation }) => {
 			const { email, name, photoURL } = userProfile;
 			setEmail(email);
 			setName(name);
+			setNewName(name);
 			setPhotoURL(photoURL);
 		}
 	}, [name, photoURL]);
@@ -55,10 +57,13 @@ const ProfileScreen = ({ navigation }) => {
 	const handleChangeName = async () => {
 		try {
 			const message = await updateUserName(newName);
-			setName(newName.trim());
-			setNewName("");
-			Alert.alert("Success", message);
+			if (newName.trim() !== name) {
+				setName(newName.trim());
+				Alert.alert("Success", message);
+			}
+			setShowInputField(false);
 		} catch (error) {
+			setShowInputField(false);
 			Alert.alert("Error", error.message || "Failed to update name.");
 		}
 	};
@@ -66,10 +71,12 @@ const ProfileScreen = ({ navigation }) => {
 	const handleChangePhotoURL = async () => {
 		try {
 			const message = await updatePhotoURL(setPhotoURL);
-			const userProfile = fetchUserProfile();
-			const { photoURL } = userProfile;
-			setPhotoURL(photoURL);
-			Alert.alert("Success", message);
+			if (message) {
+				const userProfile = fetchUserProfile();
+				const { photoURL } = userProfile;
+				setPhotoURL(photoURL);
+				Alert.alert("Success", message);
+			}
 		} catch (error) {
 			Alert.alert("Error", error.message || "Failed to update photo URL.");
 		}
@@ -79,38 +86,51 @@ const ProfileScreen = ({ navigation }) => {
 		<SafeAreaView style={styles.container}>
 			<TopNavigation title="Profile" activeDot={1} />
 			<View style={styles.content}>
-				<KeyboardAvoidingView
-					style={styles.form}
-					behavior={Platform.OS === "ios" ? "padding" : "height"}
-					keyboardVerticalOffset={0}
-				>
-					{email && (
-						<InputField
-							placeholder="New name"
-							value={newName}
-							onChangeText={(text) => {
-								setNewName(text);
-							}}
-						/>
-					)}
-					{email && (
-						<TouchableOpacity style={styles.buttonIcon} onPress={handleChangeName}>
-							<Entypo name="new-message" size={24} color={colors.yellow} />
-						</TouchableOpacity>
-					)}
-				</KeyboardAvoidingView>
 				<TouchableOpacity onPress={handleChangePhotoURL}>
 					<Image
+						style={styles.profilePhoto}
 						source={
 							photoURL
 								? { uri: photoURL }
 								: require("../assets/default-profile-img.jpg")
 						}
-						style={styles.profilePhoto}
 					/>
 				</TouchableOpacity>
-				<Text style={styles.title}>Hello, {name ? name : "there"}!</Text>
-				<Text style={styles.email}>{email}</Text>
+				<View style={styles.profileInfo}>
+					<Text style={styles.email}>{email}</Text>
+					<KeyboardAvoidingView
+						style={styles.form}
+						behavior={Platform.OS === "ios" ? "padding" : "height"}
+						keyboardVerticalOffset={0}
+					>
+						{email && (
+							<>
+								{showInputField ? (
+									<InputField
+										placeholder={"Write new name here"}
+										value={newName}
+										onChangeText={(text) => {
+											setNewName(text);
+										}}
+										onSubmitEditing={handleChangeName}
+									/>
+								) : (
+									<Text style={styles.title}>{name ? name : "unknown"}!</Text>
+								)}
+								<TouchableOpacity
+									style={styles.buttonIcon}
+									onPress={
+										showInputField
+											? handleChangeName
+											: () => setShowInputField(!showInputField)
+									}
+								>
+									<Entypo name="new-message" size={24} color={colors.yellow} />
+								</TouchableOpacity>
+							</>
+						)}
+					</KeyboardAvoidingView>
+				</View>
 
 				<TouchableOpacity
 					style={styles.navButton}
@@ -161,6 +181,7 @@ const styles = StyleSheet.create({
 		flex: 1,
 		alignItems: "center",
 		paddingHorizontal: 20,
+		paddingVertical: 10,
 		backgroundColor: colors.grey,
 	},
 	profilePhoto: {
@@ -168,22 +189,28 @@ const styles = StyleSheet.create({
 		width: 200,
 		borderRadius: 100,
 		backgroundColor: colors.white,
+		marginBottom: 10,
+	},
+	profileInfo: {
+		width: "100%",
+		backgroundColor: colors.black,
+		marginBottom: 20,
+		borderRadius: 10,
 	},
 	title: {
-		fontSize: 32,
+		padding: 12,
+		fontSize: 19,
 		fontWeight: "bold",
-		marginBottom: 20,
 		color: colors.white,
+		marginBottom: 20,
 	},
 	email: {
 		fontSize: 16,
-		marginBottom: 50,
+		padding: 10,
 		color: colors.white,
 		textAlign: "center",
 	},
 	form: {
-		width: "100%",
-		marginBottom: 20,
 		position: "relative",
 	},
 	input: {
@@ -216,8 +243,11 @@ const styles = StyleSheet.create({
 		fontWeight: "bold",
 		marginLeft: 10,
 	},
+	logoutButton: {
+		marginTop: "auto",
+		marginBottom: 10,
+	},
 	logoutText: {
-		marginTop: 10,
 		fontSize: 18,
 		fontWeight: "bold",
 		color: colors.yellow,
