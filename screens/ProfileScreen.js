@@ -66,14 +66,10 @@ const ProfileScreen = ({ navigation }) => {
 	const handleChangePhotoURL = async () => {
 		try {
 			const message = await updatePhotoURL(setPhotoURL);
-			if (message) {
-				Alert.alert("Info", message);
-			} else {
-				const userProfile = fetchUserProfile();
-				const { photoURL } = userProfile;
-				setPhotoURL(photoURL);
-				Alert.alert("Success", "Photo URL updated successfully.");
-			}
+			const userProfile = fetchUserProfile();
+			const { photoURL } = userProfile;
+			setPhotoURL(photoURL);
+			Alert.alert("Success", message);
 		} catch (error) {
 			Alert.alert("Error", error.message || "Failed to update photo URL.");
 		}
