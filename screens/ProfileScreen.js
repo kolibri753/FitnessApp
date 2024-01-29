@@ -14,6 +14,7 @@ import { colors } from "../styles/colors";
 import { Entypo, Ionicons } from "@expo/vector-icons";
 import TopNavigation from "../components/common/TopNavigation";
 import InputField from "../components/common/InputField";
+import Stats from "../components/Profile/Stats";
 import { handleLogout } from "../redux/slices/authorizationSlice";
 import {
 	updateUserName,
@@ -115,7 +116,7 @@ const ProfileScreen = ({ navigation }) => {
 										onSubmitEditing={handleChangeName}
 									/>
 								) : (
-									<Text style={styles.title}>{name ? name : "unknown"}!</Text>
+									<Text style={styles.title}>{name ? name : "unknown"}</Text>
 								)}
 								<TouchableOpacity
 									style={styles.buttonIcon}
@@ -130,6 +131,7 @@ const ProfileScreen = ({ navigation }) => {
 							</>
 						)}
 					</KeyboardAvoidingView>
+					<Stats />
 				</View>
 
 				<TouchableOpacity
