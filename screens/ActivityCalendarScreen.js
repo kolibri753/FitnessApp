@@ -4,10 +4,8 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import TopNavigation from "../components/common/TopNavigation";
 import CustomCalendar from "../components/Calendar";
 import { colors } from "../styles/colors";
-import {
-	checkLoggedInAndAlert,
-	fetchUserActivity,
-} from "../utils/firebaseUtils";
+import { fetchUserActivity } from "../utils/firebase/userActivitiesUtils";
+import { checkLoggedInAndAlert } from "../utils/firebase/generalUtils";
 
 const ActivityCalendarScreen = ({ navigation }) => {
 	const [workoutData, setWorkoutData] = useState([]);

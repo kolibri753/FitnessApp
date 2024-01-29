@@ -13,7 +13,7 @@ import { AntDesign } from "@expo/vector-icons";
 import ExerciseTimer from "../components/Exercise/Timer";
 import WorkoutRest from "../components/Workout/Rest";
 import { useScreenUnlock } from "../hooks/useScreenUnlock";
-import { createUserActivity } from "../utils/firebaseUtils";
+import { createUserActivity } from "../utils/firebase/userActivitiesUtils";
 
 const WorkoutExerciseScreen = ({ route, navigation }) => {
 	const exercises = Array.isArray(route.params.exercises)

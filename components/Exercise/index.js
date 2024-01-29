@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { View, Text, StyleSheet, Image, TouchableOpacity } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { colors } from "../../styles/colors";
-import { toggleStarredExercise } from "../../utils/firebaseUtils";
+import { toggleStarredExercise } from "../../utils/firebase/favoriteExercisesUtils";
 import useStarredExercise from "../../hooks/useStarredExercise";
 import AddExerciseToWorkoutModal from "./AddToWorkoutModal";
 

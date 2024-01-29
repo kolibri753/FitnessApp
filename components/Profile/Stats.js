@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet } from "react-native";
 import { useFocusEffect } from "@react-navigation/native";
-import {
-	countFinishedWorkouts,
-	countFavoriteExercises,
-	countUserWorkouts,
-} from "../../utils/firebaseUtils";
+import { countUserWorkouts } from "../../utils/firebase/workoutsUtils";
+import { countFavoriteExercises } from "../../utils/firebase/favoriteExercisesUtils";
+import { countFinishedWorkouts } from "../../utils/firebase/userActivitiesUtils";
 import { colors } from "../../styles/colors";
 
 const Stats = () => {

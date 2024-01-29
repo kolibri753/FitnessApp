@@ -12,7 +12,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { colors } from "../styles/colors";
 import TopNavigation from "../components/common/TopNavigation";
 import InputField from "../components/common/InputField";
-import { fetchUserWorkout, updateUserWorkout } from "../utils/firebaseUtils";
+import { fetchUserWorkout, updateUserWorkout } from "../utils/firebase/workoutsUtils";
 import { showSuccessToast, showErrorToast } from "../utils/toastUtils";
 
 import * as ImagePicker from "expo-image-picker";

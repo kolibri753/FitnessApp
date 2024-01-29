@@ -4,7 +4,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import Workout from "../components/Workout";
 import TopNavigation from "../components/common/TopNavigation";
 import { colors } from "../styles/colors";
-import { fetchWorkoutsFromRealTimeDb } from "../utils/firebaseUtils";
+import { fetchWorkoutsFromRealTimeDb } from "../utils/firebase/workoutsUtils";
 
 const WorkoutsScreen = ({ navigation }) => {
 	const [workouts, setWorkouts] = useState([]);

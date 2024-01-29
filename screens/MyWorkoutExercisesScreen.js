@@ -16,10 +16,10 @@ import TargetMusclePieChart from "../components/common/TargetMusclePieChart";
 import WorkoutDescription from "../components/Workout/Description";
 import { useTargetColors } from "../hooks/useTargetColors";
 import {
-	checkLoggedInAndAlert,
 	fetchWorkoutExercises,
 	deleteWorkoutExercise,
-} from "../utils/firebaseUtils";
+} from "../utils/firebase/workoutsUtils";
+import { checkLoggedInAndAlert } from "../utils/firebase/generalUtils";
 
 const MyWorkoutExercisesScreen = ({ route, navigation }) => {
 	const { workout } = route.params;

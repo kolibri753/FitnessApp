@@ -5,11 +5,11 @@ import Workout from "../components/Workout";
 import TopNavigation from "../components/common/TopNavigation";
 import { AntDesign } from "@expo/vector-icons";
 import { colors } from "../styles/colors";
+import { checkLoggedInAndAlert } from "../utils/firebase/generalUtils";
 import {
-	checkLoggedInAndAlert,
 	fetchUserWorkouts,
 	deleteUserWorkout,
-} from "../utils/firebaseUtils";
+} from "../utils/firebase/workoutsUtils";
 import { showSuccessToast, showErrorToast } from "../utils/toastUtils";
 
 const MyWorkoutsScreen = ({ navigation }) => {

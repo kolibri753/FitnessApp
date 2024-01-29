@@ -6,11 +6,9 @@ import Exercise from "../components/Exercise";
 import Pagination from "../components/common/Pagination";
 import TopNavigation from "../components/common/TopNavigation";
 import useExercisesPagination from "../hooks/useExercisesPagination";
-import {
-	checkLoggedInAndAlert,
-	fetchFavoriteExercises,
-} from "../utils/firebaseUtils";
+import { fetchFavoriteExercises } from "../utils/firebase/favoriteExercisesUtils";
 import { auth } from "../firebaseConfig";
+import { checkLoggedInAndAlert } from "../utils/firebase/generalUtils";
 
 const FavoriteExercisesScreen = ({ navigation }) => {
 	const {
@@ -47,11 +45,7 @@ const FavoriteExercisesScreen = ({ navigation }) => {
 			/>
 			<ScrollView style={styles.exercisesContainer} ref={scrollViewRef}>
 				{getPaginatedExercises().map((exercise) => (
-					<Exercise
-						key={exercise.id}
-						exercise={exercise}
-						navigation={navigation}
-					/>
+					<Exercise key={exercise.id} exercise={exercise} navigation={navigation} />
 				))}
 				{getPaginatedExercises().length === 0 ? (
 					<Text style={styles.headerText}>

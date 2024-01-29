@@ -14,8 +14,8 @@ import Exercise from "../components/Exercise";
 import Pagination from "../components/common/Pagination";
 import TopNavigation from "../components/common/TopNavigation";
 import useExercisesPagination from "../hooks/useExercisesPagination";
-import { addWorkoutExercise } from "../utils/firebaseUtils";
-import { showSuccessToast, showErrorToast } from "../utils//toastUtils";
+import { addWorkoutExercise } from "../utils/firebase/workoutsUtils";
+import { showSuccessToast, showErrorToast } from "../utils/toastUtils";
 import { useSelector, useDispatch } from "react-redux";
 import { fetchExercisesData } from "../redux/slices/exercisesSlice";
 

@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 import { auth } from "../firebaseConfig";
-import { fetchFavoriteExercises } from "../utils/firebaseUtils";
+import { fetchFavoriteExercises } from "../utils/firebase/favoriteExercisesUtils";
 
 export default function useStarredExercise(exerciseId) {
 	const [isStarred, setIsStarred] = useState(false);

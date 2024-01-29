@@ -17,10 +17,10 @@ import InputField from "../components/common/InputField";
 import Stats from "../components/Profile/Stats";
 import { handleLogout } from "../redux/slices/authorizationSlice";
 import {
+	fetchUserProfile,
 	updateUserName,
 	updatePhotoURL,
-	fetchUserProfile,
-} from "../utils/firebaseUtils";
+} from "../utils/firebase/authUtils";
 
 const ProfileScreen = ({ navigation }) => {
 	const [email, setEmail] = useState("");
