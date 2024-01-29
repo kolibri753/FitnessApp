@@ -131,7 +131,13 @@ const ProfileScreen = ({ navigation }) => {
 							</>
 						)}
 					</KeyboardAvoidingView>
-					<Stats />
+					{email ? (
+						<Stats />
+					) : (
+						<Text style={styles.email}>
+							Statistics available for registered users only
+						</Text>
+					)}
 				</View>
 
 				<TouchableOpacity
@@ -167,7 +173,7 @@ const ProfileScreen = ({ navigation }) => {
 					style={styles.logoutButton}
 					onPress={handleLogoutBtnPress}
 				>
-					<Text style={styles.logoutText}>Logout</Text>
+					<Text style={styles.logoutText}>{email ? "Logout" : "Register"}</Text>
 				</TouchableOpacity>
 			</View>
 		</SafeAreaView>
