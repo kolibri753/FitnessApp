@@ -16,6 +16,7 @@ import InputField from "../components/common/InputField";
 import GenerateWorkoutModal from "../components/Workout/GenerateModal";
 import { createUserWorkout } from "../utils/firebase/workoutsUtils";
 import { showSuccessToast, showErrorToast } from "../utils/toastUtils";
+import useKeyboardListener from "../hooks/useKeyboardListener";
 
 import * as ImagePicker from "expo-image-picker";
 
@@ -25,6 +26,7 @@ const CreateWorkoutScreen = ({ navigation }) => {
 	const [errors, setErrors] = useState([]);
 	const [image, setImage] = useState(null);
 	const [isGenerateModalVisible, setGenerateModalVisible] = useState(false);
+	const isKeyboardOpen = useKeyboardListener();
 
 	const handleCreate = async () => {
 		let newErrors = [];
@@ -88,17 +90,19 @@ const CreateWorkoutScreen = ({ navigation }) => {
 				<KeyboardAvoidingView
 					style={styles.form}
 					behavior={Platform.OS === "ios" ? "padding" : "height"}
-					keyboardVerticalOffset={0}
+					keyboardVerticalOffset={100}
 				>
-					<TouchableOpacity onPress={handleSelectImage}>
-						{image ? (
-							<Image source={{ uri: image }} style={styles.image} />
-						) : (
-							<View style={styles.imagePlaceholder}>
-								<Text style={styles.imagePlaceholderText}>Select an Image</Text>
-							</View>
-						)}
-					</TouchableOpacity>
+					{!isKeyboardOpen && (
+						<TouchableOpacity onPress={handleSelectImage}>
+							{image ? (
+								<Image source={{ uri: image }} style={styles.image} />
+							) : (
+								<View style={styles.imagePlaceholder}>
+									<Text style={styles.imagePlaceholderText}>Select an Image</Text>
+								</View>
+							)}
+						</TouchableOpacity>
+					)}
 					<TouchableOpacity
 						style={[styles.button, styles.magicButton]}
 						onPress={handleGenerateWorkout}
