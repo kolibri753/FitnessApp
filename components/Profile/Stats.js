@@ -1,9 +1,43 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, StyleSheet } from "react-native";
+import { useFocusEffect } from "@react-navigation/native";
+import {
+	countFinishedWorkouts,
+	countFavoriteExercises,
+	countUserWorkouts,
+} from "../../utils/firebaseUtils";
 import { colors } from "../../styles/colors";
 
 const Stats = () => {
-	const statsData = ["Statistic 1", "Statistic 2", "Statistic 3"];
+	const [finishedWorkouts, setFinishedWorkouts] = useState(0);
+	const [favoriteExercises, setFavoriteExercises] = useState(0);
+	const [userWorkouts, setUserWorkouts] = useState(0);
+
+	useFocusEffect(
+		React.useCallback(() => {
+			async function fetchStats() {
+				try {
+					const finishedWorkoutsCount = await countFinishedWorkouts();
+					const favoriteExercisesCount = await countFavoriteExercises();
+					const userWorkoutsCount = await countUserWorkouts();
+
+					setFinishedWorkouts(finishedWorkoutsCount);
+					setFavoriteExercises(favoriteExercisesCount);
+					setUserWorkouts(userWorkoutsCount);
+				} catch (error) {
+					console.error("Error fetching statistics: ", error);
+				}
+			}
+
+			fetchStats();
+		}, [])
+	);
+
+	const statsData = [
+		`Finished Workouts: ${finishedWorkouts}`,
+		`Favorite Exercises: ${favoriteExercises}`,
+		`Created Workouts: ${userWorkouts}`,
+	];
 
 	return (
 		<View style={styles.stats}>
@@ -38,7 +72,7 @@ const styles = StyleSheet.create({
 		padding: 10,
 	},
 	statText: {
-		fontSize: 16,
+		fontSize: 14,
 		fontWeight: "bold",
 		color: colors.white,
 	},

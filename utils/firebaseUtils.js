@@ -351,3 +351,26 @@ export const updatePhotoURL = async () => {
 		throw error;
 	}
 };
+
+export const countDocumentsInCollection = async (collectionPath) => {
+  try {
+		const uid = auth.currentUser.uid;
+    const querySnapshot = await getDocs(collection(db, "users", uid, collectionPath));
+    return querySnapshot.size;
+  } catch (error) {
+    console.error(`Error counting documents in ${collectionPath}:`, error);
+    throw error;
+  }
+};
+
+export const countFinishedWorkouts = async () => {
+  return await countDocumentsInCollection("userActivities");
+};
+
+export const countFavoriteExercises = async () => {
+  return await countDocumentsInCollection("favoriteExercises");
+};
+
+export const countUserWorkouts = async () => {
+  return await countDocumentsInCollection("userWorkouts");
+};
