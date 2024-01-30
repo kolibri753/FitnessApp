@@ -17,6 +17,10 @@ import {
 	updateUserWorkout,
 } from "../utils/firebase/workoutsUtils";
 import { showSuccessToast, showErrorToast } from "../utils/toastUtils";
+import {
+	requestMediaLibraryPermissions,
+	launchImageLibrary,
+} from "../utils/imagePickerUtils";
 import useKeyboardListener from "../hooks/useKeyboardListener";
 
 import * as ImagePicker from "expo-image-picker";
@@ -82,25 +86,20 @@ const UpdateWorkoutScreen = ({ navigation, route }) => {
 	};
 
 	const handleSelectImage = async () => {
-		const { status } = await ImagePicker.requestMediaLibraryPermissionsAsync();
+		const granted = await requestMediaLibraryPermissions();
 
-		if (status !== "granted") {
+		if (!granted) {
 			console.log("Permission to access media library is required");
 			return;
 		}
 
-		const result = await ImagePicker.launchImageLibraryAsync({
-			mediaTypes: ImagePicker.MediaTypeOptions.Images,
-			allowsEditing: true,
-			aspect: [4, 3],
-			quality: 1,
-		});
+		const result = await launchImageLibrary();
 
 		if (!result.canceled) {
 			setImage(result.assets[0].uri);
 		}
 	};
-
+	
 	return (
 		<SafeAreaView style={styles.container}>
 			<TopNavigation title="Update Workout" activeDot={2} />
