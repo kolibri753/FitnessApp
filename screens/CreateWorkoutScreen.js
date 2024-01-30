@@ -14,21 +14,23 @@ import { colors } from "../styles/colors";
 import TopNavigation from "../components/common/TopNavigation";
 import InputField from "../components/common/InputField";
 import GenerateWorkoutModal from "../components/Workout/GenerateModal";
+import ImageSelector from "../components/Workout/ImageSelector";
 import { createUserWorkout } from "../utils/firebase/workoutsUtils";
 import { showSuccessToast, showErrorToast } from "../utils/toastUtils";
-import {
-	requestMediaLibraryPermissions,
-	launchImageLibrary,
-} from "../utils/imagePickerUtils";
 import useKeyboardListener from "../hooks/useKeyboardListener";
-
-import * as ImagePicker from "expo-image-picker";
+import useWorkoutForm from "../hooks/useWorkoutForm";
 
 const CreateWorkoutScreen = ({ navigation }) => {
-	const [name, setName] = useState("");
-	const [description, setDescription] = useState("");
-	const [errors, setErrors] = useState([]);
-	const [image, setImage] = useState(null);
+	const {
+		name,
+		setName,
+		description,
+		setDescription,
+		errors,
+		setErrors,
+		image,
+		setImage,
+	} = useWorkoutForm();
 	const [isGenerateModalVisible, setGenerateModalVisible] = useState(false);
 	const isKeyboardOpen = useKeyboardListener();
 
@@ -63,21 +65,6 @@ const CreateWorkoutScreen = ({ navigation }) => {
 		showErrorToast(error);
 	};
 
-	const handleSelectImage = async () => {
-		const granted = await requestMediaLibraryPermissions();
-
-		if (!granted) {
-			console.log("Permission to access media library is required");
-			return;
-		}
-
-		const result = await launchImageLibrary();
-
-		if (!result.canceled) {
-			setImage(result.assets[0].uri);
-		}
-	};
-
 	return (
 		<SafeAreaView style={styles.container}>
 			<TopNavigation
@@ -92,15 +79,7 @@ const CreateWorkoutScreen = ({ navigation }) => {
 					keyboardVerticalOffset={100}
 				>
 					{!isKeyboardOpen && (
-						<TouchableOpacity onPress={handleSelectImage}>
-							{image ? (
-								<Image source={{ uri: image }} style={styles.image} />
-							) : (
-								<View style={styles.imagePlaceholder}>
-									<Text style={styles.imagePlaceholderText}>Select an Image</Text>
-								</View>
-							)}
-						</TouchableOpacity>
+						<ImageSelector onSelectImage={setImage} image={image} />
 					)}
 					<TouchableOpacity
 						style={[styles.button, styles.magicButton]}
@@ -166,25 +145,6 @@ const styles = StyleSheet.create({
 	form: {
 		alignItems: "center",
 		width: "100%",
-	},
-	image: {
-		width: 300,
-		height: 225,
-		borderRadius: 10,
-		marginBottom: 20,
-	},
-	imagePlaceholder: {
-		width: 300,
-		height: 225,
-		borderRadius: 10,
-		backgroundColor: colors.lightGrey,
-		justifyContent: "center",
-		alignItems: "center",
-		marginBottom: 20,
-	},
-	imagePlaceholderText: {
-		fontSize: 16,
-		color: colors.grey,
 	},
 	magicButton: {
 		flexDirection: "row",

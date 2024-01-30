@@ -12,27 +12,28 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { colors } from "../styles/colors";
 import TopNavigation from "../components/common/TopNavigation";
 import InputField from "../components/common/InputField";
+import ImageSelector from "../components/Workout/ImageSelector";
 import {
 	fetchUserWorkout,
 	updateUserWorkout,
 } from "../utils/firebase/workoutsUtils";
 import { showSuccessToast, showErrorToast } from "../utils/toastUtils";
-import {
-	requestMediaLibraryPermissions,
-	launchImageLibrary,
-} from "../utils/imagePickerUtils";
 import useKeyboardListener from "../hooks/useKeyboardListener";
-
-import * as ImagePicker from "expo-image-picker";
+import useWorkoutForm from "../hooks/useWorkoutForm";
 
 const UpdateWorkoutScreen = ({ navigation, route }) => {
-	const [name, setName] = useState("");
-	const [description, setDescription] = useState("");
-	const [errors, setErrors] = useState([]);
-	const [image, setImage] = useState("");
-	const isKeyboardOpen = useKeyboardListener();
-
 	const { workout } = route.params;
+	const {
+		name,
+		setName,
+		description,
+		setDescription,
+		errors,
+		setErrors,
+		image,
+		setImage,
+	} = useWorkoutForm();
+	const isKeyboardOpen = useKeyboardListener();
 
 	useEffect(() => {
 		async function fetchWorkoutData() {
@@ -85,21 +86,6 @@ const UpdateWorkoutScreen = ({ navigation, route }) => {
 		showErrorToast(error);
 	};
 
-	const handleSelectImage = async () => {
-		const granted = await requestMediaLibraryPermissions();
-
-		if (!granted) {
-			console.log("Permission to access media library is required");
-			return;
-		}
-
-		const result = await launchImageLibrary();
-
-		if (!result.canceled) {
-			setImage(result.assets[0].uri);
-		}
-	};
-	
 	return (
 		<SafeAreaView style={styles.container}>
 			<TopNavigation title="Update Workout" activeDot={2} />
@@ -110,15 +96,7 @@ const UpdateWorkoutScreen = ({ navigation, route }) => {
 					keyboardVerticalOffset={100}
 				>
 					{!isKeyboardOpen && (
-						<TouchableOpacity onPress={handleSelectImage}>
-							{image ? (
-								<Image source={{ uri: image }} style={styles.image} />
-							) : (
-								<View style={styles.imagePlaceholder}>
-									<Text style={styles.imagePlaceholderText}>Select an Image</Text>
-								</View>
-							)}
-						</TouchableOpacity>
+						<ImageSelector onSelectImage={setImage} image={image} />
 					)}
 					<InputField
 						placeholder="Workout Name"
@@ -168,25 +146,6 @@ const styles = StyleSheet.create({
 	form: {
 		alignItems: "center",
 		width: "100%",
-	},
-	image: {
-		width: 300,
-		height: 225,
-		borderRadius: 10,
-		marginBottom: 20,
-	},
-	imagePlaceholder: {
-		width: 300,
-		height: 225,
-		borderRadius: 10,
-		backgroundColor: colors.lightGrey,
-		justifyContent: "center",
-		alignItems: "center",
-		marginBottom: 20,
-	},
-	imagePlaceholderText: {
-		fontSize: 16,
-		color: colors.grey,
 	},
 	button: {
 		backgroundColor: colors.yellow,
