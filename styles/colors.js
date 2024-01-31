@@ -33,6 +33,6 @@ export const targetColors = {
   serratusAnterior: "#673AB7", // Deep purple (same as glutes)
   spine: "#FF5252", // Bright red (same as abductors)
   traps: "#00BCD4", // Cyan
-	triceps: "#SD9CEC", // Blue Jeans
+	triceps: "#AED6F1", // Blue Jeans
   upperBack: "#4FC1E9", // Aqua
 };
