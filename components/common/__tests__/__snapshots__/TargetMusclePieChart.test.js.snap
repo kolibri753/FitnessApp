@@ -1,0 +1,44 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TargetMusclePieChart renders correctly 1`] = `
+<View
+  style={
+    {
+      "alignItems": "center",
+      "color": "#fff",
+    }
+  }
+>
+  <Text
+    style={
+      {
+        "color": "#fff",
+        "fontSize": 18,
+        "fontWeight": "bold",
+        "marginBottom": 10,
+      }
+    }
+  >
+    Target Muscles
+  </Text>
+  <Text
+    style={
+      {
+        "color": "#fff",
+      }
+    }
+  >
+    Add exercises to this workout!
+  </Text>
+  <View
+    style={
+      {
+        "flexDirection": "row",
+        "flexWrap": "wrap",
+        "justifyContent": "center",
+        "marginVertical": 10,
+      }
+    }
+  />
+</View>
+`;

@@ -7,7 +7,7 @@ const Logo = ({ style }) => {
 	return (
 		<View style={[styles.logoContainer, style]}>
 			<Text style={styles.logoText}>Gym</Text>
-			<LogoImg width={60} height={40} fill="white" />
+			<LogoImg width={60} height={40} fill="white" testID="logoSVG" />
 			<Text style={[styles.logoText, { color: colors.white }]}>Rat</Text>
 		</View>
 	);

@@ -1,10 +1,16 @@
 import React, { useState } from "react";
-import { TextInput, StyleSheet, View, TouchableOpacity } from "react-native";
+import {
+	TextInput,
+	StyleSheet,
+	View,
+	TouchableOpacity,
+	Text,
+} from "react-native";
 import Icon from "react-native-vector-icons/FontAwesome";
 import { colors } from "../../styles/colors";
 
 const InputField = ({
-	placeholder,
+	placeholder="Enter text...",
 	value,
 	onChangeText,
 	secureTextEntry,
@@ -31,6 +37,7 @@ const InputField = ({
 				multiline={multiline}
 				numberOfLines={numberOfLines}
 				textAlignVertical={multiline ? "top" : "center"}
+				testID="inputField"
 			/>
 			{secureTextEntry && (
 				<TouchableOpacity
@@ -41,6 +48,7 @@ const InputField = ({
 						name={showPassword ? "eye-slash" : "eye"}
 						size={20}
 						color={colors.white}
+						testID="eyeIcon"
 					/>
 				</TouchableOpacity>
 			)}

@@ -56,7 +56,11 @@ const Workout = ({
 			underlayColor="transparent"
 		>
 			<View style={styles.workoutContent}>
-				<Image source={{ uri: workout.image }} style={styles.workoutImage} />
+				{workout.image ? (
+					<Image source={{ uri: workout.image }} style={styles.workoutImage} />
+				) : (
+					<View style={[styles.workoutImage, { backgroundColor: "black" }]} />
+				)}
 				<View style={styles.workoutInfo}>
 					<Text style={styles.workoutTitle}>{workout.name}</Text>
 					<WorkoutDescription
@@ -90,7 +94,6 @@ const Workout = ({
 const styles = StyleSheet.create({
 	workoutItem: {
 		backgroundColor: colors.black,
-		// backgroundImage: { uri: workout.image },
 		position: "relative",
 		borderRadius: 10,
 		marginBottom: 10,
@@ -116,11 +119,6 @@ const styles = StyleSheet.create({
 		height: "106%",
 		resizeMode: "cover",
 	},
-	// workoutImage: {
-	// 	width: 80,
-	// 	height: 80,
-	// 	marginRight: 20,
-	// },
 	workoutInfo: {
 		flex: 1,
 	},

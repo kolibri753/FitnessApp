@@ -1,0 +1,37 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`InputField renders correctly 1`] = `
+<View
+  style={
+    {
+      "alignItems": "center",
+      "flexDirection": "row",
+    }
+  }
+>
+  <TextInput
+    placeholder="Enter text..."
+    placeholderTextColor="#FFFFFF"
+    selectionColor="#FFD500"
+    style={
+      [
+        {
+          "backgroundColor": "#000000",
+          "borderColor": "#FFD500",
+          "borderRadius": 5,
+          "borderWidth": 1,
+          "color": "#FFFFFF",
+          "flex": 1,
+          "marginBottom": 20,
+          "padding": 10,
+          "position": "relative",
+        },
+        null,
+        null,
+      ]
+    }
+    testID="inputField"
+    textAlignVertical="center"
+  />
+</View>
+`;

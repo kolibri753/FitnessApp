@@ -1,25 +1,18 @@
 import React from "react";
-import {
-	View,
-	Text,
-	StyleSheet,
-	TouchableOpacity,
-	Modal,
-} from "react-native";
+import { View, Text, StyleSheet, TouchableOpacity, Modal } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
 import { colors } from "../../styles/colors";
 
-const CustomModal = ({
-	isModalVisible,
-	closeModal,
-	title,
-	children,
-}) => {
+const CustomModal = ({ isModalVisible, closeModal, title, children }) => {
 	return (
 		<Modal animationType="slide" transparent={true} visible={isModalVisible}>
 			<View style={styles.modalContainer}>
 				<View style={styles.modalContent}>
-					<TouchableOpacity style={styles.closeButton} onPress={closeModal}>
+					<TouchableOpacity
+						style={styles.closeButton}
+						onPress={closeModal}
+						testID="closeButton"
+					>
 						<MaterialIcons name="close" size={24} color={colors.black} />
 					</TouchableOpacity>
 					<Text style={styles.modalTitle}>{title}</Text>

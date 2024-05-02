@@ -1,0 +1,49 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Logo renders correctly 1`] = `
+<View
+  style={
+    [
+      {
+        "alignItems": "center",
+        "flexDirection": "row",
+      },
+      undefined,
+    ]
+  }
+>
+  <Text
+    style={
+      {
+        "color": "#FFD500",
+        "fontSize": 30,
+        "fontWeight": "bold",
+      }
+    }
+  >
+    Gym
+  </Text>
+  <SvgMock
+    fill="white"
+    height={40}
+    testID="logoSVG"
+    width={60}
+  />
+  <Text
+    style={
+      [
+        {
+          "color": "#FFD500",
+          "fontSize": 30,
+          "fontWeight": "bold",
+        },
+        {
+          "color": "#FFFFFF",
+        },
+      ]
+    }
+  >
+    Rat
+  </Text>
+</View>
+`;

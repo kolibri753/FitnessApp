@@ -7,7 +7,7 @@ const TopNavigation = ({ title, activeDot, navigation }) => {
 	return (
 		<View style={styles.header}>
 			{navigation && (
-				<TouchableOpacity onPress={() => navigation.goBack()}>
+				<TouchableOpacity onPress={() => navigation.goBack()} testID="backButton">
 					<AntDesign name="arrowleft" size={24} color="white" />
 				</TouchableOpacity>
 			)}
