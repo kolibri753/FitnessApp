@@ -40,7 +40,7 @@ const BottomTabNavigator = () => {
         options={{
           headerShown: false,
           title: "Workouts",
-          iconName: "ios-bicycle",
+          iconName: "bicycle",
         }}
       />
       <Tab.Screen

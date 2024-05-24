@@ -2,10 +2,16 @@
   "expo": {
     "name": "FitnessApp",
     "slug": "FitnessApp",
+    "description": "Virtual fitness trainer",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
-    "userInterfaceStyle": "light",
+    "userInterfaceStyle": "dark",
+    "extra": {
+      "eas": {
+        "projectId": "8ec59e31-dbe9-419b-9f20-056d2a503e88"
+      }
+    },
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
@@ -29,7 +35,9 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "package": "com.kolibri753.fitnessapp",
+      "versionCode": 1
     },
     "web": {
       "favicon": "./assets/favicon.png"
