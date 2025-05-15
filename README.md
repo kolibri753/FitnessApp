@@ -3,7 +3,7 @@ GymRat (*Diploma Project*) – a hybrid mobile fitness application for personali
 ---
 
 ### Technologies
-- **frontend:** React Native, Expo, TypeScript, Redux Toolkit;  
+- **frontend:** React Native Expo, JavaScript, Redux Toolkit;  
 - **cloud services:** Firebase (Authentication, Firestore, Realtime Database, Storage);  
 - **ai/ml:**  
   - personal fine-tuning of Meta Llama 2 (7B) via QLoRA on custom workout dataset;  
